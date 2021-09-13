@@ -8,7 +8,7 @@ categories:
 
 这是基于Hoex和Markdown驱动的中国石油华东RPS视觉组的在线知识文库
 
-![](../image/index.jpeg)
+![](../images/index.jpeg)
 
 
 
