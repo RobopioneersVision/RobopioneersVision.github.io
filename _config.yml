@@ -129,5 +129,5 @@ theme: Wikitten
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
-  repo: git@github.com:KVM-Explorer/KVM-Explorer.github.io.git
+  repo: https://github.com/KVM-Explorer/KVM-Explorer.github.io.git
   branch: main
