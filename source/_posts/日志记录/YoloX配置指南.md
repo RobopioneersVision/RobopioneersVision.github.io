@@ -89,6 +89,17 @@ AssertionError
 -d 1 # 仅存在一块显卡
 ```
 
+### 问题四　训练时mAP一直为０
+
+训练至epoch 10计算mAP＝0后失败，可能与mAP为０有关但目前尚未测试验证．
+
+```python
+def get_data_loder  # 修改该函数内image_set
+	image_sets=[('2007', '训练集列表名称')],
+def get_eval_loader # 修改该函数image_set
+	image_sets=[('2007', '测试集名称')]
+```
+
 
 
 ## 参考资料
