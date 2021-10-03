@@ -3,8 +3,11 @@
 title: YoloX配置指南
 toc: true
 date: 2021-10-01 23:31:48
-tags:
-categories:
+tags: 
+	－　YoloX　
+categories: 
+	－　深度学习
+	－　实验日志
 ---
 
 
@@ -91,3 +94,4 @@ AssertionError
 ## 参考资料
 > - [Yolox 训练自己的数据集](https://blog.csdn.net/m0_56171249/article/details/119821714)
 > - [difference between YOLOV5 and YOLOX #497](https://github.com/Megvii-BaseDetection/YOLOX/issues/497)
+> - [YoloX 官方文档](https://github.com/Megvii-BaseDetection/YOLOX)
