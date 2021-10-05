@@ -16,6 +16,9 @@ categories:
 
 为测试YoloX 并进行自定义数据集训练
 
+## 数据集
+
+采用Robomaster比赛大疆Roco官方数据集
 
 
 ### 对象特性
@@ -91,15 +94,8 @@ AssertionError
 
 ### 问题四　训练时mAP一直为０
 
-训练至epoch 10计算mAP＝0后失败，可能与mAP为０有关但目前尚未测试验证．
-
-```python
-def get_data_loder  # 修改该函数内image_set
-	image_sets=[('2007', '训练集列表名称')],
-def get_eval_loader # 修改该函数image_set
-	image_sets=[('2007', '测试集名称')]
-```
-
+训练至epoch 10计算mAP＝0后失败，每进行10个epoch训练后，yolox会进行一次mAP的计算，但由于官方数据集在命名上存在空格，而官方在数据获取的时候采用strip函数，进而导致在计算mAP获取各文件数据的时候失败。
+自行编写脚本进行批量重命名取代空格
 
 
 ## 参考资料
