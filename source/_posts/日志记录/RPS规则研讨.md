@@ -1,11 +1,11 @@
 
 
 ---
-title:  RPS规则研讨
+title: RPS规则研讨
 toc: true
 date: 2021-10-20 00:07:15
 tags: 
-categories: 
+categories: 日志
 ---
 
 ## 自定义控制器
