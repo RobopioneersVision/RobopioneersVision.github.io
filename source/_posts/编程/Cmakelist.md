@@ -8,6 +8,11 @@ categories: 编程
 
 >| 本章内容基于ubuntu20.04 CMAKE 3.16 构建C++项目
 
+
+## cmake 学习资料
+
+[cmake 最佳实践](https://github.com/ttroy50/cmake-examples)
+
 ## 1 项目基本内容
 cmake最低版本需求
 ```cmake
@@ -75,5 +80,5 @@ target_link_libraries(${TARGET_NAME} PUBLIC ${REDIS_LIBRARIES})
 
 
 ## 参考资料
-> - []()
+> - [cmake如何入门](https://www.zhihu.com/question/58949190/answer/999701073)
 > - []()
