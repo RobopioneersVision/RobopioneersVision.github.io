@@ -3,7 +3,7 @@ title: Robomaster2022赛季视觉组技术攻坚点
 toc: true
 date: 2021-10-06 01:25:07
 tags: 规划
-categories: 实习计划
+categories: 计划
 ---
 
 > 如无特殊说明均为必做，*为选做

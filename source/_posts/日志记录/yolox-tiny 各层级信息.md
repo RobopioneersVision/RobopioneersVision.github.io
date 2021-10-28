@@ -1,4 +1,10 @@
-# yolox-tiny 各层级信息
+---
+title: yolox-tiny 各层级信息
+toc: true
+date: 2021-09-20 00:07:15
+tags: 
+categories: 
+---
 
 ## train-log
 

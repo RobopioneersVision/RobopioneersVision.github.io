@@ -1,4 +1,10 @@
-# VOC数据集转COCO数据集教程
+---
+title: VOC数据集转COCO数据集教程
+toc: true
+date: 2021-09-20 00:07:15
+tags: 
+categories: 
+---
 
 > 本教程用于YOLOX的VOC数据集转COCO数据集
 
