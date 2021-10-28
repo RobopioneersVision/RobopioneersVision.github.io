@@ -1,4 +1,10 @@
-# YOLOX笔记
+---
+title: 安装yolox笔记
+toc: true
+date: 2021-09-20 00:07:15
+tags: 
+categories: 
+---
 
 > 机械、电控、视觉三位一体，运营护航
 
