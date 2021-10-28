@@ -4,8 +4,8 @@
 title:  RPS规则研讨
 toc: true
 date: 2021-10-20 00:07:15
-tags: 比赛规则
-categories: 日志
+tags: 
+categories: 
 ---
 
 ## 自定义控制器
@@ -54,9 +54,9 @@ categories: 日志
 
 
 
-![image-20211018221212985](C:\Users\Geek\AppData\Roaming\Typora\typora-user-images\image-20211018221212985.png)
+![image-20211018221212985](RPS规则研讨/image-20211018221212985.png)
 
-![image-20211018221313952](C:\Users\Geek\AppData\Roaming\Typora\typora-user-images\image-20211018221313952.png)
+![image-20211018221313952](RPS规则研讨/image-20211018221313952.png)
 
 ## 参赛规则
 
@@ -159,7 +159,7 @@ RMUC 的核心比赛场地被称为“战场”。战场是一个长为 28 米�
 
 场地红色和蓝色为地胶（对比2021为场地灯效）  
 
-![image-20211019214412060](C:\Users\Geek\Documents\wiki\KVM-Explorer.github.io\source\_posts\日志记录\RPS规则研讨\image-20211019214412060.png)
+![image-20211019214412060](RPS规则研讨/image-20211019214412060.png)
 
 ### 弹路模型
 
