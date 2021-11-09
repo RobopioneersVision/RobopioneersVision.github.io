@@ -1,5 +1,3 @@
-
-
 ---
 title: RPS规则研讨
 toc: true
