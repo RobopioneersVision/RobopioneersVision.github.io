@@ -3,8 +3,8 @@
 title: YoloX配置指南
 toc: true
 date: 2021-10-01 23:31:48
-tags: YoloX　
-categories: 日志
+tags: 
+categories: 
 ---
 
 

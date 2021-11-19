@@ -3,7 +3,7 @@ title: RPS规则研讨
 toc: true
 date: 2021-10-20 00:07:15
 tags: 
-categories: 日志
+categories: 
 ---
 
 ## 自定义控制器
@@ -280,7 +280,7 @@ $t_1 $ << $t_2$的考量若忽略$t_1$ 实际误差估计为
 
 - 速度可分解为垂直分量和水平分量，但由于重量尺寸42mm原因收空气阻力影响较大应考虑在内
 
-  ![image-20211020233024584](C:\Users\Geek\Documents\wiki\KVM-Explorer.github.io\source\_posts\日志记录\RPS规则研讨\image-20211020233024584.png)
+  ![image-20211020233024584](RPS规则研讨\image-20211020233024584.png)
 
 #### 模型
 

@@ -2,8 +2,8 @@
 title: Git 合作项目评论
 toc: true
 date: 2021-09-20 00:07:15
-tags: 评论
-categories: 日志
+tags: 
+categories: 
 ---
 
 >  2021 年 9 月 20 日 第一次git合作Day1

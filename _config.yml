@@ -111,8 +111,8 @@ jsonContent:
     date: true
     path: true
     text: true
-    tags: true
-    categories: true
+    tags: false
+    categories: false
   ignore:
     - 404.html
 
