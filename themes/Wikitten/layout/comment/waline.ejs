@@ -1,0 +1,10 @@
+<% if (typeof(script) !== 'undefined' && script) { %>
+    <script>
+        Waline({
+          el: '#waline',
+          serverURL: 'https://waline-lac-nu.vercel.app',
+        });
+      </script>
+<% } else { %>
+    <div id="waline"></div>
+<% } %>

@@ -5,5 +5,7 @@
         <a href="<%- post.permalink %>#comments" class="article-comment-link ds-thread-count" data-thread-key="<%= post.permalink %>"><%= __('article.comments') %></a>
     <% } else if (theme.comment.youyan) { %>
         <a href="<%- post.permalink %>#comments" class="article-comment-link"><%= __('article.comments') %></a>
+    <% } else if (theme.comment.waline) { %>
+        <a href="<%- post.permalink %>#comments" class="article-comment-link"><%= __('article.comments') %></a>
     <% } %>
 <% } %>
