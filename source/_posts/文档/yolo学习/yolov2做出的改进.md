@@ -1,3 +1,8 @@
+---
+title: yolov2做出的改进
+toc: true
+date: 2022-11-26 16:34:27
+---
 # yolov1的缺点
 
 YOLOv1虽然检测速度很快，但是在检测精度上却不如R-CNN系检测方法，YOLOv1在物体定位方面（localization）不够准确，并且召回率（recall）较低。

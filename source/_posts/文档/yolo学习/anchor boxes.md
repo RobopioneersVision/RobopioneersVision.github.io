@@ -1,3 +1,8 @@
+---
+title: anchor box（先验框）
+toc: true
+date: 2022-11-26 16:34:27
+---
 # anchor box（先验框）
 
 anchor （锚; 给以安全感的人(或物); 精神支柱; 顶梁柱;）
