@@ -111,7 +111,7 @@ def yolo_body(inputs, num_anchors, num_classes):
 
 ### 整个yolov3网络共252层，组成如下：
 
-![image-20211129224153302](C:\Users\86198\AppData\Roaming\Typora\typora-user-images\image-20211129224153302.png)
+[![o3amNQ.png](https://z3.ax1x.com/2021/11/30/o3amNQ.png)](https://imgtu.com/i/o3amNQ)
 
 ## > tiny_yolo_body
 
