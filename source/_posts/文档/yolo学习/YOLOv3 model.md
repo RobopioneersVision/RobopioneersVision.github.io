@@ -105,11 +105,9 @@ def yolo_body(inputs, num_anchors, num_classes):
 
 ### 流程图
 
-![1637386053622](C:\Users\86198\Pictures\Saved Pictures\1637386053622.jpg)
+[![o3tSts.png](https://z3.ax1x.com/2021/11/30/o3tSts.png)](https://imgtu.com/i/o3tSts)
 
-![image-20211129223110508](C:\Users\86198\AppData\Roaming\Typora\typora-user-images\image-20211129223110508.png
-
-![1637386053611](C:\Users\86198\Pictures\Saved Pictures\1637386053611.jpg)
+![o3tphn.png](https://z3.ax1x.com/2021/11/30/o3tphn.png)
 
 ### 整个yolov3网络共252层，组成如下：
 
@@ -230,11 +228,11 @@ def yolo_boxes_and_scores(feats, anchors, num_classes, input_shape, image_shape)
 
 ### 求得bx,by,bw,bh的公式
 
-![](C:\Users\86198\Pictures\Saved Pictures\0C95743D81F2D34FB16B7A15482536B8.png)
+[![o3Yj0g.png](https://z3.ax1x.com/2021/11/30/o3Yj0g.png)](https://imgtu.com/i/o3Yj0g)
 
 ### 对yolo_correct_boxes部分代码的补充说明
 
-![](C:\Users\86198\Pictures\Saved Pictures\18000A9916DB21019F8936C3BF0A02EC.png)
+[![o3tCpq.jpg](https://z3.ax1x.com/2021/11/30/o3tCpq.jpg)](https://imgtu.com/i/o3tCpq)
 
 ## > 寻找最佳的anchor box
 
@@ -328,7 +326,7 @@ def preprocess_true_boxes(true_boxes, input_shape, anchors, num_classes):
 
 ###  preprocess_true_boxes中涉及到的anchor box和ground truth经过/2和取反等处理后，其相对关系应大概如图所示：
 
-![](C:\Users\86198\Pictures\Saved Pictures\E425E48925CCEDA507F18B85119DDECA.png)
+[![o3Yv7Q.png](https://z3.ax1x.com/2021/11/30/o3Yv7Q.png)](https://imgtu.com/i/o3Yv7Q)
 
 
 
