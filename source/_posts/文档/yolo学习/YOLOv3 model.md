@@ -1,5 +1,5 @@
 ---
-title:YOLOv3 model.py代码的简单分析注解
+title: YOLOv3 model.py代码的简单分析注解
 toc: true
 date: 2022-11-30 21:01:27
 ---
