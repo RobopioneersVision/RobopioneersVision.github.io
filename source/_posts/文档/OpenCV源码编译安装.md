@@ -24,7 +24,12 @@ date: 2022-01-10 12:00:00
   sudo apt install libtbb-dev
   ```
 
-  
+
+- 视频编码库安装
+
+  ```bash
+  sudo apt install cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev
+  ```
 
 - cmake-gui安装完毕
 
@@ -38,7 +43,17 @@ date: 2022-01-10 12:00:00
    sudo apt update && sudo apt install -y cmake g++ wget unzip
    ```
 
-   
+   ```bash
+   sudo apt install build-essential
+   # 图像编码和解码库
+   sudo apt install cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev
+   # tbb多线程库和图像格式支持
+   sudo apt install libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libjasper-dev libdc1394-22-dev
+   # 如果需要python3支持的话，安装：
+   sudo apt install python3-dev python3-numpy
+   # 如果需要ffmpeg支持的话：
+   sudo apt install ffmpeg
+   ```
 
    #下载源代码
 
