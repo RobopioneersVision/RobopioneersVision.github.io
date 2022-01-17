@@ -105,7 +105,7 @@ hexo new post "文章名称"
 
 进入source -> _post 将对应文件夹和文件移至所需分类目录，生成时即可按照文件层次分类
 
-> 推荐采用typora 进行markdown内容编写，调整图片设置自动保存到对应的asset
+> 推荐采用typora 进行markdown内容编写，调整图片设置自动保存到对应的asset（目前已不推荐，新的方式在Markdown插入图片更新)
 
 
 
