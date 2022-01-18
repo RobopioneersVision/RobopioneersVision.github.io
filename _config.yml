@@ -3,13 +3,13 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
+title: RobopioneersVision
 subtitle: ''
 description: ''
-keywords:
-author: John Doe
+keywords: wiki,百科,深度学习,Ubuntu,视觉,编程
+author: RPS
 language: en
-timezone: ''
+timezone: 'Asia/Shanghai'
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'

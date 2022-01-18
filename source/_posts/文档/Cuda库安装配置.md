@@ -21,7 +21,7 @@ date: 2022-01-10 12:00:00
 
    ![](Cuda库安装配置/2022-01-11 16-08-04屏幕截图.png)
 
-​	这里可以看到cuda版本为11.4
+​	这里可以看到当前显卡最大支持的cuda版本为11.4
 2. 到英伟达的cuda官网选择对应的版本并下载安装
 
    https://developer.nvidia.com/cuda-toolkit-archive
@@ -34,27 +34,32 @@ date: 2022-01-10 12:00:00
 
    ![image-20220111161513620](Cuda库安装配置/image-20220111161513620.png)
 
-   根据下方给出的命令，打开终端并输入![image-20220111161823608](Cuda库安装配置/image-20220111161823608.png)
+   根据下方给出的命令，打开终端并输入(或则用迅雷下载run文件，拷贝到ubuntu)![image-20220111161823608](Cuda库安装配置/image-20220111161823608.png)
 
 3. 环境变量配置
 
    在~/.bashrc中添加如下
 
-           export PATH=/usr/local/cuda/bin:$PATH
-       
-           export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
-       
-       使环境变量生效
-       
+   ```bash
+   export PATH=/usr/local/cuda/bin:$PATH
+   
+  export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
+   ```
+   
+
+   使环境变量生效    
            source  ~/.bashrc
-
-   配置 /etc/ld.so.conf.d/cuda.conf
-
-       添加如下内容
-       
-           /usr/local/cuda/lib64
-       
-       使库生效
-       
-           sudo ldconfig
+   
+   配置 /etc/ld.so.conf.d/cuda.conf 添加如下内容
+   
+   ```bash
+   /usr/local/cuda/lib64
+   ```
+   
+   使库生效
+   
+   ```bash
+   sudo ldconfig
+   ```
+   
    

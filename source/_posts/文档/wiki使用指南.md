@@ -56,7 +56,7 @@ git clone https://github.com/KVM-Explorer/KVM-Explorer.github.io　<your directo
 
 ## 安装
 
-
+>  如果单纯上传下载文档可直接跳过此步骤
 
 ### 安装所需依赖
 
@@ -99,13 +99,30 @@ hexo s
 
 **生成新文档**
 
-```shell
-hexo new post "文章名称"
+1. 在所需要编写文档的文件夹建立新文件，在文件的开头添加yaml说明 每个属性：后注意添加空格，整个yaml用英文输入法进行编写
+
+```yaml
+---
+title: <title>
+toc: true
+date: 2022-01-12 09:00:00
+---
 ```
 
-进入source -> _post 将对应文件夹和文件移至所需分类目录，生成时即可按照文件层次分类
 
-> 推荐采用typora 进行markdown内容编写，调整图片设置自动保存到对应的asset
+> 推荐采用typora 进行markdown内容编写，调整图片设置自动保存到对应的asset（目前已不推荐，新的方式在Markdown插入图片更新)
+
+2. 进入source -> _post 将对应文件夹和文件移至所需分类目录，生成时即可按照文件层次分类
+
+> **推荐采用typora 进行markdown内容编写，调整图片设置自动保存到对应的同名文件夹**
+>
+> 文件->偏好设置->图像->插入图片时->复制到制定文件夹，同时勾选应用对象选项
+
+![image-20220111144932549](wiki使用指南/image-20220111144932549.png)
+
+3. Gitkraken 进行上传
+
+   首先打开gitkraken进入当前项目，先拉取，commit后再push提交。
 
 
 
