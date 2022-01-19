@@ -1,5 +1,5 @@
 ---
-title: Cmakelist
+title: Cmakelist常用库模板
 toc: true
 date: 2021-09-17 22:26:32
 tags: 编程
@@ -55,12 +55,12 @@ target_link_directories(${TARGET_NAME} PUBLIC ${ZED_LIBRARY_DIR})
 ## Boost
 
 ```makefile
-find_package(Boost 1.65 REQUIRED)
+find_package(Boost  REQUIRED)
 target_include_directories(${TARGET_NAME} PUBLIC ${Boost_INCLUDE_DIRS})
 target_link_libraries(${TARGET_NAME} PUBLIC ${Boost_LIBRARIES})
 ```
 
-## OpenCV
+## OpenCV4.X
 
 ```makefile
 find_package(OpenCV REQUIRED)
@@ -75,6 +75,15 @@ find_path(REDIS_INCLUDE_DIRS "sw")
 find_library(REDIS_LIBRARIES "redis++")
 target_include_directories(${TARGET_NAME} PUBLIC ${REDIS_INCLUDE_DIRS})
 target_link_libraries(${TARGET_NAME} PUBLIC ${REDIS_LIBRARIES})
+```
+
+## Protobuf3
+
+```cmake
+##protobuf
+find_package(Protobuf REQUIRED)
+target_include_directories(${TARGET_NAME} PUBLIC ${PROTOBUF_INCLUDE_DIRS})
+target_link_libraries(${TARGET_NAME} PUBLIC ${PROTOBUF_LIBRARIES})
 ```
 
 
