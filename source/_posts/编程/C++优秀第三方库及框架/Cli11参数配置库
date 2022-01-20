@@ -60,6 +60,15 @@ include_directories(${CLI11_DIR}/include)
 #include "CLI/Config.hpp"
 ```
 
+## 支持格式
+
+支持的配置文件格式包括 
+
+- TOML ( 支持部分语法)
+- INI
+- JSON
+- 也可以自定义格式
+
 ## 用法 
 
 部分API用采用了宏进行简化封装,注意宏的格式
@@ -72,7 +81,9 @@ include_directories(${CLI11_DIR}/include)
 CLI::App app("configuration print example");
 ```
 
-### 2. 开启配置文件选项
+### 2. 设置应用参数选项
+
+设置读取配置文件
 
 ```c++
 app.set_config(<string:选项名称>,
@@ -81,22 +92,139 @@ app.set_config(<string:选项名称>,
                 <bool:该参数是否启用,默认false>]);
 ```
 
-读取配置文件的文件名称
+### 3.解析附加指令
+
+读取程序启动时的附加的参数,并进行解析存储到app对象中,如果发生异常抛出的宏
+
+```c++
+CLI11_PARSE(app, argc, argv);
+```
+
+### 4.获取配置文件名称
+
+参数解析需要config对象所以需要根据文件名称进行读取,下为获取配置文件的文件名称.
 
 ```C++
+// 方法一
 app.get_config_ptr()->as<std::string>()
+// 方法二
 app["--config"]->as<std::string>()
+```
+
+### 5.解析配置文件内容
+
+获取配置文件内容,返回一个vector<ConfigItem> 容器
+
+```c++
+config.from_file(<配置文件名称>);
+```
+
+获取容器内容,遍历容器即可获得各个键值对的名称和值
+
+#### 键
+
+```c++
+string name = items[i].name
+string name = items[i].fullname()
+```
+
+#### 值
+
+值可能为单个内容也可能是数组,采用空格或者,等字符进行间隔,返回值为vector<string>容器
+
+```
+vector<string> content = items[i].input
+```
+
+### 6 转化数据格式
+
+ Todo
+
+### 7 存储配置文件
+
+Todo
+
+### 终端调用程序
+
+```bash
+./sample_test --help # 打印配置参数信息
+```
+
+![image-20220120091258860](https://gitee.com/y_kvm/img/raw/master/picture/20220120091259.png)
+
+### 参考示例
+
+```ini
+; Commments are supported, using a ;
+; The default section is [default], case insensitive
+
+value = 1
+str = "A string"
+vector = 1 2 3
+
+; Section map to subcommands
+[subcommand]
+in_subcommand = Wow
+sub.subcommand = true
+
+[subbb]
+order = 1 2 3 4
+size = 10
 ```
 
 
 
-### 3. 定义配置文件内容
+```c++
+#include "CLI11/include/CLI/CLI.hpp"
+#include <iostream>
+#include <string>
 
-支持的配置文件格式包括 
+int main(int argc, char **argv) {
 
-- TOML ( 支持部分语法)
-- INI
-- JSON
+    // 实例化对象
+    CLI::App app("application discribtion");
+    // 配置读取配置文件选项
+    app.set_config("--config");
+    // 解析参数
+    CLI11_PARSE(app, argc, argv);
+    CLI::ConfigINI config;
+    //获取配置文件名称
+    auto items = config.from_file(app["--config"]->as<std::string>());
+    for (int i=0;i<items.size();i++)
+    {
+        // 获取键
+        std::cout<<items[i].name<<":";
+        // 获取值
+        auto content = items[i].inputs;
+        // 参数为数组的情况,参数单独的情况下为content[0]
+        for(int i=0;i<content.size();i++)
+        {
+            std::cout<<content[i]<<' ';
+        }
+    }
+}
+```
+
+
+
+## 其他语法
+
+- 文件校验器,测试文件是否存在
+
+```c++
+auto  result = CLI::ExistingFile("a.ini");
+std::cout<<result<<std::endl;
+
+File does not exist: a
+// 正确返回空串""
+```
+
+- `ConfigBase *comment(char cchar)`指定用于启动注释块的字符
+- `ConfigBase *arrayBounds(char aStart, char aEnd)`指定数组的开始和结束字符
+- `ConfigBase *arrayDelimiter(char aSep)`为数组指定分隔符字符
+- `ConfigBase *valueSeparator(char vSep)`指定名称和值之间的分隔符
+
+
 
 
 

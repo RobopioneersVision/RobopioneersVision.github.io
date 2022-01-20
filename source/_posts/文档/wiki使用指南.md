@@ -1,5 +1,5 @@
 ---
-title: wiki使用指南
+title: wiki使用和部署指南
 toc: true
 date: 2021-10-03 08:31:20
 tags:
@@ -36,7 +36,7 @@ git clone https://github.com/KVM-Explorer/KVM-Explorer.github.io　<your directo
 
 登录https://github.com/KVM-Explorer/KVM-Explorer.github.io手动下载仓库，Code -> Download ZIP,记得打星＾_＾
 
-![image-20211003084015737](wiki使用指南/image-20211003084015737.png)
+![image-20211003084015737](https://gitee.com/y_kvm/img/raw/master/picture/20220119213120.png)
 
 
 
@@ -44,7 +44,7 @@ git clone https://github.com/KVM-Explorer/KVM-Explorer.github.io　<your directo
 
 用命令行终端进入仓库所在文件夹，此时显示当前仓库所在的分支为source 分支
 
-![image-20211003084319364](wiki使用指南/image-20211003084319364.png)
+![image-20211003084319364](https://gitee.com/y_kvm/img/raw/master/picture/20220119213131.png)
 
 如果当前分支不是source分支，采用git checkout切换至source分支
 
@@ -52,7 +52,7 @@ git clone https://github.com/KVM-Explorer/KVM-Explorer.github.io　<your directo
 
 出于可视化和方便的需要我更为推荐采用deb安装的gitkraken进行git仓库的管理，流程如上
 
-![image-20211003084835430](wiki使用指南/image-20211003084835430.png)
+![image-20211003084835430](https://gitee.com/y_kvm/img/raw/master/picture/20220119213155.png)
 
 ## 安装
 
@@ -82,18 +82,18 @@ npm install cnpm
 cnpm install
 ```
 
-## 测试
+## 测试部署
 
 **生成网页版并在本机查看**
 
 ```shell
-hexo g
-hexo s
+hexo g # 生成网站
+hexo s # 本地测试
 ```
 
-![image-20211003090827265](wiki使用指南/image-20211003090827265.png)
+![image-20211003090750820](https://gitee.com/y_kvm/img/raw/master/picture/20220119213207.png)
 
-![image-20211003090847529](wiki使用指南/image-20211003090847529.png)
+![image-20211003090847009](https://gitee.com/y_kvm/img/raw/master/picture/20220119213248.png)
 
 ## 编写
 
@@ -114,11 +114,11 @@ date: 2022-01-12 09:00:00
 
 2. 进入source -> _post 将对应文件夹和文件移至所需分类目录，生成时即可按照文件层次分类
 
-> **推荐采用typora 进行markdown内容编写，调整图片设置自动保存到对应的同名文件夹**
+> **推荐采用typora 进行markdown内容编写，调整图片设置自动保存到对应的同名文件夹**(已不推荐,推荐采用图床详情见**Markdown插入图片**)
 >
 > 文件->偏好设置->图像->插入图片时->复制到制定文件夹，同时勾选应用对象选项
 
-![image-20220111144932549](wiki使用指南/image-20220111144932549.png)
+![image-20220111144932549](https://gitee.com/y_kvm/img/raw/master/picture/20220119213409.png)
 
 3. Gitkraken 进行上传
 
