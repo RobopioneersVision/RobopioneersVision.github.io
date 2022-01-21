@@ -80,45 +80,48 @@ date: 2022-01-10 12:00:00
 
 2. 运行cmake-gui进行make脚本的构建
 
-   ![image-20220111163621476](OpenCV源码编译安装/image-20220111163621476.png)
+   ![image-20220121211917398](https://gitee.com/y_kvm/img/raw/master/picture/202201212119534.png)
 
    选择解压的opencv文件
 
-![image-20220111163710601](OpenCV源码编译安装/image-20220111163710601.png)
+![image-20220121211932996](https://gitee.com/y_kvm/img/raw/master/picture/202201212119042.png)
 
 ​		选择生成位置
 
-![image-20220111163816206](OpenCV源码编译安装/image-20220111163816206.png)
+![image-20220121211943108](https://gitee.com/y_kvm/img/raw/master/picture/202201212119157.png)
 
 点击Configure，选择Unix Makefiles并运行
 
-![image-20220111163929500](OpenCV源码编译安装/image-20220111163929500.png)
+![image-20220121211952398](https://gitee.com/y_kvm/img/raw/master/picture/202201212119450.png)
 
 在search中搜索以下选项并设置![image-20220111164204765](OpenCV 源码编译安装/image-20220111164204765.png)
 
 - WITH_QT
 
-  ![image-20220111164337610](OpenCV源码编译安装/image-20220111164337610.png)
+![image-20220111164337610](https://gitee.com/y_kvm/img/raw/master/picture/202201212120063.png)
 
 - OPENCV_DNN_CUDA
 
-  ![image-20220111164435455](OpenCV源码编译安装/image-20220111164435455.png)
+
+![image-20220121212012194](https://gitee.com/y_kvm/img/raw/master/picture/202201212120255.png)
 
 - WITH_CUDA
 
-  ![image-20220111164515370](OpenCV源码编译安装/image-20220111164515370.png)
+
+![image-20220121212021564](https://gitee.com/y_kvm/img/raw/master/picture/202201212120632.png)
 
 - WITH_TBB
 
-  ![image-20220111164631698](OpenCV源码编译安装/image-20220111164631698.png)
+![image-20220121212035259](https://gitee.com/y_kvm/img/raw/master/picture/202201212120314.png)
 
 - OPENCV_EXTRA_MODULES_PATH
 
-  ![image-20220111164800672](OpenCV源码编译安装/image-20220111164800672.png)
-  
-  选择解压出来的opencv_contrib-4.x/modules路径
-  
-  ![image-20220111164902256](OpenCV源码编译安装/image-20220111164902256.png)
+
+![image-20220121212043860](https://gitee.com/y_kvm/img/raw/master/picture/202201212120908.png)
+
+选择解压出来的opencv_contrib-4.x/modules路径
+
+![image-20220121212049731](https://gitee.com/y_kvm/img/raw/master/picture/202201212120791.png)
 
 点击Configure确定配置并构建
 
@@ -134,8 +137,9 @@ date: 2022-01-10 12:00:00
 
    （若无论如何都会出现问题建议单核）
 
-   ![](OpenCV源码编译安装/2022-01-11 16-02-08屏幕截图.png)
 
-5. 将编译完成的opencv文件安装
+​		![image-20220121212105078](https://gitee.com/y_kvm/img/raw/master/picture/202201212121188.png)	
+
+4. 将编译完成的opencv文件安装
 
    make完成后，在继续在终端输入make install即可

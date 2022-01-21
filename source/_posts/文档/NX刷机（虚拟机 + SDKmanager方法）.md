@@ -1,4 +1,13 @@
+---
+title: NX刷机
+toc: true
+date: 2022-01-21 21:00:00
+---
+
+
+
 #  NX刷机
+
 nx刷机可以通过sd卡烧录（我们的没有sd插口），也可以通过与电脑直接链接通过SDK manager烧录
 #
 sdk manager刷机需要ubuntu18.04系统（采用虚拟机）
