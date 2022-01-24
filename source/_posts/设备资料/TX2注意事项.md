@@ -34,7 +34,7 @@ target_link_libraries(${TARGET} PUBLIC ${Boost_LIBRARIES})
 
 **编译发生链接错误**
 
-![image-20211005171922386](TX2注意事项/image-20211005171922386.png)
+![image-20220124100327156](https://gitee.com/y_kvm/img/raw/master/picture/20220124100328.png)
 
 **引入所需模块**
 
