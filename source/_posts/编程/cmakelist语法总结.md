@@ -51,6 +51,36 @@ add_subdirectory(source_dir [binary_dir] [EXCLUDE_FROM_ALL])
 
 当前文件夹下,包含有subdirectory时可以直接添加
 
+## target_include_directories
+
+### 语法
+
+```cmake
+target_include_directories(<target> [SYSTEM] [BEFORE]
+  <INTERFACE|PUBLIC|PRIVATE> [items1...]
+  [<INTERFACE|PUBLIC|PRIVATE> [items2...] ...])
+```
+
+- target 链接目标
+- <INTERFACE> 被依赖 libary 的 user requirement 的会变成当前 target 的 user requirement
+- <PRIVATE> 被依赖 libary 的 user requirement 的会变成当前 target 的 build requirement
+- <PUBLIC> = <INTERFADCE> + <PRIVATE>  被依赖 libary 的 user requirement 的会变成当前 target 的 build requirement 和 user requirement.
+- <Target> 必须由add_executable()或add_library()之类的命令创建的
+- [items1]  Directory目标在构建文件夹中的文件夹所在，默认是源代码的文件夹，如果有生成代码需要采用特定变量**${CMAKE_CURRENT_BINARY_DIR}**指定构建的二进制文件夹（build、cmake-build-debug）
+
+## target_link_libraries
+
+### 语法
+
+```cmake
+target_link_libraries(<target>
+                      <PRIVATE|PUBLIC|INTERFACE> <item>...
+                     [<PRIVATE|PUBLIC|INTERFACE> <item>...]...)
+```
+
+- 同上
+- Item libraries目标所定义的名称，即生成库的名称，可见于构建的二进制文件夹，或者生成库的cmakelist
+
 ## 参考资料
 
 [[静态库和动态库的区别](https://www.cnblogs.com/codingmengmeng/p/6046481.html)](https://www.cnblogs.com/codingmengmeng/p/6046481.html)
