@@ -2,8 +2,6 @@
 title: wiki使用和部署指南
 toc: true
 date: 2021-10-03 08:31:20
-tags:
-categories:
 ---
 
 前置依赖项
