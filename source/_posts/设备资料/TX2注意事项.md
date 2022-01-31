@@ -2,8 +2,6 @@
 title: TX2注意事项
 toc: true
 date: 2021-10-05 17:16:25
-tags: TX2，物资
-categories: 设备信息
 ---
 
 
