@@ -1,0 +1,67 @@
+<hr>
+<p>title: 通信协议相关.md<br>toc: true<br>date: 2021-12-22 09:25:00</p>
+<hr>
+<h1 id="通信协议相关"><a href="#通信协议相关" class="headerlink" title="通信协议相关"></a>通信协议相关</h1><blockquote>
+<p>有关文章</p>
+</blockquote>
+<ul>
+<li><a href="https://blog.csdn.net/specialshoot/article/details/50707965">https://blog.csdn.net/specialshoot/article/details/50707965</a></li>
+<li><a href="https://blog.csdn.net/specialshoot/article/details/50709257">https://blog.csdn.net/specialshoot/article/details/50709257</a></li>
+<li><a href="https://blog.csdn.net/qq_39512995/article/details/84459035?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-2.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-2.control">https://blog.csdn.net/qq_39512995/article/details/84459035?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-2.control&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-2.control</a></li>
+</ul>
+<blockquote>
+<p>串口相关模式</p>
+</blockquote>
+<ul>
+<li>O_RDONLY 只读模式</li>
+<li>O_WRONLY 只写模式</li>
+<li>O_RDWR 读写模式</li>
+<li>O_APPEND 每次写操作都写入文件的末尾</li>
+<li>O_CREAT 如果指定文件不存在，则创建这个文件</li>
+<li>O_EXCL 如果要创建的文件已存在，则返回 -1，并且修改 errno 的值</li>
+<li>O_TRUNC 如果文件存在，并且以只写/读写方式打开，则清空文件全部内容</li>
+<li>O_NOCTTY 如果路径名指向终端设备，不要把原有设备用作控制终端。（对于串口的打开操作，必须使用O_NOCTTY参数，它表示打开的是一个终端设备，程序不会成为该端口的控制终端。如果不使用此标志，任务的一个输入(比如键盘终止信号等)都会影响进程。）</li>
+<li>O_NONBLOCK 如果路径名指向 FIFO/块文件/字符文件，则把文件的打开和后继 I/O设置为非阻塞模式（nonblocking mode）</li>
+<li>O_DSYNC 等待物理 I/O 结束后再 write。在不影响读取新写入的数据的前提下，不等待文件属性更新。</li>
+<li>O_RSYNC读(read)等待所有写入同一区域的写操作完成后再进行</li>
+<li>O_SYNC等待物理 I/O 结束后再 write，包括更新文件属性的 I/O</li>
+<li>O_NDELAY表示不关心DCD信号所处的状态（端口的另一端是否激活或者停止）</li>
+</ul>
+<blockquote>
+<p>termios的数据结构</p>
+</blockquote>
+<p>最小的termios的数据结构体</p>
+<pre><code class="cpp">struct termios
+{
+           tcflag_t c_iflag;
+           tcflag_t c_oflag;
+           tcflag_t c_cflag;
+           tcflag_t c_lflag;
+           cc_t           c_cc[NCCS];
+};
+</code></pre>
+<p>模式：</p>
+<ul>
+<li>c_iflag：输入模式</li>
+<li>c_oflag：输出模式</li>
+<li>c_cflag：控制模式</li>
+<li>c_lflag：本地模式</li>
+<li>c_cc[NCCS]：特殊控制模式</li>
+</ul>
+<p>有关文章： <a href="https://blog.csdn.net/querdaizhi/article/details/7436722">https://blog.csdn.net/querdaizhi/article/details/7436722</a></p>
+<blockquote>
+<p>参数actions控制修改方式，共有三种修改方式，</p>
+</blockquote>
+<ol>
+<li>TCSANOW：立刻对值进行修改</li>
+<li>TCSADRAIN：等当前的输出完成后再对值进行修改</li>
+<li>TCSAFLUSH：等当前的输出完成之后，再对值进行修改，但丢弃还未从read调用返回的当前的可用的任何输入。</li>
+</ol>
+<blockquote>
+<p>部分函数</p>
+</blockquote>
+<p>1.open</p>
+<p><img src="%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE%E7%9B%B8%E5%85%B3/1.png"></p>
+<p>参数解释：</p>
+<p>pathname：文件路径名，串口在Linux中被看做是一个文件</p>
+<p>oflag：一些文件模式选择，有如下几个参数可以设置</p>

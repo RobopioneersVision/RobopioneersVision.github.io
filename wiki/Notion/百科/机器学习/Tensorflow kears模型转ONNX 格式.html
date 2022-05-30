@@ -1,0 +1,27 @@
+<hr>
+<p>title: Tensorflow kears模型转ONNX 格式.md<br>toc: true<br>date: 2021-12-22 09:25:00</p>
+<hr>
+<h1 id="Tensorflow-kears模型转ONNX-格式"><a href="#Tensorflow-kears模型转ONNX-格式" class="headerlink" title="Tensorflow kears模型转ONNX 格式"></a>Tensorflow kears模型转ONNX 格式</h1><blockquote>
+<p>环境 ： ubuntu 20.04  TensorFlow2.4 Pycharm</p>
+</blockquote>
+<p>需要将kears模型转换为onnx格式,以供OpenCV调用</p>
+<h2 id="方案一-（不适用于我的情况，不排除其可行性）"><a href="#方案一-（不适用于我的情况，不排除其可行性）" class="headerlink" title="方案一 （不适用于我的情况，不排除其可行性）"></a>方案一 （不适用于我的情况，不排除其可行性）</h2><pre><code>import keras
+import keras2onnx
+import onnx
+from tensorflow.keras.models import load_model
+model = load_model(&#39;REDPropiaFinal.h5&#39;)
+onnx_model = keras2onnx.convert_keras(model, model.name)
+temp_model_file = &#39;REDPropiaFinal.onnx&#39;
+onnx.save_model(onnx_model, temp_model_file)
+</code></pre>
+<h2 id="方案二"><a href="#方案二" class="headerlink" title="方案二"></a>方案二</h2><pre><code># Install helper packages:
+!pip install tf2onnx onnx onnxruntime
+
+# Load model from .h5 and save as Saved Model:
+import tensorflow as tf
+model = tf.keras.models.load_model(&quot;REDPropiaFinal.h5&quot;)
+tf.saved_model.save(model, &quot;tmp_model&quot;)
+
+# Convert in bash:
+!python -m tf2onnx.convert --saved-model tmp_model --output &quot;REDPropiaFinal.onnx&quot;
+</code></pre>

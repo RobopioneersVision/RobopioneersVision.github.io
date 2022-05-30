@@ -1,0 +1,20 @@
+<hr>
+<p>title: cmake的初步使用.md<br>toc: true<br>date: 2021-12-22 09:25:00</p>
+<hr>
+<h1 id="cmake的初步使用"><a href="#cmake的初步使用" class="headerlink" title="cmake的初步使用"></a>cmake的初步使用</h1><ol>
+<li>在clion中新建一个project 命名为1，打开此project中cMakeList.txt，会出现以下代码</li>
+</ol>
+<pre><code class="cpp">cmake_minimum_required(VERSION 3.17)
+project(1)
+
+set(CMAKE_CXX_STANDARD 14)
+
+add_executable(1 main.cpp)
+</code></pre>
+<ol start="2">
+<li><p>代码注释</p>
+<p>   <code>cmake_minimum_required</code>：指定运行此配置文件所需的 CMake 的最低版本；</p>
+<p>   <code>project</code>：参数值是 <code>Demo1</code>，该命令表示项目的名称是 <code>Demo1</code> 。</p>
+<p>   <code>add_executable</code>： 将名为  1 的源文件编译成一个名称为 Demo 的可执行文件。</p>
+</li>
+</ol>

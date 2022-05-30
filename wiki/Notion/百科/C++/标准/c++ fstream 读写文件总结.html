@@ -1,0 +1,32 @@
+<hr>
+<p>title: c++ fstream 读写文件总结.md<br>toc: true<br>date: 2021-12-22 09:25:00</p>
+<hr>
+<h1 id="c-读写文件总结"><a href="#c-读写文件总结" class="headerlink" title="c++  读写文件总结"></a>c++ <fstream> 读写文件总结</h1><p><a href="https://www.cnblogs.com/exciting/p/11165535.html">https://www.cnblogs.com/exciting/p/11165535.html</a></p>
+<p>在此之前我已经分别使用过这两种方法，我这里没有重新写代码，只po上我之前实际使用的</p>
+<p>头文件都是<fstream></p>
+<p>方法一：</p>
+<p>![](c++ fstream 读写文件总结/1.png)</p>
+<p>![](c++ fstream 读写文件总结/2.png)</p>
+<p>方法二：</p>
+<pre><code>fstream pos(&quot;./pos_scores.txt&quot;, fstream::in | fstream::out | fstream::trunc);
+...
+pos &lt;&lt; pair_id &lt;&lt;&quot;\t&quot;&lt;&lt; cal &lt;&lt; &quot;\t&quot; &lt;&lt;pos_left&lt;&lt;&quot;\t&quot;&lt;&lt;pos_right&lt;&lt;endl;
+</code></pre>
+<p>头文件都是<fstream>两种方法应该是接近一样的，所以我去网上找了更好的总结</p>
+<p><strong>博客一</strong>：<a href="https://blog.csdn.net/francis_xd/article/details/78347595">C++中简单的文本文件输入/输出</a> 入门首选，但读写的格式类型比较简单了，稍微复杂一点就需要用结构体</p>
+<p><strong>博客二</strong>：<a href="https://blog.csdn.net/nichengwuxiao/article/details/78789225">C/C++读写文本文件、二进制文件</a> 我的第一个读写二进制文件写法就抄的这里，我觉得c++的写法更简洁，所以我会将c++的例子搬过来</p>
+<p>文本读：</p>
+<p>文本写：</p>
+<p>二进制读：</p>
+<p>二进制写：</p>
+<p><strong>博客三</strong>：<a href="https://www.cnblogs.com/qingtian224/p/5581528.html">fstream文件打开模式</a> 使用上面四个代码的格式，需要指定文件打开模式</p>
+<p>![](c++ fstream 读写文件总结/3.png)</p>
+<p><strong>教程四：</strong><a href="https://www.runoob.com/cplusplus/cpp-files-streams.html">菜鸟教程</a>，适合入门，每个都讲了点但是不完整</p>
+<p>我自己补充了个完整的例子：</p>
+<p>![](c++ fstream 读写文件总结/4.png)</p>
+<p>其中123.txt</p>
+<p>123out.txt</p>
+<p>效果是覆盖不是插入</p>
+<p><strong>博客五</strong>：<a href="https://www.cnblogs.com/exciting/p/11041996.html">c++ 二进制文件读写</a> 这篇是我之前写的博客，那时要格式化的读写二进制文件，这个是留着我自己看的（因为我写了几篇c++读写的博客，以后我打算只看这篇了）</p>
+<p>读取图片保存至binary.dat二进制文件</p>
+<p>读binary.dat并进行特征比对</p>

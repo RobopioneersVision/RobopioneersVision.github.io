@@ -1,0 +1,8 @@
+﻿1,<|–,Inheritance 继承
+2,*–,Composition 组合
+3,o–,Aggregation 聚合
+4,–>,Association 关联
+5,–,Link (Solid) 连接（实线）
+6,…>,Dependency 依赖
+7,…|>,Realization 实现
+8,…,Link (Dashed) 连接（虚线）

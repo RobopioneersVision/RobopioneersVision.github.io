@@ -1,0 +1,8 @@
+<hr>
+<p>title: 地图的存储构建方式比较.md<br>toc: true<br>date: 2021-12-22 09:25:00</p>
+<hr>
+<h1 id="地图的存储构建方式比较"><a href="#地图的存储构建方式比较" class="headerlink" title="地图的存储构建方式比较"></a>地图的存储构建方式比较</h1><h1 id="1-栅格地图（Grid-based-map）"><a href="#1-栅格地图（Grid-based-map）" class="headerlink" title="1.栅格地图（Grid-based map）"></a>1.栅格地图（Grid-based map）</h1><h2 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h2><p>（1）容易构建，表示，保存<br>（2）位置的唯一性<br>（3）对于短路径的规划方便</p>
+<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><p>（1）路径规划效率不高，空间浪费（栅格的分辨率不依赖于环境的复杂度）。<br>（2）需要精确的机器人位置估计。<br>（3）对于物体识别的人机交互问题效果不好。</p>
+<h1 id="2-拓扑地图（Topological-map）"><a href="#2-拓扑地图（Topological-map）" class="headerlink" title="2.拓扑地图（Topological map）"></a>2.拓扑地图（Topological map）</h1><h2 id="优点：-1"><a href="#优点：-1" class="headerlink" title="优点："></a>优点：</h2><p>（1）允许有效的路径规划，低空间复杂度。<br>（2）不需要机器人精确的位置信息。<br>（3）有效的人机交互（如可以发“去门边“的指令），和现实联系在一起。</p>
+<h2 id="缺点-1"><a href="#缺点-1" class="headerlink" title="缺点"></a>缺点</h2><p>（1）如果传感器信息模糊很难构建大环境下的地图。<br>（2）很难识别某个地点，对于视角敏感。<br>（3）可能产生未达最佳标准的路径</p>
+<p>原文链接：<a href="https://blog.csdn.net/ktigerhero3/article/details/55667797">https://blog.csdn.net/ktigerhero3/article/details/55667797</a></p>

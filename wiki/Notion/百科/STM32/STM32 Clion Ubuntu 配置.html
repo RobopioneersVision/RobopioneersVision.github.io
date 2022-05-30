@@ -1,0 +1,30 @@
+<hr>
+<p>title: STM32 Clion Ubuntu 配置.md<br>toc: true<br>date: 2021-12-22 09:25:00</p>
+<hr>
+<h1 id="STM32-Clion-Ubuntu-配置"><a href="#STM32-Clion-Ubuntu-配置" class="headerlink" title="STM32 Clion Ubuntu 配置"></a>STM32 Clion Ubuntu 配置</h1><p>Complete 2021/03/30 </p>
+<ul>
+<li>编译器arm-none-eabi-gcc arm-none-eabi-g++ arm-none-eabi-gdb</li>
+<li>IDE Clion</li>
+<li>OpenOCD</li>
+<li>Jlink</li>
+<li>STM32CubeMX</li>
+<li>环境：ubuntu20.04</li>
+</ul>
+<h2 id="Jlink"><a href="#Jlink" class="headerlink" title="Jlink"></a>Jlink</h2><p>需要手动安装驱动以及编译相关软件</p>
+<h3 id="1-安装libusb"><a href="#1-安装libusb" class="headerlink" title="1.安装libusb"></a>1.安装libusb</h3><p>      如果J-Link是通过USB连接的，得先装libusb，README文件声称用apt-get install libusb，试下行不行，如果提示“无法找到软件包”，就得自己下载安装。<br>       在<a href="http://sourceforge.net/projects/libusb/files/libusb-1.0/%E4%B8%8B%E8%BD%BD(libusb%E5%AE%98%E7%BD%91%EF%BC%8C[http://www.libusb.org/](http://www.libusb.org/))%EF%BC%8C%E5%B9%B6%E5%AE%89%E8%A3%85">http://sourceforge.net/projects/libusb/files/libusb-1.0/下载(libusb官网，[http://www.libusb.org/](http://www.libusb.org/))，并安装</a></p>
+<pre><code class="bash">#解压软件并进入目录libusb-xxx
+
+./configure
+make 
+sudo make install 
+</code></pre>
+<p>如果./configure 这条命令不行，建议用这个命令./configure –disable-udev</p>
+<h3 id="2-安装libreadline"><a href="#2-安装libreadline" class="headerlink" title="2.安装libreadline"></a>2.安装libreadline</h3><p>JLinkExe会用到libreadline库，所以得把libreadline库装上。<a href="http://cnswww.cns.cwru.edu/php/chet/readline/rltop.html">http://cnswww.cns.cwru.edu/php/chet/readline/rltop.html</a> 中Current Status选择下载，并安装，同1类似编译安装</p>
+<h3 id="3-下载JLink驱动"><a href="#3-下载JLink驱动" class="headerlink" title="3.下载JLink驱动"></a><strong><strong>3.下载JLink驱动</strong></strong></h3><p>在<a href="https://www.segger.com/jlink-software.html%E5%B9%B6%E5%8D%95%E7%8B%AC%E5%AD%98%E6%94%BE%E4%BA%8E%E4%B8%80%E4%B8%AA%E6%96%87%E4%BB%B6%E5%A4%B9%EF%BC%8C%E8%BF%9B%E5%85%A5%E8%AF%A5%E6%96%87%E4%BB%B6%E5%A4%B9">https://www.segger.com/jlink-software.html并单独存放于一个文件夹，进入该文件夹</a></p>
+<pre><code class="bash">dpkg -i *.deb
+</code></pre>
+<h3 id="4-验证"><a href="#4-验证" class="headerlink" title="4. 验证"></a>4. 验证</h3><pre><code class="bash">cd /opt/SEGGER/JLink
+./JLinkExe
+</code></pre>
+<p>出现如图所示，即成功</p>
+<p>![](STM32 Clion Ubuntu 配置/1.png)</p>

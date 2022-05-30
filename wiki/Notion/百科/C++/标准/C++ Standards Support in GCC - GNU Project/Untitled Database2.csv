@@ -1,0 +1,2 @@
+﻿Initialization of class objects by rvalues,N1610,Yes
+Minimal support for garbage collection and reachability-based leak detection,http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2670.htm,No

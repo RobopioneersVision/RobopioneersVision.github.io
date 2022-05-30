@@ -1,0 +1,98 @@
+<hr>
+<p>title: 安装配置.md<br>toc: true<br>date: 2021-12-22 09:25:00</p>
+<hr>
+<h1 id="安装配置"><a href="#安装配置" class="headerlink" title="安装配置"></a>安装配置</h1><h1 id="RocketMQ-install"><a href="#RocketMQ-install" class="headerlink" title="RocketMQ install"></a><strong>RocketMQ install</strong></h1><h2 id="Require"><a href="#Require" class="headerlink" title="Require"></a>Require</h2><ol>
+<li>64bit OS, Linux/Unix/Mac is recommended;</li>
+<li>(Windows user see guide below)64bit JDK 1.8+;</li>
+<li>Maven 3.2.x;</li>
+<li>Git;</li>
+<li>4g+ free disk for Broker server</li>
+</ol>
+<h2 id="1、Download"><a href="#1、Download" class="headerlink" title="1、Download"></a><strong>1、Download</strong></h2><p>采用编译完好的二进制文件</p>
+<p>登录<a href="http://rocketmq.apache.org/docs/quick-start/">RocketMQ官网</a>，选择download a binary release here，从指定位置下载编译好的二进制Rocketmq</p>
+<h2 id="2、配置环境"><a href="#2、配置环境" class="headerlink" title="2、配置环境"></a><strong>2、配置环境</strong></h2><h3 id="2-1-Maven"><a href="#2-1-Maven" class="headerlink" title="2.1 Maven"></a><strong>2.1 Maven</strong></h3><p>安装Maven</p>
+<pre><code class="bash">sudo apt-get install maven
+</code></pre>
+<p>更换国内源</p>
+<pre><code class="bash">cp /usr/share/maven/conf/settings.xml /usr/share/maven/conf/settings.xml.backup
+gedit /usr/share/maven/conf/settings.xml
+</code></pre>
+<p>备份后，替换内容如下</p>
+<pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+
+&lt;settings xmlns=&quot;http://maven.apache.org/SETTINGS/1.0.0&quot;
+          xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+          xsi:schemaLocation=&quot;http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd&quot;&gt;
+
+    &lt;pluginGroups&gt;
+    &lt;/pluginGroups&gt;
+
+    &lt;proxies&gt;
+    &lt;/proxies&gt;
+
+    &lt;servers&gt;
+    &lt;/servers&gt;
+
+    &lt;mirrors&gt;
+        &lt;mirror&gt;
+            &lt;id&gt;nexus-aliyun&lt;/id&gt;
+            &lt;mirrorOf&gt;central&lt;/mirrorOf&gt;
+            &lt;name&gt;Nexus aliyun&lt;/name&gt;
+            &lt;url&gt;http://maven.aliyun.com/nexus/content/groups/public&lt;/url&gt;
+        &lt;/mirror&gt;
+    &lt;/mirrors&gt;
+
+    &lt;profiles&gt;
+        &lt;profile&gt;
+            &lt;id&gt;aliyun&lt;/id&gt;
+            &lt;!-- repositories and pluginRepositories here--&gt;
+            &lt;repositories&gt;
+                &lt;repository&gt;
+                    &lt;id&gt;nexus-aliyun&lt;/id&gt;
+                    &lt;name&gt;Nexus aliyun&lt;/name&gt;
+                    &lt;url&gt;http://maven.aliyun.com/nexus/content/groups/public&lt;/url&gt;
+                    &lt;releases&gt;
+                        &lt;enabled&gt;true&lt;/enabled&gt;
+                    &lt;/releases&gt;
+                    &lt;snapshots&gt;
+                        &lt;enabled&gt;true&lt;/enabled&gt;
+                    &lt;/snapshots&gt;
+                &lt;/repository&gt;
+            &lt;/repositories&gt;
+        &lt;/profile&gt;
+    &lt;/profiles&gt;
+
+    &lt;activeProfiles&gt;
+        &lt;activeProfile&gt;aliyun&lt;/activeProfile&gt;
+    &lt;/activeProfiles&gt;
+&lt;/settings&gt;
+</code></pre>
+<h3 id="2-2-替换文件"><a href="#2-2-替换文件" class="headerlink" title="2.2 替换文件"></a><strong>2.2 替换文件</strong></h3><p>使用解压后的内容替换RocketMQ/bin文件</p>
+<p><a href="%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/bin.zip">bin.zip</a></p>
+<h3 id="2-3-下载操作脚本"><a href="#2-3-下载操作脚本" class="headerlink" title="2.3 下载操作脚本"></a>2.3 下载操作脚本</h3><p><a href="%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/RocketMQ.zip">RocketMQ.zip</a></p>
+<h2 id="3-启动测试"><a href="#3-启动测试" class="headerlink" title="3 启动测试"></a><strong>3 启动测试</strong></h2><h3 id="3-1-修改脚本内容"><a href="#3-1-修改脚本内容" class="headerlink" title="3.1 修改脚本内容"></a><strong>3.1 修改脚本内容</strong></h3><p>修改启动脚本StartRocketMQ,sh 中路径,如果未安装可视化客户端需要注释后三行内容。5000表示RocketMQ所使用的端口号，可以根据需要进行修改。</p>
+<p>StartRocketMQ.sh</p>
+<pre><code class="bash">#!/bin/bash
+#修改为安装路径
+cd /home/lightning/Aplications/RocketMQ
+#修改为启动脚本所在路径
+nohup sh bin/mqnamesrv -c /home/lightning/桌面/RocketMQ/mqnamesrv.properties &gt; /dev/null
+2&gt; /dev/null &amp;
+nohup sh bin/mqbroker -n localhost:5000 &gt; /dev/null 2&gt; /dev/null &amp;
+#export NAMESRV_ADDR=localhost:5000
+#cd Tools
+#nohup java -jar rocketmq-console-ng-2.0.0.jar --server.port=5002 &gt; /usr/local/bin/RocketMQ/Tools/console.log.txt &amp;
+</code></pre>
+<p>ShutdownRocketMQ.sh</p>
+<pre><code class="bash">#!/bin/bash
+
+#修改路径为安装目录
+cd /home/lightning/Aplications/RocketMQ
+bin/mqshutdown broker
+bin/mqshutdown namesrv
+</code></pre>
+<h3 id="3-2-测试服务是否运行正常"><a href="#3-2-测试服务是否运行正常" class="headerlink" title="3.2 测试服务是否运行正常"></a><strong>3.2 测试服务是否运行正常</strong></h3><p>修改完成后在脚本目录下打开命令行</p>
+<pre><code>./StartRocketMQ.sh
+sudo netstat -ap | grep 5000
+</code></pre>
+<p>若返回端口为5000当前的服务，说明运行正常</p>

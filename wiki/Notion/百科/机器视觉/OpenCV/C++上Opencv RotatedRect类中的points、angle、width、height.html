@@ -1,0 +1,47 @@
+<hr>
+<p>title: C++上Opencv RotatedRect类中的points、angle、width、height.md<br>toc: true<br>date: 2021-12-22 09:25:00</p>
+<hr>
+<h1 id="C-上Opencv-RotatedRect类中的points、angle、width、height等详解"><a href="#C-上Opencv-RotatedRect类中的points、angle、width、height等详解" class="headerlink" title="C++上Opencv RotatedRect类中的points、angle、width、height等详解"></a>C++上Opencv RotatedRect类中的points、angle、width、height等详解</h1><p><a href="https://blog.csdn.net/mailzst1/article/details/83141632">https://blog.csdn.net/mailzst1/article/details/83141632</a></p>
+<p>文章转载自CSDN，未经授权，仅为方便内部成员阅读，禁止向外传播。</p>
+<p>在OpenCV中，经常要用到minAreaRect()函数求最小外接矩形（旋转矩形）。该函数返回一个RotatedRect类对象。</p>
+<p>RotatedRect类定义如下：</p>
+<pre><code class="cpp">class CV_EXPORTS RotatedRect
+{
+public:
+    //! various constructors
+    RotatedRect();
+    RotatedRect(const Point2f&amp; center, const Size2f&amp; size, float angle);
+    RotatedRect(const CvBox2D&amp; box);
+ 
+    //! returns 4 vertices of the rectangle
+    void points(Point2f pts[]) const;
+    //! returns the minimal up-right rectangle containing the rotated rectangle
+    Rect boundingRect() const;
+    //! conversion to the old-style CvBox2D structure
+    operator CvBox2D() const;
+ 
+    Point2f center; //&lt; the rectangle mass center
+    Size2f size;    //&lt; width and height of the rectangle
+    float angle;    //&lt; the rotation angle. When the angle is 0, 90, 180, 270 etc., the rectangle becomes an up-right rectangle.
+};
+</code></pre>
+<p>类中有中心点center、尺寸size（包括width、height）、旋转角度angle共3个成员变量；</p>
+<p>成员函数中，points()函数求矩形的4个顶点；boundingRect()函数求包含最小外接矩形，与坐标轴平行（或垂直）的最小矩形。</p>
+<p>理解这些变量在图形中的对应关系，是正确应用该类的基础。先上示意</p>
+<p><img src="https://img-blog.csdn.net/20181018160846653?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L21haWx6c3Qx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="https://img-blog.csdn.net/20181018160846653?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L21haWx6c3Qx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"></p>
+<p>根据上图，说明以下几点：</p>
+<ol>
+<li> Opencv采用通用的图像坐标系，左上角为原点O(0,0)，X轴向右递增，Y轴向下递增，单位为像素。</li>
+</ol>
+<p>2. 矩形4个顶点位置的确定，是理解其它各变量的基础，其中p[0]点是关键。</p>
+<p>顶点p[0]的位置可以这样理解：</p>
+<p>ⓐ 如果没有边与坐标轴平行，则Y坐标最大的点为p[0]点，如矩形(2)(3)(4)；</p>
+<p>ⓑ 如果有边与坐标轴平行，则有两个Y坐标最大的点。此时，左侧的点为p[0]点。如矩形(1)。</p>
+<p>即：Y坐标最大的点为p[0]。如果有两个最大的Y坐标，则左侧点（X坐标较小）为p[0]。</p>
+<ol start="3">
+<li>p[0]~p[3]按顺时针方向依次排列。</li>
+</ol>
+<p>4. p[0]到p[3]之间的距离为宽width，其邻边为高height。</p>
+<p>5. 角度angle，是以p[0]顶点，平行于X轴，且与X轴方向相同的射线为始边，按逆时针方向旋转到宽边p[0]p[3]所经过的角度，</p>
+<p>取负值，取值范围为(-90, 0]。</p>
+<p>6. 中心点center为矩形对角线的交点。</p>

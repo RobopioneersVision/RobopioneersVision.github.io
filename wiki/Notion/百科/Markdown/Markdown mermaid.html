@@ -1,0 +1,181 @@
+<hr>
+<p>title: Markdown mermaid.md<br>toc: true<br>date: 2021-12-22 09:25:00</p>
+<hr>
+<h1 id="Markdown-mermaid"><a href="#Markdown-mermaid" class="headerlink" title="Markdown mermaid"></a>Markdown mermaid</h1><p><a href="https://blog.csdn.net/horsee/article/details/113883818">https://blog.csdn.net/horsee/article/details/113883818</a></p>
+<h3 id="文章目录"><a href="#文章目录" class="headerlink" title="文章目录"></a>文章目录</h3><ul>
+<li><a href="https://blog.csdn.net/horsee/article/details/113883818">Markdown mermaid种草(5)_ 类图</a></li>
+</ul>
+<h2 id="1-类图简介"><a href="#1-类图简介" class="headerlink" title="1 类图简介"></a>1 类图简介</h2><p> 类图(Class diagram)是最常用的UML图，显示出类、接口以及它们之间的静态结构和关系；它用于描述系统的结构化设计.类图最基本的元素是类或者接口.</p>
+<p> 类图是面向对象建模的主要构建模块.它用于应用程序结构的一般概念建模，以及将模型转换为编程代码的详细建模.类图也可用于数据建模.类图中的类表示主要元素、应用程序中的交互和要编程的类.</p>
+<h2 id="2-类图绘制"><a href="#2-类图绘制" class="headerlink" title="2 类图绘制"></a>2 类图绘制</h2><h3 id="2-1-类"><a href="#2-1-类" class="headerlink" title="2.1 类"></a>2.1 类</h3><p> UML 提供代表类成员的机制，如属性和方法，以及有关他们的其他信息.图表中一个类的单个实例包含三个隔块：</p>
+<ul>
+<li>顶部隔块包含<strong>类的名称</strong>.粗体、居中，第一个字母大写.它还可能包含描述类性质的可选注释文本.</li>
+<li>中部隔块包含类的<strong>属性</strong>.它们是左对齐的，第一个字母是小写字母.</li>
+<li>底部隔块包含类可以执行的<strong>操作</strong>.它们也是左对齐的，第一个字母是小写字母.</li>
+</ul>
+<pre><code>classDiagram
+    class BankAccount
+    BankAccount : +String owner
+    BankAccount : +Bigdecimal balance
+    BankAccount : +deposit(amount)
+    BankAccount : +withdrawl(amount)
+</code></pre>
+<p>![](Markdown mermaid/1.png)</p>
+<p> 如上图所示，绘制出一个名为<code>BankAccount</code>的类，它有两个属性，分别是String类型的<code>owner</code>和Bigdecimal类型的<code>balance</code>，它有两个操作方法，分别是<code>deposit</code>和<code>withdrawl</code>，这两个操作方法的输入值均为<code>amount</code>.</p>
+<p> 对应的markdown语法，首先以<code>classDiagram</code>作为引导，表示将要绘制的是类图.</p>
+<p> 然后定义一个类，以<code>class</code>作为引导，空格后接上这个类的名称；</p>
+<p> 接下来就是定义属性和方法了，都是以这个类的名称为开头，后面接上冒号，再接上类的不同作用域范围，注意，属性直接由类型引导，后面跟上属性名即可，而操作方法则以方法名为直接引导，后面括号加上返回的变量.</p>
+<p> 关于类的作用域范围，以及属性和方法的定义细节，接下来将会详细说明.</p>
+<h3 id="2-2-定义一个类"><a href="#2-2-定义一个类" class="headerlink" title="2.2 定义一个类"></a>2.2 定义一个类</h3><p> 显式地定义一个类可以使用引导词<code>class</code>，如定义一个名为Animal的类： <code>class Animal</code></p>
+<p> 通过两个类间的关系可以隐式地定义两个类，如<code>Vehicle &lt;|-- Car</code>，这定义了两个类，分别为<code>Vehicle</code>和<code>Car</code>. 其中，<code>Car</code>继承自<code>Vehicle</code>类.</p>
+<blockquote>
+<p>命名约定：类名称应由字母数字（允许单码）和下划线字符组成.</p>
+</blockquote>
+<pre><code>classDiagram
+    class Animal
+    Vehicle &lt;|-- Car
+</code></pre>
+<p>![](Markdown mermaid/2.png)</p>
+<h3 id="2-3-定义类成员"><a href="#2-3-定义类成员" class="headerlink" title="2.3 定义类成员"></a>2.3 定义类成员</h3><p> mermaid根据括号 （） 是否存在来区分属性和功能/方法. 具有 （） 的将被视为函数/方法，而其他则被视为属性.</p>
+<p> 定义类成员有两种方法，不管使用哪一种方法，最后呈现的结果相同.</p>
+<ul>
+<li>  第一种方法是用一个冒号后面接着成员名称的方式，适用于一次定义一个成员.</li>
+<li>  第二种方法是用一个花括号 {} 把该类下的所有成员全部括起来，适用于一次性定义多个成员.</li>
+</ul>
+<pre><code>classDiagram
+class BankAccount
+ BankAccount : +String owner
+ BankAccount : +BigDecimal balance
+ BankAccount : +deposit(amount)
+ BankAccount : +withdrawal(amount)
+</code></pre>
+<p>![](Markdown mermaid/3.png)</p>
+<pre><code>classDiagram
+class BankAccount{
+    +String owner
+    +BigDecimal balance
+    +deposit(amount)
+    +withdrawl(amount)
+}
+</code></pre>
+<p>![](Markdown mermaid/4.png)</p>
+<h3 id="2-4-定义返回类型"><a href="#2-4-定义返回类型" class="headerlink" title="2.4 定义返回类型"></a>2.4 定义返回类型</h3><p> 对于类的成员函数，可能会涉及到返回值类型的问题. 那么如何定义类成员函数的返回值类型呢？注意以下语法：</p>
+<pre><code>classDiagram
+class BankAccount{
+    +String owner
+    +BigDecimal balance
+    +deposit(amount) bool
+    +withdrawl(amount) int
+}
+</code></pre>
+<p>![](Markdown mermaid/5.png)</p>
+<p> 在成员函数（操作方法）的括号后添加空格和返回值类型. 在类图上就将显示冒号引导的返回值类型.</p>
+<h3 id="2-5-定义泛型类"><a href="#2-5-定义泛型类" class="headerlink" title="2.5 定义泛型类"></a>2.5 定义泛型类</h3><p> 类定义中除了基本数据类型外，还有模板类（泛型），如<code>List&lt;int&gt;</code>，此时的定义方法如下：</p>
+<p> 用波浪号替代泛型定义中的单尖括号.</p>
+<pre><code>classDiagram
+class Square~Shape~{
+    int id
+    List~int~ position
+    setPoints(List~int~ points)
+    getPoints() List~int~
+}
+
+Square : -List~string~ messages
+Square : +setMessages(List~string~ messages)
+Square : +getMessages() List~string~
+1234
+</code></pre>
+<p>![](Markdown mermaid/6.png)</p>
+<p> 很遗憾，目前还不支持嵌套的泛型类定义<code>List&lt;List&lt;int&gt;&gt;</code></p>
+<h3 id="2-6-定义类成员作用域"><a href="#2-6-定义类成员作用域" class="headerlink" title="2.6 定义类成员作用域"></a>2.6 定义类成员作用域</h3><p> 类成员的作用域，或可见性，可以分为Public Private Protected Package/Internal;</p>
+<pre><code>classDiagram
+class BankAccount{
+    +String owner
+    -BigDecimal balance
+    #deposit(amount) bool
+    ~withdrawl(amount) int
+}
+</code></pre>
+<p>![](Markdown mermaid/7.png)</p>
+<p> 如果需要定义抽象方法或静态方法，则只需要在括号后添加*或$符号即可：</p>
+<pre><code>classDiagram
+ class BankAccount
+ BankAccount: +String owner
+ BankAccount: -BigDecimal balance
+ BankAccount: +someAbstractMethod()*
+ BankAccount: -someStaticMethod()$
+</code></pre>
+<p>![](Markdown mermaid/8.png)</p>
+<p> 可以看出，抽象方法被标为斜体，静态方法被标注了下划线.</p>
+<h3 id="2-7-定义类间关系"><a href="#2-7-定义类间关系" class="headerlink" title="2.7 定义类间关系"></a>2.7 定义类间关系</h3><p> 面向对象编程中的类间关系有继承、组合、聚合等，如下表所示为支持的种类：</p>
+<p>[支持的种类](Markdown mermaid/1.csv)</p>
+<pre><code>classDiagram
+classA &lt;|-- classB
+classC *-- classD
+classE o-- classF
+classG &lt;-- classH
+classI -- classJ
+classK &lt;.. classL
+classM &lt;|.. classN
+classO .. classP
+</code></pre>
+<p>![](Markdown mermaid/9.png)</p>
+<h3 id="2-8-类间关系上的标签"><a href="#2-8-类间关系上的标签" class="headerlink" title="2.8 类间关系上的标签"></a>2.8 类间关系上的标签</h3><p> 也可以在关系定义后添加文本表示注释：</p>
+<pre><code>classDiagram
+classA --|&gt; classB : Inheritance
+classC --* classD : Composition
+classE --o classF : Aggregation
+classG --&gt; classH : Association
+classI -- classJ : Link(Solid)
+classK ..&gt; classL : Dependency
+classM ..|&gt; classN : Realization
+classO .. classP : Link(Dashed)
+12345678
+</code></pre>
+<p>![](Markdown mermaid/10.png)</p>
+<h3 id="2-9-实例数的表示"><a href="#2-9-实例数的表示" class="headerlink" title="2.9 实例数的表示"></a>2.9 实例数的表示</h3><p> 类图中的 multiplicity 或 cardinality 表示链接到另一类一个实例的一个类的实例数.例如，一家公司将有一个或多位员工，但每位员工只为一家公司工作.</p>
+<p> 不同的实例数表示包括:</p>
+<ul>
+<li>  <code>1</code> 仅有 1</li>
+<li>  <code>0..1</code> 0或者1</li>
+<li>  <code>1..*</code> 1或者更多</li>
+<li><ul>
+<li>`` 若干</li>
+</ul>
+</li>
+<li>  <code>n</code> n {n&gt;1}</li>
+<li>  <code>0..n</code> 0 到 n {n&gt;1}</li>
+<li>  <code>1..n</code> 1 到 n {n&gt;1}  在给定箭头之前（可选）和引文（可选）之后，将基数文本置于引号内，可以很容易地定义实例数.</li>
+</ul>
+<pre><code>classDiagram
+    Customer &quot;1&quot; --&gt; &quot;*&quot; Ticket
+    Student &quot;1&quot; --&gt; &quot;1..*&quot; Course
+    Galaxy --&gt; &quot;many&quot; Star : Contains
+</code></pre>
+<p>![](Markdown mermaid/11.png)</p>
+<p> 可以由上例看出，标注显示在箭头的旁边.</p>
+<h3 id="2-10-类注释"><a href="#2-10-类注释" class="headerlink" title="2.10 类注释"></a>2.10 类注释</h3><p> 类的类型有以下四种，以<code>&lt;&lt;</code>和<code>&gt;&gt;</code>括起来.</p>
+<ul>
+<li><code>&lt;&lt;Interface&gt;&gt;</code> 接口类</li>
+<li><code>&lt;&lt;abstract&gt;&gt;</code> 抽象类</li>
+<li><code>&lt;&lt;Service&gt;&gt;</code> 服务类</li>
+<li><code>&lt;&lt;enumeration&gt;&gt;</code> 枚举类</li>
+</ul>
+<pre><code>classDiagram
+class Shape{
+    &lt;&lt;interface&gt;&gt;
+    noOfVertices
+    draw()
+}
+class Color{
+    &lt;&lt;enumeration&gt;&gt;
+    RED
+    BLUE
+    GREEN
+    WHITE
+    BLACK
+}
+10111213
+</code></pre>
+<p>![](Markdown mermaid/12.png)</p>
+<p>![](Markdown mermaid/13.gif)</p>
