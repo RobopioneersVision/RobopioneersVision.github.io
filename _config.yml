@@ -31,6 +31,7 @@ i18n_dir: :lang
 skip_render:
 - README.md
 - '_posts/**/embed_page/**'
+- '_posts/2022赛季计划/**'
 
 # Writing
 new_post_name: :title.md # File name of new posts
