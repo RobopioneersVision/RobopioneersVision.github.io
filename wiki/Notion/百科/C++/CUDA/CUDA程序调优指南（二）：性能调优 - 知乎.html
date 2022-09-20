@@ -1,0 +1,58 @@
+<hr>
+<p>title: CUDA程序调优指南（二）：性能调优 - 知乎.md<br>toc: true<br>date: 2021-12-22 09:25:00</p>
+<hr>
+<h1 id="CUDA程序调优指南（二）：性能调优-知乎"><a href="#CUDA程序调优指南（二）：性能调优-知乎" class="headerlink" title="CUDA程序调优指南（二）：性能调优 - 知乎"></a>CUDA程序调优指南（二）：性能调优 - 知乎</h1><p><a href="https://zhuanlan.zhihu.com/p/84510732?from_voters_page=true">https://zhuanlan.zhihu.com/p/84510732?from_voters_page=true</a></p>
+<p>本系列文章是我阅读CUDA官方文档以及实践经验所总结而出，如有错误和不足，还请多多指出</p>
+<p>目录：</p>
+<ol>
+<li>CUDA程序调优指南（一）：GPU硬件</li>
+<li>CUDA程序调优指南（二）：性能调优</li>
+<li>CUDA程序调优指南（三）：BlockNum和ThreadNumPerBlock</li>
+</ol>
+<h2 id="3-CUDA程序性能调优"><a href="#3-CUDA程序性能调优" class="headerlink" title="3. CUDA程序性能调优"></a>3. CUDA程序性能调优</h2><p>对于一个CUDA kernel function而言，其通常由如下几个部分组成：</p>
+<ul>
+<li>kernel function paras</li>
+<li>local variables</li>
+<li>shared memory with <code>__syncthreads__</code> call</li>
+<li>device function call</li>
+<li>loop/if</li>
+<li><code>&lt;&lt;&lt;BlocksNum, ThreadsNumPerBlock&gt;&gt;&gt;</code></li>
+</ul>
+<p>我们分别考虑如何对这些部分进行优化。</p>
+<h3 id="3-1-kernel-function-parameters"><a href="#3-1-kernel-function-parameters" class="headerlink" title="3.1 kernel function parameters"></a>3.1 kernel function parameters</h3><p><code>__global__</code> function的参数是存在constant mem里的，并且其大小被限制为4KB。</p>
+<p>通常来说，我们传入的参数都比较少，因此这些参数大部分是直接缓存在SM上的register上的，因此读取起来最快。但如果register不够用，那么就会被放到constant mem/cache上，速度就会变慢。</p>
+<h3 id="3-2-local-variables"><a href="#3-2-local-variables" class="headerlink" title="3.2 local variables"></a>3.2 local variables</h3><p>对于单独的local var，其会被放在register里面，因此读写极快。</p>
+<p>对于数组类型的local var，根据访问pattern的不同，速度也不同（见<a href="https://link.zhihu.com/?target=https://devblogs.nvidia.com/fast-dynamic-indexing-private-arrays-cuda/">per-thread array的访问</a>）</p>
+<p>总结而言是这样的：</p>
+<ul>
+<li>【Static Indexing】：会被放到register里，读写极快</li>
+<li>【Dynamic indexing with Uniform Access】：会被放到Local Mem里，略慢。但 <strong>更高的math/load比</strong> 配合 <strong>缓存到L1/L2cache</strong>里，也可以很快</li>
+<li>【Dynamic indexing with Non-uniform Access】：由于会让SM产生多个访存指令，所以最慢。 但可以通过把其放到shared mem里加速</li>
+</ul>
+<h3 id="3-3-shared-memory-with-syncthreads-call"><a href="#3-3-shared-memory-with-syncthreads-call" class="headerlink" title="3.3 shared memory with __syncthreads__ call"></a>3.3 shared memory with <code>__syncthreads__</code> call</h3><p>shared memory就如同2.3节所述，我们需要尽量避免bank confilicts，这样读取最快，一个cycle clock就可以读取128byte。</p>
+<p>除此之外，因为shared memory由同一block内的thread共享，所以在初始化shared mem之后，需要调用<code>__syncthreads__</code>来对同一block内的所有threads进行同步。</p>
+<h3 id="3-4-device-function-calls"><a href="#3-4-device-function-calls" class="headerlink" title="3.4 device function calls"></a>3.4 device function calls</h3><p>编译器会自行决定device function是否会被inlined（多数情况下会inline）。通常来说，inline会更好，因为少了函数调用的开销。</p>
+<p>我们可以用**<a href="https://link.zhihu.com/?target=https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html%23noinline-and-forceinline">forceinline</a>**来给编译器提示</p>
+<h3 id="3-5-loop-if"><a href="#3-5-loop-if" class="headerlink" title="3.5 loop/if"></a>3.5 loop/if</h3><p>在书写kernel function时，应尽量避免loop/if，因为这两个在代码里引入了分支结构。</p>
+<p>如果代码有分支，那么</p>
+<ol>
+<li>SM首先执行那些进入first branch的threads，此时其余threads在等待</li>
+<li>然后执行进入second branch的threads，前面的线程等待。</li>
+</ol>
+<p>因此在可能的情况下，我们应该尽量<strong>使用模板参数来替换掉loop/if</strong>：</p>
+<ul>
+<li>如果<code>if</code>所判断的条件在kernel launch时就能确定（即作为kernel的一个parameter传入的），那就可以用模板参数来代替该parameter，这样编译器会自动优化掉另一分支。</li>
+<li>同理，如果for-loop的边界也在kernel launch时就能确定，那也可用模板参数代替。</li>
+</ul>
+<p>针对一些边界是常量（如0-&gt;5）的循环，在循环体足够简单的情况下，可以使用<code>#pragma unroll</code></p>
+<p>来告诉编译器展开该循环。</p>
+<h3 id="3-6-屠龙计：BlocksNum-ThreadsNumPerBlock"><a href="#3-6-屠龙计：BlocksNum-ThreadsNumPerBlock" class="headerlink" title="3.6 屠龙计：BlocksNum, ThreadsNumPerBlock"></a>3.6 屠龙计：BlocksNum, ThreadsNumPerBlock</h3><blockquote>
+<p>朱泙漫学屠龙于支离益，单千金之家。三年技成，而无所用其巧 —《庄子·列御寇》</p>
+</blockquote>
+<p><code>BlocksNum</code>和<code>ThreadsNumPerBlock</code>是执行kernel function时配置的值。这两个值通常都是经验求解，很难找到最优值。</p>
+<p>简单来说，</p>
+<ul>
+<li><code>ThreadsNumPerBlock</code>受限于device property的<code>MaxThreadsPerBlock</code>，经验取值为512/1024。</li>
+<li><code>BlocksNum</code>最大无限制，常见求解公式为 。</li>
+</ul>
+<p>更详细的见《CUDA程序调优指南（三）：BlockNum和ThreadNumPerBlock》</p>

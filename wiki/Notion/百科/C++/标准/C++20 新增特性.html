@@ -1,0 +1,753 @@
+<hr>
+<p>title: C++20 新增特性.md<br>toc: true<br>date: 2021-12-22 09:25:00</p>
+<hr>
+<h1 id="C-20-新增特性"><a href="#C-20-新增特性" class="headerlink" title="C++20 新增特性"></a>C++20 新增特性</h1><p><a href="https://zhuanlan.zhihu.com/p/137646370">https://zhuanlan.zhihu.com/p/137646370</a></p>
+<p>![](C++20 新增特性/1.jpg)</p>
+<p>原文链接:</p>
+<ul>
+<li>常量表达式(constexpr) 的更新<ul>
+<li>用 using 引用 enum 类型</li>
+<li>格式化库(std::format)</li>
+</ul>
+</li>
+</ul>
+<h2 id="新增关键字-keywords"><a href="#新增关键字-keywords" class="headerlink" title="新增关键字(keywords)"></a>新增关键字(keywords)</h2><ul>
+<li>concept</li>
+<li>requires</li>
+<li>constinit</li>
+<li>consteval</li>
+<li>co_await</li>
+<li>co_return</li>
+<li>co_yield</li>
+<li>char8_t</li>
+</ul>
+<h2 id="新增标识符-Identifies"><a href="#新增标识符-Identifies" class="headerlink" title="新增标识符(Identifies)"></a>新增标识符(Identifies)</h2><ul>
+<li>import</li>
+<li>module</li>
+</ul>
+<h2 id="模块-Modules"><a href="#模块-Modules" class="headerlink" title="模块(Modules)"></a>模块(Modules)</h2><h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><ul>
+<li>没有头文件</li>
+<li>声明实现仍然可分离, 但非必要</li>
+<li>可以<strong>显式</strong>指定那些导出(类, 函数等)</li>
+<li>不需要头文件重复引入宏 (include guards)</li>
+<li>模块之间名称可以相同不会冲突</li>
+<li>模块只处理一次, 编译更快 ()  头文件每次引入都需要处理</li>
+<li>预处理宏只在模块内有效</li>
+<li>模块引入顺序无关紧要</li>
+</ul>
+<h3 id="创建模块"><a href="#创建模块" class="headerlink" title="创建模块"></a>创建模块</h3><pre><code>// cppcon.cpp 
+export module cppcon; 
+namespace CppCon { 
+    auto GetWelcomeHelper() {  return &quot;Welcome to CppCon 2019!&quot;;  } 
+    export auto GetWelcome() { return GetWelcomeHelper();} 
+}
+</code></pre>
+<h3 id="引用模块"><a href="#引用模块" class="headerlink" title="引用模块"></a>引用模块</h3><pre><code>// main.cpp 
+import cppcon; 
+int main(){ 
+    std::cout &lt;&lt; CppCon::GetWelcome(); 
+}
+</code></pre>
+<h3 id="import-头文件"><a href="#import-头文件" class="headerlink" title="import 头文件"></a>import 头文件</h3><ul>
+<li>import <iostream></li>
+<li>隐式地将 <code>iostream</code> 转换为模块</li>
+<li>加速构建, 因为 iostream 只会处理一次</li>
+<li>和预编译头 (PCH) 具有相似的效果</li>
+</ul>
+<h2 id="Ranges"><a href="#Ranges" class="headerlink" title="Ranges"></a>Ranges</h2><p><strong>Ranges</strong> 是什么 ?</p>
+<ul>
+<li><code>Range</code> 代表一串元素, 或者一串元素中的一段</li>
+<li>类似 begin/end 对</li>
+</ul>
+<p><strong>好处</strong>:</p>
+<ul>
+<li>简化语法和方便使用</li>
+</ul>
+<pre><code>vector&lt;int&gt; data{11, 22, 33}; 
+sort(begin(data), end(data)); 
+sort(data); // 使用 Ranges
+</code></pre>
+<ul>
+<li>防止 begin/end 不配对</li>
+<li>使变换/过滤等串联操作成为可能</li>
+</ul>
+<p><strong>相关功能</strong></p>
+<ul>
+<li><strong>视图</strong>(View): 延迟计算, 不持有, 不改写</li>
+<li><strong>Actions</strong>: 即时处理(eagerly evaluated), 改写</li>
+<li><strong>Algorithms</strong>: 所有接受 begin/end 对的算法都可用</li>
+<li>Views 和 actions 使用管道符<code>|</code>串联</li>
+</ul>
+<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><ul>
+<li>串联视图</li>
+</ul>
+<pre><code>vector&lt;int&gt; data {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}; 
+auto result = data | 
+              views::remove_if([](int i) { return i % 2 == 1;}) | 
+              views::transform([](int i) { return to_string(i);}); 
+// result = {&quot;2&quot;, &quot;4&quot;, &quot;6&quot;, &quot;8&quot;, &quot;10&quot; };
+// 注意 以上操作被延迟, 当你遍历result的时候才触发
+</code></pre>
+<ul>
+<li>串联actions</li>
+</ul>
+<pre><code>vector&lt;int&gt; data{4, 3, 4, 1, 8, 0, 8}; 
+vector&lt;int&gt; result = data | actions::sort | actions::unique;
+</code></pre>
+<ul>
+<li>排序然后去重</li>
+<li>操作会原地对<code>data</code>进行更改, 然后返回</li>
+<li>过滤和变换</li>
+</ul>
+<pre><code>int total = accumulate (
+                        view::ints(1) | 
+                        view::transform([](int i) {return i * i;}) | 
+                        view::take(10), 
+                        0);
+</code></pre>
+<ul>
+<li><code>view::ints(1)</code> 产生一个无限的整型数列</li>
+<li>平方</li>
+<li>取前10个元素, 然后累加(accumulate)<strong>所有的计算延迟到<code>accumulate</code>累加遍历的时候发生</strong></li>
+</ul>
+<h2 id="协程-Coroutines"><a href="#协程-Coroutines" class="headerlink" title="协程(Coroutines)"></a>协程(Coroutines)</h2><h3 id="什么是协程"><a href="#什么是协程" class="headerlink" title="什么是协程"></a>什么是协程</h3><ul>
+<li>它是一个函数</li>
+<li>具备如下关键字之一:<ul>
+<li><code>co_wait</code>: 挂起协程, 等待其它计算完成</li>
+<li><code>co_return</code>: 从协程返回 (协程 <code>return</code> 禁止使用)</li>
+<li><code>co_yield</code>: 同 python yield, 弹出一个值, 挂起协程, 下一次调用继续协程的运行</li>
+<li><code>for co_await</code> 循环体</li>
+</ul>
+</li>
+</ul>
+<pre><code>for co_await (for-range-declaration: expression) statement
+</code></pre>
+<p><strong>用处</strong></p>
+<ul>
+<li>简化如下问题的实现:<ul>
+<li>generator</li>
+<li>异步I/O</li>
+<li>延迟计算</li>
+<li>事件驱动的程序</li>
+</ul>
+</li>
+</ul>
+<h3 id="例子-VC"><a href="#例子-VC" class="headerlink" title="例子(VC++)"></a>例子(VC++)</h3><pre><code>experimental::generator&lt;int&gt; GetSequenceGenerator( 
+    int startValue, 
+    size_t numberOfValues) { 
+    for (int i = 0 startValue; i &lt; startValue + numberOfValues; ++i){ 
+        time_t t = system_clock::to_time_t(system_clock::now()); 
+        cout &lt;&lt; std:: ctime(&amp;t); co_yield i; 
+    } 
+} 
+int main() {
+    auto gen = GetSequenceGenerator(10, 5); 
+    for (const auto&amp; value : gen) { 
+        cout &lt;&lt; value &lt;&lt; &quot;(Press enter for next value)&quot; &lt;&lt; endl; 
+        cin.ignore(); 
+    } 
+}
+</code></pre>
+<h2 id="Concepts"><a href="#Concepts" class="headerlink" title="Concepts"></a>Concepts</h2><ul>
+<li>对模板类和函数的模板形参的约束</li>
+<li>编译期断言</li>
+<li>可声明多个</li>
+</ul>
+<h3 id="如何定义"><a href="#如何定义" class="headerlink" title="如何定义"></a>如何定义</h3><pre><code>template&lt;typename T&gt; concept Incrementable = requires(T x) {x++; ++x;};
+</code></pre>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><pre><code>template&lt;Incrementable T&gt; 
+void Foo(T t); 
+
+template&lt;typename T&gt; requires Incrementable&lt;T&gt; 
+void Foo(T t); 
+
+template&lt;typename T&gt; 
+void Foo(T t) requires Incrementable&lt;T&gt;; 
+
+void Foo(Incrementable auto t);
+</code></pre>
+<h3 id="例子-1"><a href="#例子-1" class="headerlink" title="例子"></a>例子</h3><ul>
+<li>具备<code>size()</code> 方法, 且返回<code>size_t</code></li>
+</ul>
+<pre><code>template &lt;typename T&gt; concept HasSize = requires (T x){ 
+    {x.size()} -&gt; std::convertible_to&lt;std::size_t&gt;; 
+};
+</code></pre>
+<ul>
+<li>组合concept</li>
+</ul>
+<pre><code>template&lt;typename T&gt; 
+requires Incrementable&lt;T&gt; &amp;&amp; Decrementable&lt;T&gt; 
+void Foo(T t); 
+// or 
+template&lt;typename T&gt; 
+concept Incr_Decrementable = Incrementable&lt;T&gt; &amp;&amp; Decrementable&lt;T&gt;; 
+
+template&lt;Incr_Decrementable T&gt; 
+void Foo(T t);
+</code></pre>
+<h2 id="Lambda-表达式的更新"><a href="#Lambda-表达式的更新" class="headerlink" title="Lambda 表达式的更新"></a>Lambda 表达式的更新</h2><h3 id="this-需要显式捕获this变量"><a href="#this-需要显式捕获this变量" class="headerlink" title="[=, this] 需要显式捕获this变量"></a>[=, this] 需要显式捕获<code>this</code>变量</h3><ul>
+<li>C++20 之前 <code>[=]</code> 隐式捕获<code>this</code></li>
+<li>C++20 开始 需要显式捕获this: <code>[=, this]</code></li>
+</ul>
+<h3 id="模板形式的-Lambda-表达式"><a href="#模板形式的-Lambda-表达式" class="headerlink" title="模板形式的 Lambda 表达式"></a>模板形式的 Lambda 表达式</h3><p>可以在<code>lambda</code>表达式中使用模板语法</p>
+<pre><code>[]template&lt;T&gt;(T x) {/* ... */}; 
+[]template&lt;T&gt;(T* p) {/* ... */}; 
+[]template&lt;T, int N&gt;(T (&amp;a)[N]) {/* ... */};
+</code></pre>
+<p><strong>原因1</strong></p>
+<ul>
+<li>C++20之前: 获取 vector 元素类型, 你需要这么写</li>
+</ul>
+<pre><code>auto func = [](auto vec){ 
+    using T = typename decltype(vec)::value_type; 
+}
+</code></pre>
+<ul>
+<li>C++20 你可以:</li>
+</ul>
+<pre><code>auto func = []&lt;typename T&gt;(vector&lt;T&gt; vec){ 
+    // ... 
+}
+</code></pre>
+<p><strong>原因2</strong>: 方便获取通用lambda形参类型, 访问静态函数</p>
+<ul>
+<li>c++20 以前</li>
+</ul>
+<pre><code>auto func = [](auto const&amp; x){ 
+    using T = std::decay_t&lt;decltype(x)&gt;; 
+    T copy = x; T::static_function(); 
+    using Iterator = typename T::iterator; 
+}
+</code></pre>
+<ul>
+<li>C++20 开始</li>
+</ul>
+<pre><code>auto func = []&lt;typename T&gt;(const T&amp; x){ 
+    T copy = x; T::static_function(); 
+    using Iterator = typename T::iterator; 
+}
+</code></pre>
+<p><strong>原因3</strong>: 完美转发</p>
+<ul>
+<li>pre C++20:</li>
+</ul>
+<pre><code>auto func = [](auto&amp;&amp; ...args) { 
+    return foo(std::forward&lt;decltype(args)&gt;(args)...); 
+}
+</code></pre>
+<ul>
+<li>since C++20</li>
+</ul>
+<pre><code>auto func = []&lt;typename …T&gt;(T&amp;&amp; …args){ 
+    return foo(std::forward(args)...); 
+}
+</code></pre>
+<h3 id="Lambda-表达式捕获支持打包展开-Pack-Expansion"><a href="#Lambda-表达式捕获支持打包展开-Pack-Expansion" class="headerlink" title="Lambda 表达式捕获支持打包展开(Pack Expansion)"></a>Lambda 表达式捕获支持打包展开(Pack Expansion)</h3><ul>
+<li>Pre C++20</li>
+</ul>
+<pre><code>template&lt;class F, class... Args&gt; 
+auto delay_invoke(F f, Args... args){ 
+    return [f, args...]{ 
+        return std::invoke(f, args...); 
+    } 
+}
+</code></pre>
+<ul>
+<li>Since C++20</li>
+</ul>
+<pre><code>template&lt;class F, class... Args&gt; 
+auto delay_invoke(F f, Args... args){ 
+    // Pack Expansion:  args = std::move(args)...  
+    return [f = std::move(f), args = std::move(args)...](){ 
+        return std::invoke(f, args...); 
+    } 
+}
+</code></pre>
+<h2 id="常量表达式-constexpr-的更新"><a href="#常量表达式-constexpr-的更新" class="headerlink" title="常量表达式(constexpr) 的更新"></a>常量表达式(<code>constexpr</code>) 的更新</h2><ul>
+<li><code>constexpr</code> 虚函数<ul>
+<li><code>constexpr</code> 的虚函数可以重写非 <code>constexpr</code> 的虚函数</li>
+<li>非 <code>constexpr</code> 虚函数可以重写 <code>constexpr</code> 的虚函数</li>
+</ul>
+</li>
+<li><code>constexpr</code> 函数可以:<ul>
+<li>使用 <code>dynamic_cast()</code> 和 <code>typeid</code></li>
+<li>动态内存分配</li>
+<li>更改<code>union</code>成员的值</li>
+<li>包含 <code>try/catch</code><ul>
+<li>但是<strong>不允许</strong> <strong><code>throw</code></strong> <strong>语句</strong></li>
+<li>在触发常量求值的时候 try/catch 不发生作用</li>
+<li>需要开启 <code>constexpr std::vector</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="constexpr-string-amp-vector"><a href="#constexpr-string-amp-vector" class="headerlink" title="constexpr string &amp; vector"></a><code>constexpr</code> string &amp; vector</h3><ul>
+<li><code>std::string</code> 和 <code>std::vector</code> 类型现在可以作为 <code>constexpr</code></li>
+<li>未来需要支持 <code>constexpr</code> 反射</li>
+</ul>
+<h2 id="原子-Atomic-智能指针"><a href="#原子-Atomic-智能指针" class="headerlink" title="原子(Atomic)智能指针"></a>原子(Atomic)智能指针</h2><ul>
+<li>智能指针(shared_ptr)线程安全吗?<ul>
+<li><strong>是</strong>: 引用计数控制单元线程安全, 保证对象只被释放一次</li>
+<li><strong>否</strong>: 对于数据的读写没有线程安全</li>
+</ul>
+</li>
+<li>如何将智能指针变成线程安全?<ul>
+<li>使用 <code>mutex</code> 控制智能指针的访问</li>
+<li>使用全局非成员原子操作函数访问, 诸如: std::atomic_load(), atomic_store(), …<ul>
+<li><strong>缺点</strong>: 容易出错, 忘记使用这些操作</li>
+</ul>
+</li>
+<li>C++20: <code>atomic&lt;shared_ptr&lt;T&gt;&gt;</code>, <code>atomic&lt;weak_ptr&lt;T&gt;&gt;</code><ul>
+<li>内部原理可能使用了<code>mutex</code></li>
+<li>全局非成员原子操作函数标记为不推荐使用(deprecated)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="例子-2"><a href="#例子-2" class="headerlink" title="例子"></a>例子</h3><pre><code>template&lt;typename T&gt; 
+class concurrent_stack { 
+    struct Node { 
+        T t; 
+        shared_ptr&lt;Node&gt; next; 
+    }; 
+    atomic_shared_ptr&lt;Node&gt; head; 
+    // C++11: 去掉 &quot;atomic_&quot; 并且在访问时, 需要用 
+    // 特殊的函数控制线程安全, 例如用std::tomic_load 
+public: 
+    class reference { 
+        shared_ptr&lt;Node&gt; p; 
+        &lt;snip&gt; 
+    }; 
+    auto find(T t) const { 
+        auto p = head.load(); // C++11: atomic_load(&amp;head) 
+        while (p &amp;&amp; p-&gt;t != t) 
+            p = p-&gt;next; 
+        return reference(move(p)); 
+    } 
+    auto front() const { 
+        return reference(head); 
+    } 
+    void push_front(T t) { 
+        auto p = make_shared&lt;Node&gt;(); 
+        p-&gt;t = t; p-&gt;next = head; 
+        while (!head.compare_exchange_weak(p-&gt;next, p)){ 
+    } // C++11: atomic_compare_exchange_weak(&amp;head, &amp;p-&gt;next, p); }     
+    void pop_front() { 
+        auto p = head.load(); 
+        while (p &amp;&amp; !head.compare_exchange_weak(p, p-&gt;next)) {
+        } // C++11: atomic_compare_exchange_weak(&amp;head, &amp;p, p-&gt;next); 
+    } 
+};
+</code></pre>
+<p>例子来自 Herb Sutter 的 N4162 论文</p>
+<h2 id="自动合流-Joining-可中断-Cancellable-的线程"><a href="#自动合流-Joining-可中断-Cancellable-的线程" class="headerlink" title="自动合流(Joining), 可中断(Cancellable) 的线程"></a>自动合流(Joining), 可中断(Cancellable) 的线程</h2><ul>
+<li>std::jthread<ul>
+<li>头文件 <thread></li>
+<li>支持中断</li>
+<li>析构函数中自动 Join<ul>
+<li>析构函数调用 <code>stop_source.request_stop()</code> 然后 <code>join()</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>中断线程执行<ul>
+<li>头文件 <stop_token></li>
+<li><code>std::stop_token</code><ul>
+<li>用来查询线程是否中断</li>
+<li>可以和<code>condition_variable_any</code>配合使用</li>
+</ul>
+</li>
+<li><code>std::stop_source</code><ul>
+<li>用来请求线程停止运行</li>
+<li>stop_resources 和 stop_tokens 都可以查询到停止请求</li>
+</ul>
+</li>
+<li><code>std::stop_callback</code><ul>
+<li>如果对应的<code>stop_token</code> 被要求终止, 将会触发回调函数</li>
+<li>用法: std::stop_callback myCallback(myStopToken, []{ /* … */ });</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="例子-3"><a href="#例子-3" class="headerlink" title="例子"></a>例子</h3><ul>
+<li>自动合流 Join</li>
+</ul>
+<blockquote>
+<p>std::thread 在析构函数中如果线程 joinable() 会直接调用 std::terminate() 直接导致程序退出</p>
+</blockquote>
+<pre><code>void DoWorkPreCpp20() { 
+    std::thread job([] { /* ... */ }); 
+    try { 
+        // ... Do something else ... 
+    } catch (...) { 
+        job.join(); 
+        throw; // rethrow 
+    } 
+    job.join(); 
+} 
+
+void DoWork() { 
+    std::jthread job([] { /* ... */ }); 
+    // ... Do something else ... 
+} // jthread destructor automatically calls join()
+</code></pre>
+<ul>
+<li>中断</li>
+</ul>
+<pre><code>std::jthread job([](std::stop_token token) {
+    while (!token.stop_requested()) { 
+        //... 
+    } 
+}); 
+//... job.request_stop(); 
+// auto source = job.get_stop_source() 
+// auto token = job.get_stop_token()
+</code></pre>
+<h2 id="C-20-同步-Synchronization-库"><a href="#C-20-同步-Synchronization-库" class="headerlink" title="C++20 同步(Synchronization)库"></a>C++20 同步(Synchronization)库</h2><ul>
+<li>信号量(Semaphore), 维基百科请走<a href="https://link.zhihu.com/?target=https://zh.wikipedia.org/wiki/%25E4%25BF%25A1%25E5%258F%25B7%25E9%2587%258F">这里</a><ul>
+<li>轻量级的同步原语</li>
+<li>可用来实现任何其他同步概念, 如: mutex, latches, barriers, …</li>
+<li>两种类型:<ul>
+<li>多元信号量(counting semaphore): 建模非负值资源计数</li>
+<li>二元信号量(binary semaphore): 只有一个插孔, 两种状态, 最适合实现<code>mutex</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>std::atomic</code> 等待和通知接口<ul>
+<li>等待/阻塞在原子对象直到其值发生改变, 通过通知函数发送通知</li>
+<li>比轮训(polling)来的更高效</li>
+<li>方法<ul>
+<li><code>notify_one()</code></li>
+<li><code>notify_all()</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>锁存器(Latch)和屏障(Barrier)<ul>
+<li>辅助线程条件同步</li>
+</ul>
+</li>
+<li>锁存器(Latches)<ul>
+<li>头文件<latch></li>
+<li>线程的同步点<ul>
+<li>线程将阻塞在这个位置, 直到到达的线程个数达标才放行, 放行之后不再关闭</li>
+</ul>
+</li>
+<li>锁存器只会作用一次</li>
+</ul>
+</li>
+<li>屏障(Barriers)<ul>
+<li><barrier></li>
+<li>多个阶段</li>
+<li>每个阶段中<ul>
+<li>一个参与者运行至屏障点时被阻塞，需要等待其他参与者都到达屏障点, 当到达线程数达标之后</li>
+<li>阶段完成的回调将被执行</li>
+<li>线程计数器被重置</li>
+<li>开启下一阶段</li>
+<li>线程得以继续执行</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="std-atomic-ref"><a href="#std-atomic-ref" class="headerlink" title="std::atomic_ref"></a>std::atomic_ref</h3><ul>
+<li>头文件<atomic></li>
+<li>Atomic 引用</li>
+<li>通过引用访问变为原子操作, 被引用对象可以为非原子类型</li>
+</ul>
+<h2 id="其他更新"><a href="#其他更新" class="headerlink" title="其他更新"></a>其他更新</h2><h3 id="指定初始化-Designated-Initializers"><a href="#指定初始化-Designated-Initializers" class="headerlink" title="指定初始化(Designated Initializers)"></a>指定初始化(Designated Initializers)</h3><pre><code>struct Data { 
+    int anInt = 0; 
+    std::string aString; 
+}; 
+Data d{ .aString = &quot;Hello&quot; };
+</code></pre>
+<h3 id="航天飞机操作符-lt-gt"><a href="#航天飞机操作符-lt-gt" class="headerlink" title="航天飞机操作符 &lt;=&gt;"></a>航天飞机操作符 &lt;=&gt;</h3><ul>
+<li>正规名称: <strong>三路比较运算符</strong></li>
+<li>三路比较结果如下<ul>
+<li>(a &lt;=&gt; b) &lt; 0 // 如果 a &lt; b 则为 true</li>
+<li>(a &lt;=&gt; b) &gt; 0 // 如果 a &gt; b 则为 true</li>
+<li>(a &lt;=&gt; b) == 0 // 如果 a 与 b 相等或者等价 则为 true</li>
+</ul>
+</li>
+<li>类似于C的strcmp 函数返回-1, 0, 1</li>
+<li><strong>一般情况</strong>: 自动生成所有的比较操作符, 如果对象是结构体则逐个比较, 可以用下面代码代替所有的比较运算符<ul>
+<li><code>auto X::operator&lt;=&gt;(const Y&amp;) = default;</code></li>
+</ul>
+</li>
+<li><strong>高级情况</strong>: 指定返回类型(支持6种所有的比较运算符)</li>
+</ul>
+<p><strong>示例</strong>:</p>
+<pre><code>class Point { 
+    int x; int y; 
+public: 
+    friend bool operator==(const Point&amp; a, const Point&amp; b){ 
+        return a.x==b.x &amp;&amp; a.y==b.y; 
+    } 
+    friend bool operator&lt; (const Point&amp; a, const Point&amp; b){ 
+        return a.x &lt; b.x || (a.x == b.x &amp;&amp; a.y &lt; b.y);  
+    } 
+    friend bool operator!=(const Point&amp; a, const Point&amp; b) { 
+        return !(a==b); 
+    } 
+    friend bool operator&lt;=(const Point&amp; a, const Point&amp; b) { 
+        return !(b&lt;a); 
+    } 
+    friend bool operator&gt; (const Point&amp; a, const Point&amp; b) { 
+        return b&lt;a; 
+    } 
+    friend bool operator&gt;=(const Point&amp; a, const Point&amp; b) { 
+        return !(a&lt;b); 
+    } 
+    // ... 其他非比较函数 ... 
+}; 
+#include &lt;compare&gt; class Point { 
+    int x; int y; 
+public: 
+    auto operator&lt;=&gt;(const Point&amp;)  const = default; // 比较操作符自动生成
+    // ... 其他非比较函数 ... 
+};
+</code></pre>
+<ul>
+<li>标准库类型支持 &lt;=&gt;<ul>
+<li>vector, string, map, set, sub_match, …</li>
+</ul>
+</li>
+<li>例如:</li>
+</ul>
+<h3 id="范围-for-循环语句支持初始化语句"><a href="#范围-for-循环语句支持初始化语句" class="headerlink" title="范围 for 循环语句支持初始化语句"></a>范围 for 循环语句支持初始化语句</h3><ul>
+<li>switch 语句初始化 (C++17):</li>
+</ul>
+<pre><code>struct Foo { 
+    int value; int result; 
+}; 
+Foo GetData() { 
+    return Foo(); 
+} 
+
+int main() { 
+    switch (auto data = GetData(); data.value) { 
+    case 1: 
+        return data.result; 
+    } 
+}
+</code></pre>
+<ul>
+<li>if 语句初始化 (C++17):</li>
+</ul>
+<pre><code>struct Foo { 
+    int value; int result; 
+}; 
+Foo* GetData() {
+  return new Foo(); 
+} 
+
+int main() { 
+    if (auto data = GetData(); data) { 
+        // Use &#39;data’ 
+    } 
+}
+</code></pre>
+<ul>
+<li>现在范围 for 循环同样支持初始化 (C++20):</li>
+</ul>
+<pre><code>struct Foo { 
+    std::vector&lt;int&gt; values; 
+}; 
+Foo GetData() { 
+    return Foo(); 
+} 
+int main() { 
+    for (auto data = GetData(); 
+    auto&amp; value : data.values) { 
+        // Use &#39;data’ 
+    } 
+}
+ 
+</code></pre>
+<h3 id="非类型模板形参支持字符串"><a href="#非类型模板形参支持字符串" class="headerlink" title="非类型模板形参支持字符串"></a>非类型模板形参支持字符串</h3><pre><code>template&lt;auto&amp; s&gt; void DoSomething() { 
+    std::cout &lt;&lt; s &lt;&lt; std::endl; 
+} 
+int main() { 
+    DoSomething&lt;&quot;CppCon&quot;&gt;(); 
+}
+</code></pre>
+<h3 id="likely-unlikely"><a href="#likely-unlikely" class="headerlink" title="[[likely]], [[unlikely]]"></a>[[likely]], [[unlikely]]</h3><p>先验概率指导编译器优化</p>
+<pre><code>switch (value) { 
+    case 1: break; 
+    [[likely]] case 2: break; 
+    [[unlikely]] case 3: break; 
+}
+</code></pre>
+<h3 id="日历-Calendar-和时区-Timezone-功能"><a href="#日历-Calendar-和时区-Timezone-功能" class="headerlink" title="日历(Calendar)和时区(Timezone)功能"></a>日历(Calendar)和时区(Timezone)功能</h3><ul>
+<li><choron> 增加日历和时区的支持</li>
+<li>只支持公历(Gregorian calendar)<ul>
+<li>其他日历也可通过扩展加入, 并能和 <chrono> 进行交互</li>
+</ul>
+</li>
+<li>初始化 年, 月 日的方法</li>
+</ul>
+<pre><code>// creating a year 
+auto y1 = year{ 2019 }; 
+auto y2 = 2019y; 
+// creating a mouth
+auto m1 = month{ 9 }; 
+auto m2 = September; 
+// creating a day 
+auto d1 = day{ 18 }; 
+auto d2 = 18d;
+</code></pre>
+<ul>
+<li>创建完整的日期</li>
+</ul>
+<pre><code>year_mouth_day fulldate1{2019y, September, 18d}; 
+auto fulldate2 = 2019y / September / 18d; 
+year_mouth_day fulldate3{Monday[3]/September/2019}; // Monday[3] 表示第三个星期一
+</code></pre>
+<ul>
+<li>新的事件间隔单位, 类似于秒, 分钟, …</li>
+</ul>
+<pre><code>using days = duration&lt;signed interger type of at least 25bits, 
+                      ratio_multiply&lt;ratio&lt;24&gt;, hours::period&gt;&gt;; 
+using weeks = ...; using mouths = ...; 
+using years = ...;
+</code></pre>
+<ul>
+<li>例子</li>
+</ul>
+<pre><code>weeks w{1}; // 1 周 
+days d{w}; // 将 1 周 转换成天数
+</code></pre>
+<ul>
+<li>新的时钟类型, (之前有 <code>system_clock</code>, <code>steady_clock</code>, <code>high_resolution_clock</code>):<ul>
+<li><code>utc_clock</code>: represents Coordinated Universal Time (UTC), measures time since 00:00:00 UTC, Thursday, 1 January 1970, including leap seconds</li>
+<li><code>tai_clock</code>: represents International Atomic Time (TAI), measures time since 00:00:00, 1 January 1958, and was offseted 10 seconds ahead of UTC at that date, it does not include leap seconds</li>
+<li><code>gps_clock</code>: represents Global Positioning System (GPS) time, measures time since 00:00:00, 6 January 1980 UTC, it does not include leap seconds</li>
+<li><code>file_clock</code>: alias for the clock used for <code>std::filesystem::file_time_type</code>, epoch is unspecified</li>
+</ul>
+</li>
+<li>新增<code>system_clock</code>相关的别名</li>
+</ul>
+<pre><code>template&lt;class Duration&gt; 
+using sys_time = std::chrono::time_point&lt;std::chrono::system_clock, Duration&gt;; 
+using sys_seconds = sys_time&lt;std::chrono::seconds&gt;; 
+using sys_days = sys_time&lt;std::chrono::days&gt;; 
+// 用例: 
+system_clock::time_point t =  sys_days{ 2019y / September / 18d }; // date -&gt; time_point 
+auto yearmonthday =  year_month_day{ floor&lt;days&gt;(t) }; // time_point -&gt; date
+</code></pre>
+<ul>
+<li>日期 + 事件</li>
+</ul>
+<pre><code>auto t = sys_days{2019y/September/18d} + 9h + 35min + 10s; // 2019-09-18 09:35:10 UTC
+</code></pre>
+<ul>
+<li>时区转换</li>
+</ul>
+<pre><code>// Convert UTC to Denver 
+time: zoned_time denver = { &quot;America/Denver&quot;, t }; 
+// Construct a local time in Denver: 
+auto t = zoned_time{ 
+    &quot;America/Denver&quot;,  local_days{Wednesday[3] / September / 2019} + 9h 
+}; 
+// Get current local time: 
+auto t = zoned_time{ current_zone(), system_clock::now() };
+</code></pre>
+<h3 id="std-span"><a href="#std-span" class="headerlink" title="std::span"></a>std::span</h3><ul>
+<li>头文件<span></li>
+<li>某段连续数据的”视图”</li>
+<li>不持有数据, 不分配和销毁数据</li>
+<li>拷贝非常快, 推荐复制的方式传参(类似 <code>string_view</code>)</li>
+<li>不支持数据跨步(stride)</li>
+<li>可通过运行期确定长度也可编译器确定长度</li>
+</ul>
+<pre><code>int data[42]; span&lt;int, 42&gt; a {data}; // fixed-size: 42 ints 
+span&lt;int&gt; b {data}; // dynamic-size: 42 ints 
+span&lt;int, 50&gt; c {data}; // compilation error 
+span&lt;int&gt; d{ ptr, len }; // dynamic-size: len ints
+</code></pre>
+<h3 id="特性测试宏"><a href="#特性测试宏" class="headerlink" title="特性测试宏"></a>特性测试宏</h3><p>通过它可以判断编译器是否支持某个功能, 例如</p>
+<ul>
+<li>语言特性<ul>
+<li><code>__has_cpp_attribute(fallthrough)</code></li>
+<li><code>__cpp_binary_literals</code></li>
+<li><code>__cpp_char8_t</code></li>
+<li><code>__cpp_coroutines</code></li>
+</ul>
+</li>
+</ul>
+<h3 id=""><a href="#" class="headerlink" title=""></a><version></h3><p>包含 C++ 标准库版本, 发布日期, 版权证书, 特性宏等</p>
+<h3 id="consteval-函数"><a href="#consteval-函数" class="headerlink" title="consteval 函数"></a><code>consteval</code> 函数</h3><p><code>constexpr</code> 函数可能编译期执行, 也可以在运行期执行, <code>consteval</code> 只能在编译器执行, 如果不满足要求编译不通过</p>
+<h3 id="constinit"><a href="#constinit" class="headerlink" title="constinit"></a><code>constinit</code></h3><p>强制指定以常量方式初始化</p>
+<pre><code>const char* GetStringDyn() { 
+    return &quot;dynamic init&quot;; 
+} 
+constexpr const char* GetString(bool constInit) { 
+    return constInit ? 
+        &quot;constant init&quot; : 
+        GetStringDyn(); 
+} 
+constinit const char* a = GetString(true); // ✔ 
+constinit const char* b = GetString(false); // ❌
+</code></pre>
+<h3 id="用-using-引用-enum-类型"><a href="#用-using-引用-enum-类型" class="headerlink" title="用 using 引用 enum 类型"></a>用 <code>using</code> 引用 <code>enum</code> 类型</h3><pre><code>enum class CardTypeSuit { 
+    Clubs, 
+    Diamonds, 
+    Hearts, 
+    Spades 
+}; 
+std::string_view GetString(const CardTypeSuit cardTypeSuit) { 
+    switch (cardTypeSuit) { 
+    case CardTypeSuit::Clubs: 
+        return &quot;Clubs&quot;; 
+    case CardTypeSuit::Diamonds: 
+        return &quot;Diamonds&quot;; 
+    case CardTypeSuit::Hearts: 
+         return &quot;Hearts&quot;; 
+    case CardTypeSuit::Spades: 
+         return &quot;Spades&quot;; 
+    } 
+} 
+std::string_view GetString(const CardTypeSuit cardTypeSuit) { 
+    switch (cardTypeSuit) { 
+        using enum CardTypeSuit; // 这里 
+        case Clubs: return &quot;Clubs&quot;; 
+        case Diamonds: return &quot;Diamonds&quot;; 
+        case Hearts: return &quot;Hearts&quot;; 
+        case Spades: return &quot;Spades&quot;; 
+    } 
+}
+</code></pre>
+<h3 id="格式化库-std-format"><a href="#格式化库-std-format" class="headerlink" title="格式化库(std::format)"></a>格式化库(<code>std::format</code>)</h3><p>不展开, 类似<code>Python</code> 的格式化,</p>
+<pre><code>std::string s = std::format(&quot;Hello CppCon {}!&quot;, 2019);
+</code></pre>
+<h3 id="增加数学常量"><a href="#增加数学常量" class="headerlink" title="增加数学常量"></a>增加数学常量</h3><p>再也不用为 M_PI 发愁啦</p>
+<ul>
+<li>头文件 <numbers></li>
+<li>包含 e, log2e, log10e pi, inv_pi, inv_sqrt pi ln2, ln10 sqrt2, sqrt3, inv_sqrt3 egamma</li>
+</ul>
+<h3 id="std-source-location"><a href="#std-source-location" class="headerlink" title="std::source_location"></a>std::source_location</h3><p>用于获取代码位置, 对于日志和错误信息尤其有用</p>
+<h3 id="nodiscard-reason"><a href="#nodiscard-reason" class="headerlink" title="[[nodiscard(reason)]]"></a>[[nodiscard(reason)]]</h3><p>表明返回值不可抛弃, 加入理由的支持</p>
+<pre><code>[[nodiscard(&quot;Ignoring the return value will result in memory leaks.&quot;)]] 
+void* GetData() { /* ... */ }
+</code></pre>
+<h3 id="位运算"><a href="#位运算" class="headerlink" title="位运算"></a>位运算</h3><p>加入循环移位, 计数0和1位等功能</p>
+<h3 id="一些小更新"><a href="#一些小更新" class="headerlink" title="一些小更新"></a>一些小更新</h3><ul>
+<li>字符串支持 starts_with, ends_with</li>
+<li>map 支持 contains 查询是否存在某个键</li>
+<li>list 和 forward list 的 remove, remove_if 和 unique 操作返回 size_type 表明删除个数</li>
+<li><algorithm> 增加 shift_left, shift_right</li>
+<li><code>midpoint</code> 计算中位数, 可避免溢出</li>
+<li><code>lerp</code> 线性插值 <code>lerp( float a, float b, float t )</code> 返回</li>
+<li>新的向量化策略 <code>unsequenced_policy(execution::unseq)</code></li>
+</ul>
+<pre><code>std::string str = &quot;Hello world!&quot;; 
+bool b = str.starts_with(&quot;Hello&quot;); // starts_with, ends_with 
+std::map myMap{ std::pair{1, &quot;one&quot;s}, {2, &quot;two&quot;s}, {3, &quot;three&quot;s} }; 
+bool result = myMap.contains(2); // contains, 再也不用  .find() == .end() 了
+</code></pre>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2>

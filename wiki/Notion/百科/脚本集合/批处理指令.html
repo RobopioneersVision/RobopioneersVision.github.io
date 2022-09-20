@@ -1,0 +1,9 @@
+<hr>
+<p>title: 批处理指令.md<br>toc: true<br>date: 2021-12-22 09:25:00</p>
+<hr>
+<h1 id="批处理指令"><a href="#批处理指令" class="headerlink" title="批处理指令"></a>批处理指令</h1><pre><code class="bash">cat url.txt | while read line ;  do git clone $line $(echo $line | awk -F &#39;com/&#39; &#39;{print $2}&#39;) ; done
+</code></pre>
+<h2 id="使用解析"><a href="#使用解析" class="headerlink" title="使用解析"></a>使用解析</h2><ul>
+<li>cat 逐行抓取 url.txt 内容</li>
+<li>执行git clone 指令拼接cat 抓取的指令执行</li>
+</ul>

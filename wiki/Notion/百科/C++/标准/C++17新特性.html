@@ -1,0 +1,100 @@
+<hr>
+<p>title: C++17新特性.md<br>toc: true<br>date: 2021-12-22 09:25:00</p>
+<hr>
+<h1 id="C-17新特性"><a href="#C-17新特性" class="headerlink" title="C++17新特性"></a>C++17新特性</h1><p><a href="https://blog.csdn.net/qq811299838/article/details/90371604">https://blog.csdn.net/qq811299838/article/details/90371604</a></p>
+<p><strong>目录</strong></p>
+<p><a href="https://blog.csdn.net/qq811299838/article/details/90371604">1.1 constexpr</a></p>
+<p><a href="https://blog.csdn.net/qq811299838/article/details/90371604">1.2 static_assert</a></p>
+<p><a href="https://blog.csdn.net/qq811299838/article/details/90371604">1.3 auto</a></p>
+<p><a href="https://blog.csdn.net/qq811299838/article/details/90371604">1.4 typename</a></p>
+<p><a href="https://blog.csdn.net/qq811299838/article/details/90371604">1.5 inline</a></p>
+<p><a href="https://blog.csdn.net/qq811299838/article/details/90371604">2.3 允许非类型模板参数进行常量计算</a></p>
+<p><a href="https://blog.csdn.net/qq811299838/article/details/90371604">2.4 条件分支语句初始化</a></p>
+<p><a href="https://blog.csdn.net/qq811299838/article/details/90371604">2.6 嵌套命名空间</a></p>
+<p><a href="https://blog.csdn.net/qq811299838/article/details/90371604">2.7 lambda表达式捕获*this的值</a></p>
+<p><a href="https://blog.csdn.net/qq811299838/article/details/90371604">2.8 枚举[类]对象的构造</a></p>
+<p><a href="https://blog.csdn.net/qq811299838/article/details/90371604">2.9 十六进制单精度浮点数字面值</a></p>
+<p><a href="https://blog.csdn.net/qq811299838/article/details/90371604">2.10 基于对齐内存的动态内存分配</a></p>
+<p><a href="https://blog.csdn.net/qq811299838/article/details/90371604">2.11 细化表达式的计算顺序</a></p>
+<p><a href="https://blog.csdn.net/qq811299838/article/details/90371604">2.12 模板类的模板参数自动推导</a></p>
+<p><a href="https://blog.csdn.net/qq811299838/article/details/90371604">2.13 简化重复命名空间的属性列表</a></p>
+<p><a href="https://blog.csdn.net/qq811299838/article/details/90371604">2.14 不支持、非标准的属性</a></p>
+<p><a href="https://blog.csdn.net/qq811299838/article/details/90371604">2.15 改写与继承构造函数</a></p>
+<p><a href="https://blog.csdn.net/qq811299838/article/details/90371604">2.16 内联变量</a></p>
+<p><a href="https://blog.csdn.net/qq811299838/article/details/90371604">2.17 用auto作为非类型模板参数</a></p>
+<p><a href="https://blog.csdn.net/qq811299838/article/details/90371604">3.1 __has_include</a></p>
+<p><a href="https://blog.csdn.net/qq811299838/article/details/90371604">4.1 fallthrough</a></p>
+<p><a href="https://blog.csdn.net/qq811299838/article/details/90371604">4.2 nodiscard</a></p>
+<p><a href="https://blog.csdn.net/qq811299838/article/details/90371604">4.3 maybe_unuse</a></p>
+<h1 id="C-17"><a href="#C-17" class="headerlink" title="C++17"></a>C++17</h1><p>编译器版本：GCC 7.1、Clang 5.0</p>
+<p>__cplusplus：201703L</p>
+<p>编译选项：-std=c++17</p>
+<h1 id="1-关键字"><a href="#1-关键字" class="headerlink" title="1 关键字"></a>1 关键字</h1><h2 id="1-1-constexpr"><a href="#1-1-constexpr" class="headerlink" title="1.1 constexpr"></a>1.1 constexpr</h2><p>扩展constexpr使用范围，可用于if语句中，也可用于lambda表达式中。</p>
+<p>例子1：</p>
+<p>例子2：</p>
+<h2 id="1-2-static-assert"><a href="#1-2-static-assert" class="headerlink" title="1.2 static_assert"></a>1.2 static_assert</h2><p>扩展static_assert用法，静态断言的显示文本可选。</p>
+<p>如：</p>
+<h2 id="1-3-auto"><a href="#1-3-auto" class="headerlink" title="1.3 auto"></a>1.3 auto</h2><p>扩展auto的推断范围</p>
+<p>如：</p>
+<h2 id="1-4-typename"><a href="#1-4-typename" class="headerlink" title="1.4 typename"></a>1.4 typename</h2><p>扩展用法，允许出现在模板的模板的参数中。</p>
+<p>首先回顾一下typename的用法，①用于模板中，表示模板参数为类型；②用于声明某名字是变量名</p>
+<p>如例1：</p>
+<p>新特性下的typename用法，</p>
+<p>如例2：</p>
+<p>运行结果：</p>
+<p><img src="C++17%E6%96%B0%E7%89%B9%E6%80%A7/1.png"></p>
+<h2 id="1-5-inline"><a href="#1-5-inline" class="headerlink" title="1.5 inline"></a>1.5 inline</h2><p>扩展用法，可用于定义内联变量，功能与内联函数相似。inline可避免函数或变量多重定义的问题，如果已定义相同的函数或变量（且该函数或变量声明为inline），编译器会自动链接到该函数或变量。</p>
+<p>如（不发生错误）：</p>
+<h1 id="2-语法"><a href="#2-语法" class="headerlink" title="2 语法"></a>2 语法</h1><h2 id="2-1-折叠表达式"><a href="#2-1-折叠表达式" class="headerlink" title="2.1 折叠表达式"></a>2.1 折叠表达式</h2><p>用于变长参数模板的解包，只支持各种运算符（和操作符），分左、右折叠</p>
+<p>如：</p>
+<h2 id="2-2-结构化绑定"><a href="#2-2-结构化绑定" class="headerlink" title="2.2 结构化绑定"></a>2.2 结构化绑定</h2><p>用一对包含一个或多个变量的中括号，表示结构化绑定，但是使用结构化绑定时，须用auto关键字，即绑定时声明变量</p>
+<p>例子1：</p>
+<p>例子2：</p>
+<h2 id="2-3-允许非类型模板参数进行常量计算"><a href="#2-3-允许非类型模板参数进行常量计算" class="headerlink" title="2.3 允许非类型模板参数进行常量计算"></a>2.3 允许非类型模板参数进行常量计算</h2><p>非类型模板参数可传入类的静态成员</p>
+<p>如：</p>
+<h2 id="2-4-条件分支语句初始化"><a href="#2-4-条件分支语句初始化" class="headerlink" title="2.4 条件分支语句初始化"></a>2.4 条件分支语句初始化</h2><p>在if和switch中可进行初始化</p>
+<p>如：</p>
+<h2 id="2-5-聚合初始化"><a href="#2-5-聚合初始化" class="headerlink" title="2.5 聚合初始化"></a>2.5 聚合初始化</h2><p>在初始化对象时，可用花括号进行对其成员进行赋值</p>
+<p>如：</p>
+<h2 id="2-6-嵌套命名空间"><a href="#2-6-嵌套命名空间" class="headerlink" title="2.6 嵌套命名空间"></a>2.6 嵌套命名空间</h2><p>简化多层命名空间的写法</p>
+<p>如：</p>
+<h2 id="2-7-lambda表达式捕获-this的值"><a href="#2-7-lambda表达式捕获-this的值" class="headerlink" title="2.7 lambda表达式捕获*this的值"></a>2.7 lambda表达式捕获*this的值</h2><p>lambda表达式可捕获*this的值，但this及其成员为只读</p>
+<p>如：</p>
+<h2 id="2-8-枚举-类-对象的构造"><a href="#2-8-枚举-类-对象的构造" class="headerlink" title="2.8 枚举[类]对象的构造"></a>2.8 枚举[类]对象的构造</h2><p>可以给枚举[类]对象赋值</p>
+<p>如：</p>
+<h2 id="2-9-十六进制单精度浮点数字面值"><a href="#2-9-十六进制单精度浮点数字面值" class="headerlink" title="2.9 十六进制单精度浮点数字面值"></a>2.9 十六进制单精度浮点数字面值</h2><p>以0x前缀开头的十六进制数，以f后缀的单精度浮点数，合并，就有了十六进制的单精度浮点数</p>
+<p>如：</p>
+<h2 id="2-10-基于对齐内存的动态内存分配"><a href="#2-10-基于对齐内存的动态内存分配" class="headerlink" title="2.10 基于对齐内存的动态内存分配"></a>2.10 基于对齐内存的动态内存分配</h2><p>谈到动态内存分配，少不了new和delete运算符，新标准中的new和delete运算符新增了按照对齐内存值来分配、释放内存空间的功能（即一个新的带对齐内存值的new、delete运算符重载）</p>
+<p>函数原型：</p>
+<p>参数说明：</p>
+<p>size —— 分配的字节数。必须为alignment的整数倍。</p>
+<p>alignment —— 指定的对齐内存值。必须是实现支持的合法对齐。</p>
+<p>new的返回值：</p>
+<p>成功，返回指向新分配内存起始地址的指针。</p>
+<p>用法例子：</p>
+<h2 id="2-11-细化表达式的计算顺序"><a href="#2-11-细化表达式的计算顺序" class="headerlink" title="2.11 细化表达式的计算顺序"></a>2.11 细化表达式的计算顺序</h2><p>为了支持泛型编程和重载运算符的广泛使用，新特性将计算顺序进行的细化</p>
+<p>如以下争议代码段：</p>
+<p>为了解决该情况，新计算顺序规则为：</p>
+<p>①后缀表达式从左到右求值。这包括函数调用和成员选择表达式。</p>
+<p>②赋值表达式从右向左求值。这包括复合赋值。</p>
+<p>③从左到右计算移位操作符的操作数。</p>
+<h2 id="2-12-模板类的模板参数自动推导"><a href="#2-12-模板类的模板参数自动推导" class="headerlink" title="2.12 模板类的模板参数自动推导"></a>2.12 模板类的模板参数自动推导</h2><p>定义模板类的对象时，可以不指定模板参数，但必须要在构造函数中能推导出模板参数</p>
+<p>如：</p>
+<h2 id="2-13-简化重复命名空间的属性列表"><a href="#2-13-简化重复命名空间的属性列表" class="headerlink" title="2.13 简化重复命名空间的属性列表"></a>2.13 简化重复命名空间的属性列表</h2><p>如：</p>
+<h2 id="2-14-不支持、非标准的属性"><a href="#2-14-不支持、非标准的属性" class="headerlink" title="2.14 不支持、非标准的属性"></a>2.14 不支持、非标准的属性</h2><p>在添加属性列表时，编译器会忽略不支持的非标准的属性，不会发出警告和错误。</p>
+<h2 id="2-15-改写与继承构造函数"><a href="#2-15-改写与继承构造函数" class="headerlink" title="2.15 改写与继承构造函数"></a>2.15 改写与继承构造函数</h2><p>在类的继承体系中，构造函数的自动调用是一个令人头疼的问题。新特性引入继承与改写构造函数的用法。</p>
+<p>例子1：</p>
+<p>例子2：</p>
+<p>例子3：</p>
+<h2 id="2-16-内联变量"><a href="#2-16-内联变量" class="headerlink" title="2.16 内联变量"></a>2.16 内联变量</h2><p>见1.5</p>
+<h2 id="2-17-用auto作为非类型模板参数"><a href="#2-17-用auto作为非类型模板参数" class="headerlink" title="2.17 用auto作为非类型模板参数"></a>2.17 用auto作为非类型模板参数</h2><p>当模板参数为非类型时，可用auto自动推导类型</p>
+<p>如：</p>
+<h1 id="3-宏"><a href="#3-宏" class="headerlink" title="3 宏"></a>3 宏</h1><h2 id="3-1-has-include"><a href="#3-1-has-include" class="headerlink" title="3.1 __has_include"></a>3.1 __has_include</h2><p>判断有没有包含某文件</p>
+<p>如：</p>
+<h1 id="4-属性"><a href="#4-属性" class="headerlink" title="4 属性"></a>4 属性</h1><h2 id="4-1-fallthrough"><a href="#4-1-fallthrough" class="headerlink" title="4.1 fallthrough"></a>4.1 fallthrough</h2><p>用于switch语句块内，表示会执行下一个case或default</p>
+<p>如：</p>
+<h2 id="4-2-nodiscard"><a href="#4-2-nodiscard" class="headerlink" title="4.2 nodiscard"></a>4.2 nodiscard</h2><p>可用于类声明、函数声明、枚举声明中，表示函数的返回值没有被接收，在编译时会出现警告。</p>
+<p>如：</p>
+<h2 id="4-3-maybe-unused"><a href="#4-3-maybe-unused" class="headerlink" title="4.3 maybe_unused"></a>4.3 maybe_unused</h2><p>可用于类、typedef、变量、非静态数据成员、函数、枚举或枚举值中。用于抑制编译器对没用实体的警告。即加上该属性后，对某一实体不会发出“没有用”的警告。</p>
+<p>用法例子：</p>
+<h1 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h1><p>本次检验C++17新特性使用了GCC编译器，对于Clang的支持性方面没有做出差异测试。若有问题，欢迎指出</p>

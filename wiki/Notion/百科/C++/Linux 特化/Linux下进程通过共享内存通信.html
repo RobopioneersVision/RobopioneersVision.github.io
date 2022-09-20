@@ -1,0 +1,610 @@
+<hr>
+<p>title: Linux下进程通过共享内存通信.md<br>toc: true<br>date: 2021-12-22 09:25:00</p>
+<hr>
+<h1 id="Linux下进程通过共享内存通信"><a href="#Linux下进程通过共享内存通信" class="headerlink" title="Linux下进程通过共享内存通信"></a>Linux下进程通过共享内存通信</h1><p><a href="https://www.cnblogs.com/wuyepeng/p/9748889.html">https://www.cnblogs.com/wuyepeng/p/9748889.html</a></p>
+<p>共享内存就是允许两个或多个进程共享一定的存储区。就如同 malloc() 函数向不同进程返回了指向同一个物理内存区域的指针。当一个进程改变了这块地址中的内容的时候，其它进程都会察觉到这个更改。因为数据不需要在客户机和服务器端之间复制，数据直接写到内存，不用若干次数据拷贝，所以这是最快的一种IPC。</p>
+<p>注：共享内存没有任何的同步与互斥机制，所以要使用信号量来实现对共享内存的存取的同步。</p>
+<p><img src="Linux%E4%B8%8B%E8%BF%9B%E7%A8%8B%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98%E9%80%9A%E4%BF%A1/1.png"></p>
+<p><strong>共享内存特点和优势</strong></p>
+<p>当中共享内存的大致原理相信我们可以看明白了，就是让两个进程地址通过页表映射到同一片物理地址以便于通信,你可以给一个区域里面写入数据，理所当然你就可以从中拿取数据，这也就构成了进程间的双向通信，而且共享内存是IPC通信当中<strong>传输速度最快的通信方式没有之一</strong>，理由很简单，客户进程和服务进程传递的数据直接从内存里存取、放入，数据不需要在两进程间复制，没有什么操作比这简单了。再者用共享内存进行数据通信，它对数据也没啥限制。</p>
+<p>最后就是共享内存的生命周期随内核。即所有访问共享内存区域对象的进程都已经正常结束,共享内存区域对象仍然在内核中存在(除非显式删除共享内存区域对象),在内核重新引导之前,对该共享内存区域对象的任何改写操作都将一直保留;简单地说,共享内存区域对象的生命周期跟系统内核的生命周期是一致的,而且共享内存区域对象的作用域范围就是在整个系统内核的生命周期之内。</p>
+<p><strong>缺陷</strong></p>
+<p>但是，共享内存也并不完美，共享内存并未提供同步机制，也就是说，在一个服务进程结束对共享内存的写操作之前，并没有自动机制可以阻止另一个进程（客户进程）开始对它进行读取。这明显还达不到我们想要的，我们不单是在两进程间交互数据，还想实现多个进程对共享内存的同步访问，这也正是使用共享内存的窍门所在。基于此，我们通常会用平时常谈到和用到 <strong>信号量</strong>来实现对共享内存同步访问控制。</p>
+<h1 id="与共享内存有关的函数"><a href="#与共享内存有关的函数" class="headerlink" title="与共享内存有关的函数"></a>与共享内存有关的函数</h1><p>所有的函数共用头文件</p>
+<pre><code>#include &lt;sys/types.h&gt;
+</code></pre>
+<pre><code>#include &lt;sys/ipc.h&gt;
+</code></pre>
+<pre><code>#include &lt;sys/shm.h&gt;
+</code></pre>
+<p>创建共享内存——&gt;shmget() 函数</p>
+<pre><code>int
+</code></pre>
+<pre><code>shmget(key_t key, 
+</code></pre>
+<pre><code>size_t
+</code></pre>
+<pre><code>size, 
+</code></pre>
+<pre><code>int
+</code></pre>
+<pre><code>shmflg);
+</code></pre>
+<pre><code>//成功返回共享内存的ID,出错返回-1       
+</code></pre>
+<p>(1)第一个参数key是长整型（唯一非零），系统建立IPC通讯 （ 消息队列、 信号量和 共享内存） 时必须指定一个ID值。通常情况下，该id值通过ftok函数得到，由内核变成标识符，要想让两个进程看到同一个信号集，只需设置key值不变就可以。</p>
+<p>(2)第二个参数size指定共享内存的大小，它的值一般为一页大小的整数倍（未到一页，操作系统向上对齐到一页，但是用户实际能使用只有自己所申请的大小）。</p>
+<p>(3)第三个参数shmflg是一组标志，创建一个新的共享内存，将shmflg 设置了IPC_CREAT标志后，共享内存存在就打开。而IPC_CREAT | IPC_EXCL则可以创建一个新的，唯一的共享内存，如果共享内存已存在，返回一个错误。一般我们会还或上一个文件权限</p>
+<p>3.2操作共享内存———&gt;shmctl()函数</p>
+<pre><code>int
+</code></pre>
+<pre><code>shmctl(
+</code></pre>
+<pre><code>int
+</code></pre>
+<pre><code>shm_id, 
+</code></pre>
+<pre><code>int
+</code></pre>
+<pre><code>cmd, 
+</code></pre>
+<pre><code>struct
+</code></pre>
+<pre><code>shmid_ds *buf); 
+</code></pre>
+<pre><code>//成功返回0，出错返回-1
+</code></pre>
+<p>(1)第一个参数，shm_id是shmget函数返回的共享内存标识符。</p>
+<p>(2)第二个参数，cmd是要采取的操作，它可以取下面的三个值 ：</p>
+<p>IPC_STAT：把shmid_ds结构中的数据设置为共享内存的当前关联值，即用共享内存的当前关联值覆盖shmid_ds的值。</p>
+<p>IPC_SET：如果进程有足够的权限，就把共享内存的当前关联值设置为shmid_ds结构中给出的值</p>
+<p>IPC_RMID：删除共享内存段</p>
+<p>(3)第三个参数，buf是一个结构指针，它指向共享内存模式和访问权限的结构。 shmid_ds结构至少包括以下成员</p>
+<pre><code>struct
+</code></pre>
+<pre><code>shmid_ds  
+</code></pre>
+<pre><code>{  
+</code></pre>
+<pre><code>uid_t shm_perm.uid;  
+</code></pre>
+<pre><code>uid_t shm_perm.gid;  
+</code></pre>
+<pre><code>mode_t shm_perm.mode;  
+</code></pre>
+<pre><code>}; 
+</code></pre>
+<h2 id="挂接操作———-gt-shmat-函数"><a href="#挂接操作———-gt-shmat-函数" class="headerlink" title="挂接操作———&gt;shmat()函数"></a>挂接操作———&gt;shmat()函数</h2><p>创建共享存储段之后，将进程连接到它的地址空间</p>
+<pre><code>void
+</code></pre>
+<pre><code>*shmat(
+</code></pre>
+<pre><code>int
+</code></pre>
+<pre><code>shm_id, 
+</code></pre>
+<pre><code>const
+</code></pre>
+<pre><code>void
+</code></pre>
+<pre><code>*shm_addr, 
+</code></pre>
+<pre><code>int
+</code></pre>
+<pre><code>shmflg); 
+</code></pre>
+<pre><code>//成功返回指向共享存储段的指针，出错返回-1　
+</code></pre>
+<p>(1)第一个参数，shm_id是由shmget函数返回的共享内存标识。</p>
+<p>(2)第二个参数，shm_addr指定共享内存连接到当前进程中的地址位置，通常为空，表示让系统来选择共享内存的地址。</p>
+<p>(3)第三个参数，shm_flg是一组标志位，通常为0</p>
+<h2 id="3-4分离操作———-gt-shmdt-函数"><a href="#3-4分离操作———-gt-shmdt-函数" class="headerlink" title="3.4分离操作———&gt;shmdt()函数"></a>3.4分离操作———&gt;shmdt()函数</h2><p>该操作不从系统中删除标识符和其数据结构，要显示调用shmctl(带命令IPC_RMID)才能删除它</p>
+<pre><code>int
+</code></pre>
+<pre><code>shmdt(
+</code></pre>
+<pre><code>const
+</code></pre>
+<pre><code>void
+</code></pre>
+<pre><code>*shmaddr); 
+</code></pre>
+<pre><code>//成功返回0，出错返回-1
+</code></pre>
+<p>(1)addr参数是以前调用shmat时的返回值</p>
+<h1 id="4-模拟实现进程间的通信方式———-gt-共享内存"><a href="#4-模拟实现进程间的通信方式———-gt-共享内存" class="headerlink" title="4.模拟实现进程间的通信方式———&gt;共享内存"></a>4.模拟实现进程间的通信方式———&gt;共享内存</h1><p>三、使用共享内存进行进程间通信</p>
+<p>说了这么多，又到了实战的时候了。下面就以两个不相关的进程来说明进程间如何通过共享内存来进行通信。其中一个文件shmread.c创建共享内存，并读取其中的信息，另一个文件shmwrite.c向共享内存中写入数据。为了方便操作和数据结构的统一，为这两个文件定义了相同的数据结构，定义在文件shmdata.c中。结构shared_use_st中的written作为一个可读或可写的标志，非0：表示可读，0表示可写，text则是内存中的文件。</p>
+<h2 id="shmdata-h的源代码如下："><a href="#shmdata-h的源代码如下：" class="headerlink" title="shmdata.h的源代码如下："></a>shmdata.h的源代码如下：</h2><pre><code>#ifndef _SHMDATA_H_HEADER
+</code></pre>
+<pre><code>#define _SHMDATA_H_HEADER 
+</code></pre>
+<pre><code>#define TEXT_SZ 2048 
+</code></pre>
+<pre><code>struct
+</code></pre>
+<pre><code>shared_use_st
+</code></pre>
+<pre><code>{   
+</code></pre>
+<pre><code>int
+</code></pre>
+<pre><code>written;
+</code></pre>
+<pre><code>//作为一个标志，非0：表示可读，0表示可写  
+</code></pre>
+<pre><code>char
+</code></pre>
+<pre><code>text[TEXT_SZ];
+</code></pre>
+<pre><code>//记录写入和读取的文本
+</code></pre>
+<pre><code>}; 
+</code></pre>
+<pre><code>#endif
+</code></pre>
+<p>源文件shmread.c的源代码如下：</p>
+<pre><code>#include &lt;unistd.h&gt;
+</code></pre>
+<pre><code>#include &lt;stdlib.h&gt;
+</code></pre>
+<pre><code>#include &lt;stdio.h&gt;
+</code></pre>
+<pre><code>#include &lt;sys/shm.h&gt;
+</code></pre>
+<pre><code>#include &quot;shmdata.h&quot; 
+</code></pre>
+<pre><code>int
+</code></pre>
+<pre><code>main()
+</code></pre>
+<pre><code>{   
+</code></pre>
+<pre><code>int
+</code></pre>
+<pre><code>running = 1;
+</code></pre>
+<pre><code>//程序是否继续运行的标志   
+</code></pre>
+<pre><code>void
+</code></pre>
+<pre><code>*shm = NULL;
+</code></pre>
+<pre><code>//分配的共享内存的原始首地址    
+</code></pre>
+<pre><code>struct
+</code></pre>
+<pre><code>shared_use_st *shared;
+</code></pre>
+<pre><code>//指向shm    
+</code></pre>
+<pre><code>int
+</code></pre>
+<pre><code>shmid;
+</code></pre>
+<pre><code>//共享内存标识符 //创建共享内存    
+</code></pre>
+<pre><code>shmid = shmget((key_t)1234, 
+</code></pre>
+<pre><code>sizeof
+</code></pre>
+<pre><code>(
+</code></pre>
+<pre><code>struct
+</code></pre>
+<pre><code>shared_use_st), 0666|IPC_CREAT);
+</code></pre>
+<pre><code>if
+</code></pre>
+<pre><code>(shmid == -1) 
+</code></pre>
+<pre><code>{       
+</code></pre>
+<pre><code>fprintf
+</code></pre>
+<pre><code>(stderr, 
+</code></pre>
+<pre><code>&quot;shmget failed\n&quot;
+</code></pre>
+<pre><code>); 
+</code></pre>
+<pre><code>exit
+</code></pre>
+<pre><code>(EXIT_FAILURE);
+</code></pre>
+<pre><code>}   
+</code></pre>
+<pre><code>//将共享内存连接到当前进程的地址空间 
+</code></pre>
+<pre><code>shm = shmat(shmid, 0, 0);
+</code></pre>
+<pre><code>if
+</code></pre>
+<pre><code>(shm == (
+</code></pre>
+<pre><code>void
+</code></pre>
+<pre><code>*)-1)    
+</code></pre>
+<pre><code>{   
+</code></pre>
+<pre><code>fprintf
+</code></pre>
+<pre><code>(stderr, 
+</code></pre>
+<pre><code>&quot;shmat failed\n&quot;
+</code></pre>
+<pre><code>);  
+</code></pre>
+<pre><code>exit
+</code></pre>
+<pre><code>(EXIT_FAILURE); 
+</code></pre>
+<pre><code>}   
+</code></pre>
+<pre><code>printf
+</code></pre>
+<pre><code>(
+</code></pre>
+<pre><code>&quot;\nMemory attached at %X\n&quot;
+</code></pre>
+<pre><code>, (
+</code></pre>
+<pre><code>int
+</code></pre>
+<pre><code>)shm);  
+</code></pre>
+<pre><code>//设置共享内存    
+</code></pre>
+<pre><code>shared = (
+</code></pre>
+<pre><code>struct
+</code></pre>
+<pre><code>shared_use_st*)shm;    
+</code></pre>
+<pre><code>shared-&gt;written = 0; 
+</code></pre>
+<pre><code>while
+</code></pre>
+<pre><code>(running)
+</code></pre>
+<pre><code>//读取共享内存中的数据  
+</code></pre>
+<pre><code>{       
+</code></pre>
+<pre><code>//没有进程向共享内存定数据有数据可读取        
+</code></pre>
+<pre><code>if
+</code></pre>
+<pre><code>(shared-&gt;written != 0) 
+</code></pre>
+<pre><code>{       
+</code></pre>
+<pre><code>printf
+</code></pre>
+<pre><code>(
+</code></pre>
+<pre><code>&quot;You wrote: %s&quot;
+</code></pre>
+<pre><code>, shared-&gt;text);       
+</code></pre>
+<pre><code>sleep(
+</code></pre>
+<pre><code>rand
+</code></pre>
+<pre><code>() % 3);          
+</code></pre>
+<pre><code>//读取完数据，设置written使共享内存段可写
+</code></pre>
+<pre><code>shared-&gt;written = 0;         
+</code></pre>
+<pre><code>//输入了end，退出循环（程序）   
+</code></pre>
+<pre><code>if
+</code></pre>
+<pre><code>(
+</code></pre>
+<pre><code>strncmp
+</code></pre>
+<pre><code>(shared-&gt;text, 
+</code></pre>
+<pre><code>&quot;end&quot;
+</code></pre>
+<pre><code>, 3) == 0)     
+</code></pre>
+<pre><code>running = 0;        
+</code></pre>
+<pre><code>}       
+</code></pre>
+<pre><code>else
+</code></pre>
+<pre><code>//有其他进程在写数据，不能读取数据      
+</code></pre>
+<pre><code>sleep(1);   
+</code></pre>
+<pre><code>}   
+</code></pre>
+<pre><code>//把共享内存从当前进程中分离 
+</code></pre>
+<pre><code>if
+</code></pre>
+<pre><code>(shmdt(shm) == -1)    
+</code></pre>
+<pre><code>{       
+</code></pre>
+<pre><code>fprintf
+</code></pre>
+<pre><code>(stderr, 
+</code></pre>
+<pre><code>&quot;shmdt failed\n&quot;
+</code></pre>
+<pre><code>);      
+</code></pre>
+<pre><code>exit
+</code></pre>
+<pre><code>(EXIT_FAILURE);
+</code></pre>
+<pre><code>}   
+</code></pre>
+<pre><code>//删除共享内存    
+</code></pre>
+<pre><code>if
+</code></pre>
+<pre><code>(shmctl(shmid, IPC_RMID, 0) == -1)    
+</code></pre>
+<pre><code>{   
+</code></pre>
+<pre><code>fprintf
+</code></pre>
+<pre><code>(stderr, 
+</code></pre>
+<pre><code>&quot;shmctl(IPC_RMID) failed\n&quot;
+</code></pre>
+<pre><code>);   
+</code></pre>
+<pre><code>exit
+</code></pre>
+<pre><code>(EXIT_FAILURE);
+</code></pre>
+<pre><code>}   
+</code></pre>
+<pre><code>exit
+</code></pre>
+<pre><code>(EXIT_SUCCESS);
+</code></pre>
+<pre><code>}
+</code></pre>
+<p>源文件shmwrite.c的源代码如下：</p>
+<pre><code>#include &lt;unistd.h&gt;
+</code></pre>
+<pre><code>#include &lt;stdlib.h&gt;
+</code></pre>
+<pre><code>#include &lt;stdio.h&gt;
+</code></pre>
+<pre><code>#include &lt;string.h&gt;
+</code></pre>
+<pre><code>#include &lt;sys/shm.h&gt;
+</code></pre>
+<pre><code>#include &quot;shmdata.h&quot; 
+</code></pre>
+<pre><code>int
+</code></pre>
+<pre><code>main()
+</code></pre>
+<pre><code>{   
+</code></pre>
+<pre><code>int
+</code></pre>
+<pre><code>running = 1;    
+</code></pre>
+<pre><code>void
+</code></pre>
+<pre><code>*shm = NULL;   
+</code></pre>
+<pre><code>struct
+</code></pre>
+<pre><code>shared_use_st *shared = NULL;
+</code></pre>
+<pre><code>char
+</code></pre>
+<pre><code>buffer[BUFSIZ + 1];
+</code></pre>
+<pre><code>//用于保存输入的文本
+</code></pre>
+<pre><code>int
+</code></pre>
+<pre><code>shmid;  
+</code></pre>
+<pre><code>//创建共享内存
+</code></pre>
+<pre><code>shmid = shmget((key_t)1234, 
+</code></pre>
+<pre><code>sizeof
+</code></pre>
+<pre><code>(
+</code></pre>
+<pre><code>struct
+</code></pre>
+<pre><code>shared_use_st), 0666|IPC_CREAT);
+</code></pre>
+<pre><code>if
+</code></pre>
+<pre><code>(shmid == -1) 
+</code></pre>
+<pre><code>{   
+</code></pre>
+<pre><code>fprintf
+</code></pre>
+<pre><code>(stderr, 
+</code></pre>
+<pre><code>&quot;shmget failed\n&quot;
+</code></pre>
+<pre><code>); 
+</code></pre>
+<pre><code>exit
+</code></pre>
+<pre><code>(EXIT_FAILURE); 
+</code></pre>
+<pre><code>}   
+</code></pre>
+<pre><code>//将共享内存连接到当前进程的地址空间 
+</code></pre>
+<pre><code>shm = shmat(shmid, (
+</code></pre>
+<pre><code>void
+</code></pre>
+<pre><code>*)0, 0);    
+</code></pre>
+<pre><code>if
+</code></pre>
+<pre><code>(shm == (
+</code></pre>
+<pre><code>void
+</code></pre>
+<pre><code>*)-1)
+</code></pre>
+<pre><code>{   
+</code></pre>
+<pre><code>fprintf
+</code></pre>
+<pre><code>(stderr, 
+</code></pre>
+<pre><code>&quot;shmat failed\n&quot;
+</code></pre>
+<pre><code>);      
+</code></pre>
+<pre><code>exit
+</code></pre>
+<pre><code>(EXIT_FAILURE); 
+</code></pre>
+<pre><code>}   
+</code></pre>
+<pre><code>printf
+</code></pre>
+<pre><code>(
+</code></pre>
+<pre><code>&quot;Memory attached at %X\n&quot;
+</code></pre>
+<pre><code>, (
+</code></pre>
+<pre><code>int
+</code></pre>
+<pre><code>)shm);    
+</code></pre>
+<pre><code>//设置共享内存    
+</code></pre>
+<pre><code>shared = (
+</code></pre>
+<pre><code>struct
+</code></pre>
+<pre><code>shared_use_st*)shm;    
+</code></pre>
+<pre><code>while
+</code></pre>
+<pre><code>(running)
+</code></pre>
+<pre><code>//向共享内存中写数据   
+</code></pre>
+<pre><code>{       
+</code></pre>
+<pre><code>//数据还没有被读取，则等待数据被读取,不能向共享内存中写入文本        
+</code></pre>
+<pre><code>while
+</code></pre>
+<pre><code>(shared-&gt;written == 1)      
+</code></pre>
+<pre><code>{           
+</code></pre>
+<pre><code>sleep(1);       
+</code></pre>
+<pre><code>printf
+</code></pre>
+<pre><code>(
+</code></pre>
+<pre><code>&quot;Waiting...\n&quot;
+</code></pre>
+<pre><code>); 
+</code></pre>
+<pre><code>}       
+</code></pre>
+<pre><code>//向共享内存中写入数据        
+</code></pre>
+<pre><code>printf
+</code></pre>
+<pre><code>(
+</code></pre>
+<pre><code>&quot;Enter some text: &quot;
+</code></pre>
+<pre><code>);        
+</code></pre>
+<pre><code>fgets
+</code></pre>
+<pre><code>(buffer, BUFSIZ, stdin);       
+</code></pre>
+<pre><code>strncpy
+</code></pre>
+<pre><code>(shared-&gt;text, buffer, TEXT_SZ);      
+</code></pre>
+<pre><code>//写完数据，设置written使共享内存段可读        
+</code></pre>
+<pre><code>shared-&gt;written = 1;     
+</code></pre>
+<pre><code>//输入了end，退出循环（程序）   
+</code></pre>
+<pre><code>if
+</code></pre>
+<pre><code>(
+</code></pre>
+<pre><code>strncmp
+</code></pre>
+<pre><code>(buffer, 
+</code></pre>
+<pre><code>&quot;end&quot;
+</code></pre>
+<pre><code>, 3) == 0)          
+</code></pre>
+<pre><code>running = 0;    
+</code></pre>
+<pre><code>}   
+</code></pre>
+<pre><code>//把共享内存从当前进程中分离 
+</code></pre>
+<pre><code>if
+</code></pre>
+<pre><code>(shmdt(shm) == -1)    
+</code></pre>
+<pre><code>{       
+</code></pre>
+<pre><code>fprintf
+</code></pre>
+<pre><code>(stderr, 
+</code></pre>
+<pre><code>&quot;shmdt failed\n&quot;
+</code></pre>
+<pre><code>);      
+</code></pre>
+<pre><code>exit
+</code></pre>
+<pre><code>(EXIT_FAILURE); 
+</code></pre>
+<pre><code>}   
+</code></pre>
+<pre><code>sleep(2);   
+</code></pre>
+<pre><code>exit
+</code></pre>
+<pre><code>(EXIT_SUCCESS);
+</code></pre>
+<pre><code>}
+</code></pre>
+<p>结果截图如下：</p>
+<p><img src="Linux%E4%B8%8B%E8%BF%9B%E7%A8%8B%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98%E9%80%9A%E4%BF%A1/2.png"></p>
+<p><img src="Linux%E4%B8%8B%E8%BF%9B%E7%A8%8B%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98%E9%80%9A%E4%BF%A1/3.png"></p>
+<p>1、程序shmread创建共享内存，然后将它连接到自己的地址空间。在共享内存的开始处使用了一个结构struct_use_st。该结构中有个标志written，当共享内存中有其他进程向它写入数据时，共享内存中的written被设置为0，程序等待。当它不为0时，表示没有进程对共享内存写入数据，程序就从共享内存中读取数据并输出，然后重置设置共享内存中的written为0，即让其可被shmwrite进程写入数据。</p>
+<p>2、程序shmwrite取得共享内存并连接到自己的地址空间中。检查共享内存中的written，是否为0，若不是，表示共享内存中的数据还没有被完，则等待其他进程读取完成，并提示用户等待。若共享内存的written为0，表示没有其他进程对共享内存进行读取，则提示用户输入文本，并再次设置共享内存中的written为1，表示写完成，其他进程可对共享内存进行读操作。</p>
+<p>四、关于前面的例子的安全性讨论</p>
+<p>这个程序是不安全的，当有多个程序同时向共享内存中读写数据时，问题就会出现。可能你会认为，可以改变一下written的使用方式，例如，只有当written为0时进程才可以向共享内存写入数据，而当一个进程只有在written不为0时才能对其进行读取，同时把written进行加1操作，读取完后进行减1操作。这就有点像文件锁中的读写锁的功能。咋看之下，它似乎能行得通。但是这都不是原子操作，所以这种做法是行不能的。试想当written为0时，如果有两个进程同时访问共享内存，它们就会发现written为0，于是两个进程都对其进行写操作，显然不行。当written为1时，有两个进程同时对共享内存进行读操作时也是如些，当这两个进程都读取完是，written就变成了-1.</p>
+<p>要想让程序安全地执行，就要有一种进程同步的进制，保证在进入临界区的操作是原子操作。例如，可以使用前面所讲的信号量来进行进程的同步。因为信号量的操作都是原子性的。</p>
+<p>五、使用共享内存的优缺点</p>
+<p>1、优点：我们可以看到使用共享内存进行进程间的通信真的是非常方便，而且函数的接口也简单，数据的共享还使进程间的数据不用传送，而是直接访问内存，也加快了程序的效率。同时，它也不像匿名管道那样要求通信的进程有一定的父子关系。</p>
+<p>2、缺点：共享内存没有提供同步的机制，这使得我们在使用共享内存进行进程间通信时，往往要借助其他的手段来进行进程间的同步工作。</p>
+<p><a href="Linux%E4%B8%8B%E8%BF%9B%E7%A8%8B%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98%E9%80%9A%E4%BF%A1/%E5%A4%A7%E6%81%92%E7%9B%B8%E6%9C%BASDK%E4%B8%8B%E8%BD%BD%E5%9C%B0%E5%9D%80.md">大恒相机SDK下载地址</a></p>

@@ -1,0 +1,49 @@
+<hr>
+<p>title: cmake 详解find_package.md<br>toc: true<br>date: 2021-12-22 09:25:00</p>
+<hr>
+<h1 id="cmake-详解find-package"><a href="#cmake-详解find-package" class="headerlink" title="cmake : 详解find_package"></a>cmake : 详解find_package</h1><p><a href="https://blog.csdn.net/LaineGates/article/details/108247128">https://blog.csdn.net/LaineGates/article/details/108247128</a></p>
+<p>参考<a href="https://cmake.org/cmake/help/latest/command/find_package.html">cmake官方文档</a><code>find_package()</code>有两种用法：<code>Basic Signature and Module Mode</code>和<code>Full Signature and Config Mode</code>。<br> 前者在cmake自带的<code>Modules</code>目录下查找<code>Find&lt;PackageName&gt;.cmake</code><br> 后者在所有搜索目录里找<code>&lt;PackageName&gt;Config.cmake</code>或者<code>&lt;PackageName&gt;-config.cmake</code>。</p>
+<h1 id="Basic-Mode"><a href="#Basic-Mode" class="headerlink" title="Basic Mode"></a>Basic Mode</h1><pre><code>find_package(&lt;PackageName&gt;  # package名，如Boost
+            [version]         # 版本号，如1.1.1.1，最长为4
+            [EXACT]         # 版本号必须完全匹配才算找到
+            [QUIET]         # 查找时不输出辅助信息
+            [MODULE]        # 在CMAKE_MODULE_PATH找&quot;Find&lt;PackageName&gt;.cmake&quot;
+            [REQUIRED]      # 必须找到库，否则停止cmake运行
+            [[COMPONENTS] [components...]] # 查找子模块，暂时没找到怎么设置
+            [OPTIONAL_COMPONENTS components...] # 备选模块
+            [NO_POLICY_SCOPE]
+            )
+</code></pre>
+<h1 id="Config-Mode"><a href="#Config-Mode" class="headerlink" title="Config Mode"></a>Config Mode</h1><pre><code>find_package(&lt;PackageName&gt; 
+            [version] 
+            [EXACT] 
+            [QUIET]
+            [REQUIRED] 
+            [[COMPONENTS] [components...]]
+            [OPTIONAL_COMPONENTS components...]
+            [CONFIG|NO_MODULE]
+            [NO_POLICY_SCOPE]
+            [NAMES name1 [name2 ...]]
+            [CONFIGS config1 [config2 ...]]
+            [HINTS path1 [path2 ... ]]
+            [PATHS path1 [path2 ... ]]
+            [PATH_SUFFIXES suffix1 [suffix2 ...]]
+            [NO_DEFAULT_PATH]
+            [NO_PACKAGE_ROOT_PATH]
+            [NO_CMAKE_PATH]
+            [NO_CMAKE_ENVIRONMENT_PATH]
+            [NO_SYSTEM_ENVIRONMENT_PATH]
+            [NO_CMAKE_PACKAGE_REGISTRY]
+            [NO_CMAKE_BUILDS_PATH] # Deprecated; does nothing.
+            [NO_CMAKE_SYSTEM_PATH]
+            [NO_CMAKE_SYSTEM_PACKAGE_REGISTRY]
+            [CMAKE_FIND_ROOT_PATH_BOTH |
+                  ONLY_CMAKE_FIND_ROOT_PATH |
+                  NO_CMAKE_FIND_ROOT_PATH]
+              )
+</code></pre>
+<p>与basic mode类似，此处只讲不同的。</p>
+<ul>
+<li><code>CONFIG</code>模式之前没用过，记录原文。Config mode search attempts to locate a configuration file provided by the package to be found. A cache entry called _DIR is created to hold the directory containing the file. By default the command searches for a package with the name . If the NAMES option is given the names following it are used instead of . The command searches for a file called Config.cmake or -config.cmake for each name specified. A replacement set of possible configuration file names may be given using the CONFIGS option. The search procedure is specified below. Once found, the configuration file is read and processed by CMake. Since the file is provided by the package it already knows the location of package contents. The full path to the configuration file is stored in the cmake variable _CONFIG.</li>
+</ul>
+<h1 id="获取版本信息"><a href="#获取版本信息" class="headerlink" title="获取版本信息"></a>获取版本信息</h1><p>cmake会在<code>&lt;config-file&gt;.cmake</code>目录，查找<code>&lt;config-file&gt;-version.cmake</code> 或 <code>&lt;config-file&gt;Version.cmake</code>。<br> 如果查找失败，任何版本检查都会失败。<br> 如果查找成功，以下变量会被设置：<code>&lt;PackageName&gt;_VERSION&lt;PackageName&gt;_VERSION_MAJOR&lt;PackageName&gt;_VERSION_MINOR&lt;PackageName&gt;_VERSION_PATCH&lt;PackageName&gt;_VERSION_TWEAK&lt;PackageName&gt;_VERSION_COUNT</code></p>

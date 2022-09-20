@@ -1,0 +1,69 @@
+<hr>
+<p>title: cmake 动态链接库.md<br>toc: true<br>date: 2021-12-22 09:25:00</p>
+<hr>
+<h1 id="cmake-动态链接库"><a href="#cmake-动态链接库" class="headerlink" title="cmake 动态链接库"></a>cmake 动态链接库</h1><h2 id="1-指令说明"><a href="#1-指令说明" class="headerlink" title="1. 指令说明"></a><strong>1. 指令说明</strong></h2><p><strong>target_include_directories()<strong>：指定</strong>目标</strong>包含的头文件路径。<a href="https://link.zhihu.com/?target=https://cmake.org/cmake/help/v3.15/command/target_include_directories.html?highlight=target_include_directories">官方文档</a></p>
+<p><strong>target_link_libraries()<strong>：指定</strong>目标</strong>链接的库。<a href="https://link.zhihu.com/?target=https://cmake.org/cmake/help/v3.15/command/target_link_libraries.html?highlight=target_link_libraries">官方文档</a></p>
+<p><strong>target_compile_options()<strong>：指定</strong>目标</strong>的编译选项。<a href="https://link.zhihu.com/?target=https://cmake.org/cmake/help/v3.15/command/target_compile_options.html%23command:target_compile_options">官方文档</a></p>
+<p><strong>目标</strong> 由 add_library() 或 add_executable() 生成。</p>
+<p>这三个指令类似，这里以 <strong>target_include_directories()</strong> 为例进行讲解。</p>
+<h2 id="2-指令讲解"><a href="#2-指令讲解" class="headerlink" title="2. 指令讲解"></a><strong>2. 指令讲解</strong></h2><p><strong>测试工程目录结构：</strong></p>
+<pre><code class="cpp">cmake-test/                 工程主目录，main.c 调用 libhello-world.so
+├── CMakeLists.txt
+├── hello-world             生成 libhello-world.so，调用 libhello.so 和 libworld.so
+│   ├── CMakeLists.txt
+│   ├── hello               生成 libhello.so 
+│   │   ├── CMakeLists.txt
+│   │   ├── hello.c
+│   │   └── hello.h         libhello.so 对外的头文件
+│   ├── hello_world.c
+│   ├── hello_world.h       libhello-world.so 对外的头文件
+│   └── world               生成 libworld.so
+│       ├── CMakeLists.txt
+│       ├── world.c
+│       └── world.h         libworld.so 对外的头文件
+└── main.c
+</code></pre>
+<p><strong>调用关系：</strong></p>
+<pre><code class="cpp">                                 ├────libhello.so
+可执行文件────libhello-world.so
+                                 ├────libworld.so
+</code></pre>
+<p><strong>关键字用法说明：</strong></p>
+<p><strong>PRIVATE</strong>：私有的。生成 libhello-world.so时，只在 hello_world.c 中包含了 hello.h，libhello-world.so <strong>对外</strong>的头文件——hello_world.h 中不包含 hello.h。而且 main.c 不会调用 hello.c 中的函数，或者说 main.c 不知道 hello.c 的存在，那么在 hello-world/CMakeLists.txt 中应该写入：</p>
+<pre><code class="cpp">target_link_libraries(hello-world PRIVATE hello)
+target_include_directories(hello-world PRIVATE hello)`
+</code></pre>
+<p><strong>INTERFACE</strong>：接口。生成 libhello-world.so 时，只在libhello-world.so <strong>对外</strong>的头文件——hello_world.h 中包含 了 hello.h， hello_world.c 中不包含 hello.h，即 libhello-world.so 不使用 libhello.so 提供的功能，只使用 hello.h 中的某些信息，比如结构体。但是 main.c 需要使用 libhello.so 中的功能。那么在 hello-world/CMakeLists.txt 中应该写入：</p>
+<pre><code class="cpp">target_link_libraries(hello-world INTERFACE hello)
+target_include_directories(hello-world INTERFACE hello)`
+</code></pre>
+<p><strong>PUBLIC</strong>：公开的。<strong>PUBLIC = PRIVATE + INTERFACE</strong>。生成 libhello-world.so 时，在 hello_world.c 和 hello_world.h 中都包含了 hello.h。并且 main.c 中也需要使用 libhello.so 提供的功能。那么在 hello-world/CMakeLists.txt 中应该写入：</p>
+<pre><code class="cpp">target_link_libraries(hello-world PUBLIC hello)
+target_include_directories(hello-world PUBLIC hello)
+</code></pre>
+<p>实际上，这三个关键字指定的是目标文件依赖项的使用<strong>范围（scope）</strong>或者一种<strong>传递（propagate）</strong>。<a href="https://link.zhihu.com/?target=https://cmake.org/cmake/help/v3.15/manual/cmake-buildsystem.7.html%23transitive-usage-requirements">官方说明</a></p>
+<p>可执行文件依赖 libhello-world.so， libhello-world.so 依赖 libhello.so 和 libworld.so。</p>
+<ol>
+<li>main.c 不使用 libhello.so 的任何功能，因此 libhello-world.so 不需要将其依赖—— libhello.so 传递给 main.c，hello-world/CMakeLists.txt 中使用 PRIVATE 关键字；</li>
+<li>main.c 使用 libhello.so 的功能，但是libhello-world.so 不使用，hello-world/CMakeLists.txt 中使用 INTERFACE 关键字；</li>
+<li>main.c 和 libhello-world.so 都使用 libhello.so 的功能，hello-world/CMakeLists.txt 中使用 PUBLIC 关键字；</li>
+</ol>
+<h2 id="3-include-directories-dir"><a href="#3-include-directories-dir" class="headerlink" title="3. include_directories(dir)"></a><strong>3. include_directories(dir)</strong></h2><p><code>target_include_directories()</code> 的功能完全可以使用 <code>include_directories()</code> 实现。但是我还是建议使用 <code>target_include_directories()</code>。为什么？保持清晰！</p>
+<p><code>include_directories(header-dir)</code> 是一个全局包含，向下传递。什么意思呢？就是说如果某个目录的 CMakeLists.txt 中使用了该指令，其下所有的子目录默认也包含了<code>header-dir</code> 目录。</p>
+<p>上述例子中，如果在顶层的 cmake-test/CMakeLists.txt 中加入：</p>
+<pre><code class="cpp">include_directories(hello-world)
+include_directories(hello-world/hello)
+include_directories(hello-world/world)
+</code></pre>
+<p>那么整个工程的源文件在编译时<strong>都</strong>会增加：</p>
+<ul>
+<li><code>I hello-world -I hello-world/hello -I hello-world/world ...</code></li>
+</ul>
+<p>各级子目录中无需使用 <code>target_include_directories()</code> 或者 <code>include_directories()</code>了。如果此时查看详细的编译过程（<code>make VERBOSE=1</code>）就会发现编译过程是一大坨，很不舒服。</p>
+<p>当然了，在<strong>最终子目录</strong>的 CMakeLists.txt 文件中，使用 <code>include_directories()</code> 和 <code>target_include_directories()</code> 的效果是相同的。</p>
+<h2 id="4-目录划分"><a href="#4-目录划分" class="headerlink" title="4. 目录划分"></a><strong>4. 目录划分</strong></h2><p>每一个目录都是一个模块，目录内部应将对外和对内的头文件进行区分，由模块的调用者决定模块是否被传递（PRIVATE，INTERFACE，PUBLIC）。</p>
+<h2 id="5-参考："><a href="#5-参考：" class="headerlink" title="5. 参考："></a><strong>5. 参考：</strong></h2><p><a href="https://link.zhihu.com/?target=https://cmake.org/pipermail/cmake/2016-May/063400.html">https://cmake.org/pipermail/cmake/2016-May/063400.html</a></p>
+<p><a href="https://link.zhihu.com/?target=https://schneide.blog/2016/04/08/modern-cmake-with-target_link_libraries/">https://schneide.blog/2016/04/08/modern-cmake-with-target_link_libraries/</a></p>
+<p><a href="https://link.zhihu.com/?target=https://stackoverflow.com/questions/26037954/cmake-target-link-libraries-interface-dependencies">https://stackoverflow.com/questions/26037954/cmake-target-link-libraries-interface-dependencies</a></p>
+<p><a href="https://link.zhihu.com/?target=https://stackoverflow.com/questions/26243169/cmake-target-include-directories-meaning-of-scope">https://stackoverflow.com/questions/26243169/cmake-target-include-directories-meaning-of-scope</a></p>
+<p>发布于 2019-09-12</p>

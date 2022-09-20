@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta charset="utf-8">
+    <script src="//cdn.jsdelivr.net/npm/@waline/client"></script>
+    
+    <title>Object Tracking using OpenCV (C++ Python)（使用OpenCV）.md | RobopioneersVision</title>
+    
+    
+        <meta name="keywords" content="wiki,百科,深度学习,Ubuntu,视觉,编程" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Object Tracking using OpenCV (C++&#x2F;Python)（使用OpenCV进行目标跟踪)https:&#x2F;&#x2F;www.cnblogs.com&#x2F;annie22wang&#x2F;p&#x2F;9366610.html 本博客翻译搬运自https:&#x2F;&#x2F;www.learnopencv.com&#x2F;object-tracking-using-opencv-cpp-python，用于初入目标跟踪的新手学习，转贴">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Object Tracking using OpenCV (C++ Python)（使用OpenCV）.md">
+<meta property="og:url" content="https://rps-wiki.vercel.app/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/Object%20Tracking%20using%20OpenCV%20(C++%20Python)%EF%BC%88%E4%BD%BF%E7%94%A8OpenCV%EF%BC%89/index.html">
+<meta property="og:site_name" content="RobopioneersVision">
+<meta property="og:description" content="Object Tracking using OpenCV (C++&#x2F;Python)（使用OpenCV进行目标跟踪)https:&#x2F;&#x2F;www.cnblogs.com&#x2F;annie22wang&#x2F;p&#x2F;9366610.html 本博客翻译搬运自https:&#x2F;&#x2F;www.learnopencv.com&#x2F;object-tracking-using-opencv-cpp-python，用于初入目标跟踪的新手学习，转贴">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-12-22T01:25:00.000Z">
+<meta property="article:modified_time" content="2022-09-20T14:18:09.049Z">
+<meta property="article:author" content="RPS">
+<meta property="article:tag" content="wiki,百科,深度学习,Ubuntu,视觉,编程">
+<meta name="twitter:card" content="summary">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="RobopioneersVision" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/favicon.ico" />
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+<script src="/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">RobopioneersVision</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/">首页</a>
+                
+                    <a class="main-nav-link" href="/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/about">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id='categories'>
+        <h3 class="widget-title">
+            <span>categories</span>
+            &nbsp;
+            <a id='allExpand' href="#">
+                <i class="fa fa-angle-double-down fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree" > 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Notion
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            百科
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            C++
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Boost
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/C++/Boost/asio%20udp%E7%9B%B8%E5%85%B3%E6%95%B4%E7%90%86/">asio udp相关整理</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/C++/Boost/boost%20asio%E4%B9%8B%E4%B8%80%20UDP%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">Boost::Asio之UDP网络编程.md</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            CUDA
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/C++/CUDA/CUDA%E7%A8%8B%E5%BA%8F%E8%B0%83%E4%BC%98%E6%8C%87%E5%8D%97%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9A%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98%20-%20%E7%9F%A5%E4%B9%8E/">CUDA程序调优指南（二）：性能调优 - 知乎.md</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Linux 特化
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Linux下进程通过共享内存通信
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/C++/Linux%20%E7%89%B9%E5%8C%96/Linux%E4%B8%8B%E8%BF%9B%E7%A8%8B%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98%E9%80%9A%E4%BF%A1/%E5%A4%A7%E6%81%92%E7%9B%B8%E6%9C%BASDK%E4%B8%8B%E8%BD%BD%E5%9C%B0%E5%9D%80/">大恒相机SDK下载地址.md</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/C++/Linux%20%E7%89%B9%E5%8C%96/Linux%20%E5%A4%9A%E8%BF%9B%E7%A8%8B%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98%E6%95%B0%E6%8D%AE/">Linux 多进程共享内存数据.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/C++/Linux%20%E7%89%B9%E5%8C%96/Linux%E4%B8%8B%E8%BF%9B%E7%A8%8B%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98%E9%80%9A%E4%BF%A1/">Linux下进程通过共享内存通信.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/C++/Linux%20%E7%89%B9%E5%8C%96/Linux%E9%A9%B1%E5%8A%A8%E4%B9%8B%E4%B8%B2%E5%8F%A3%EF%BC%88UART%EF%BC%89/">Linux驱动之串口（UART）.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/C++/Linux%20%E7%89%B9%E5%8C%96/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE%E7%9B%B8%E5%85%B3/">通信协议相关.md</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            标准
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            C++ Standards Support in GCC - GNU Project
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Untitled Database1
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/C++/%E6%A0%87%E5%87%86/C++%20Standards%20Support%20in%20GCC%20-%20GNU%20Project/Untitled%20Database1/Clarifying%20memory%20allocation/">Clarifying memory allocation.md</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Untitled Database2
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/C++/%E6%A0%87%E5%87%86/C++%20Standards%20Support%20in%20GCC%20-%20GNU%20Project/Untitled%20Database2/Minimal%20support%20for%20garbage%20collection%20and%20reachab/">Minimal support for garbage collection and reachab.md</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/C++/%E6%A0%87%E5%87%86/C++%20Standards%20Support%20in%20GCC%20-%20GNU%20Project/">C++ Standards Support in GCC - GNU Project.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/C++/%E6%A0%87%E5%87%86/C++%20%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%92%8C%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E5%88%9D%E5%A7%8B%E5%8C%96%E9%A1%BA%E5%BA%8F/">C++ 构造函数和成员变量初始化顺序.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/C++/%E6%A0%87%E5%87%86/C++17%E6%96%B0%E7%89%B9%E6%80%A7/">C++17新特性.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/C++/%E6%A0%87%E5%87%86/C++20%20%E6%96%B0%E5%A2%9E%E7%89%B9%E6%80%A7/">C++20 新增特性.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/C++/%E6%A0%87%E5%87%86/C++%E5%AF%B9%E8%B1%A1%E6%9E%84%E9%80%A0%E7%9A%84%E9%A1%BA%E5%BA%8F/">C++对象构造的顺序.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/C++/%E6%A0%87%E5%87%86/Clang%20-%20C++20,%20C++17,%20C++14,%20C++11%20and%20C++98%20Statu/">Clang - C++20, C++17, C++14, C++11 and C++98 Statu.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/C++/%E6%A0%87%E5%87%86/c++%20fstream%20%E8%AF%BB%E5%86%99%E6%96%87%E4%BB%B6%E6%80%BB%E7%BB%93/">c++ fstream 读写文件总结.md</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/C++/Boost/">Boost.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/C++/CUDA/">CUDA.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/C++/Linux%20%E7%89%B9%E5%8C%96/">Linux 特化.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/C++/%E6%A0%87%E5%87%86/">标准.md</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            CMake
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/CMake/cmake%20find_package%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3/">cmake find_package命令详解.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/CMake/Makefile%E6%95%99%E7%A8%8B%EF%BC%88%E7%BB%9D%E5%AF%B9%E7%BB%8F%E5%85%B8%EF%BC%8C%E6%89%80%E6%9C%89%E9%97%AE%E9%A2%98%E7%9C%8B%E8%BF%99%E4%B8%80%E7%AF%87%E8%B6%B3%E5%A4%9F%E4%BA%86%EF%BC%89_GUYUEZHICHENG%E7%9A%84%E5%8D%9A%E5%AE%A2-CSDN/">Makefile教程（绝对经典，所有问题看这一篇足够了）_GUYUEZHICHENG的博客-CSDN.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/CMake/cmake%20%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/">cmake 动态链接库.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/CMake/cmake%20%E8%AF%A6%E8%A7%A3find_package/">cmake 详解find_package.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/CMake/cmake%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%8C%EF%BC%89%20%E5%88%9B%E5%BB%BA%E5%BA%93%E5%B9%B6%E4%BD%BF%E7%94%A8find_package%E6%9F%A5%E6%89%BE%E5%8C%85/">cmake学习（二） 创建库并使用find_package查找包.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/CMake/cmake%E7%9A%84%E5%88%9D%E6%AD%A5%E4%BD%BF%E7%94%A8/">cmake的初步使用.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/CMake/%E5%B8%B8%E8%A7%81%E5%BA%93cmakelist%E9%85%8D%E7%BD%AE%E8%8C%83%E4%BE%8B/">常见库cmakelist配置范例.md</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Markdown
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Markdown mermaid
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Untitled Database
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/Markdown/Markdown%20mermaid/Untitled%20Database/o%E2%80%93/">o–.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/Markdown/Markdown%20mermaid/Untitled%20Database/%E2%80%93/">–.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/Markdown/Markdown%20mermaid/Untitled%20Database/%E2%80%931/">–1.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/Markdown/Markdown%20mermaid/Untitled%20Database/%E2%80%932/">–2.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/Markdown/Markdown%20mermaid/Untitled%20Database/%E2%80%A61/">…1.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/Markdown/Markdown%20mermaid/Untitled%20Database/%E2%80%A62/">…2.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/Markdown/Markdown%20mermaid/Untitled%20Database/%E2%80%A63/">…3.md</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/Markdown/Markdown%20mermaid/">Markdown mermaid.md</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            SLAM
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/SLAM/DWA%E5%B1%80%E9%83%A8%E9%81%BF%E9%9A%9C%E7%AE%97%E6%B3%95/">DWA局部避障算法.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/SLAM/Grid%20Map%20%E6%A0%85%E6%A0%BC%E5%9C%B0%E5%9B%BE/">Grid Map 栅格地图.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/SLAM/%E5%9C%B0%E5%9B%BE%E7%9A%84%E5%AD%98%E5%82%A8%E6%9E%84%E5%BB%BA%E6%96%B9%E5%BC%8F%E6%AF%94%E8%BE%83/">地图的存储构建方式比较.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/SLAM/%E5%9D%90%E6%A0%87%E5%8F%98%E6%8D%A2%E5%8F%8A%E5%85%B6%E6%95%B0%E5%AD%A6%E6%8E%A8%E7%90%86/">坐标变换及其数学推理.md</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            STM32
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/STM32/STM32%20Clion%20Ubuntu%20%E9%85%8D%E7%BD%AE/">STM32 Clion Ubuntu 配置.md</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            UE4
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/UE4/UE4%E5%A4%9A%E4%BA%BA%E5%8D%8F%E4%BD%9C%E6%95%99%E7%A8%8B%20-%20%E7%9F%A5%E4%B9%8E/">UE4多人协作教程 - 知乎.md</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            工作
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            安全级别
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            常规安全级与组别对应表
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E5%AE%89%E5%85%A8%E7%BA%A7%E5%88%AB/%E5%B8%B8%E8%A7%84%E5%AE%89%E5%85%A8%E7%BA%A7%E4%B8%8E%E7%BB%84%E5%88%AB%E5%AF%B9%E5%BA%94%E8%A1%A8/%E5%90%88%E4%BD%9C%E4%BC%99%E4%BC%B4%E5%85%B3%E7%B3%BB/">合作伙伴关系.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E5%AE%89%E5%85%A8%E7%BA%A7%E5%88%AB/%E5%B8%B8%E8%A7%84%E5%AE%89%E5%85%A8%E7%BA%A7%E4%B8%8E%E7%BB%84%E5%88%AB%E5%AF%B9%E5%BA%94%E8%A1%A8/%E5%AE%9E%E4%B9%A0%E5%85%B3%E7%B3%BB/">实习关系.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E5%AE%89%E5%85%A8%E7%BA%A7%E5%88%AB/%E5%B8%B8%E8%A7%84%E5%AE%89%E5%85%A8%E7%BA%A7%E4%B8%8E%E7%BB%84%E5%88%AB%E5%AF%B9%E5%BA%94%E8%A1%A8/%E6%88%90%E5%91%98%E5%85%B3%E7%B3%BB/">成员关系.md</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            常规安全级安全要求对应表
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E5%AE%89%E5%85%A8%E7%BA%A7%E5%88%AB/%E5%B8%B8%E8%A7%84%E5%AE%89%E5%85%A8%E7%BA%A7%E5%AE%89%E5%85%A8%E8%A6%81%E6%B1%82%E5%AF%B9%E5%BA%94%E8%A1%A8/%E4%B8%80%E7%BA%A7%E6%9C%BA%E5%AF%86/">一级机密.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E5%AE%89%E5%85%A8%E7%BA%A7%E5%88%AB/%E5%B8%B8%E8%A7%84%E5%AE%89%E5%85%A8%E7%BA%A7%E5%AE%89%E5%85%A8%E8%A6%81%E6%B1%82%E5%AF%B9%E5%BA%94%E8%A1%A8/%E4%B8%89%E7%BA%A7%E6%9C%BA%E5%AF%86/">三级机密.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E5%AE%89%E5%85%A8%E7%BA%A7%E5%88%AB/%E5%B8%B8%E8%A7%84%E5%AE%89%E5%85%A8%E7%BA%A7%E5%AE%89%E5%85%A8%E8%A6%81%E6%B1%82%E5%AF%B9%E5%BA%94%E8%A1%A8/%E4%BA%8C%E7%BA%A7%E6%9C%BA%E5%AF%86/">二级机密.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E5%AE%89%E5%85%A8%E7%BA%A7%E5%88%AB/%E5%B8%B8%E8%A7%84%E5%AE%89%E5%85%A8%E7%BA%A7%E5%AE%89%E5%85%A8%E8%A6%81%E6%B1%82%E5%AF%B9%E5%BA%94%E8%A1%A8/%E5%85%AC%E5%BC%80%E6%96%87%E4%BB%B60/">公开文件0.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E5%AE%89%E5%85%A8%E7%BA%A7%E5%88%AB/%E5%B8%B8%E8%A7%84%E5%AE%89%E5%85%A8%E7%BA%A7%E5%AE%89%E5%85%A8%E8%A6%81%E6%B1%82%E5%AF%B9%E5%BA%94%E8%A1%A8/%E5%85%AC%E5%BC%80%E6%96%87%E4%BB%B61/">公开文件1.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E5%AE%89%E5%85%A8%E7%BA%A7%E5%88%AB/%E5%B8%B8%E8%A7%84%E5%AE%89%E5%85%A8%E7%BA%A7%E5%AE%89%E5%85%A8%E8%A6%81%E6%B1%82%E5%AF%B9%E5%BA%94%E8%A1%A8/%E5%85%AC%E5%BC%80%E6%96%87%E4%BB%B62/">公开文件2.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E5%AE%89%E5%85%A8%E7%BA%A7%E5%88%AB/%E5%B8%B8%E8%A7%84%E5%AE%89%E5%85%A8%E7%BA%A7%E5%AE%89%E5%85%A8%E8%A6%81%E6%B1%82%E5%AF%B9%E5%BA%94%E8%A1%A8/%E5%86%85%E9%83%A8%E6%96%87%E4%BB%B63/">内部文件3.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E5%AE%89%E5%85%A8%E7%BA%A7%E5%88%AB/%E5%B8%B8%E8%A7%84%E5%AE%89%E5%85%A8%E7%BA%A7%E5%AE%89%E5%85%A8%E8%A6%81%E6%B1%82%E5%AF%B9%E5%BA%94%E8%A1%A8/%E5%86%85%E9%83%A8%E6%96%87%E4%BB%B64/">内部文件4.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E5%AE%89%E5%85%A8%E7%BA%A7%E5%88%AB/%E5%B8%B8%E8%A7%84%E5%AE%89%E5%85%A8%E7%BA%A7%E5%AE%89%E5%85%A8%E8%A6%81%E6%B1%82%E5%AF%B9%E5%BA%94%E8%A1%A8/%E5%86%85%E9%83%A8%E6%96%87%E4%BB%B65/">内部文件5.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E5%AE%89%E5%85%A8%E7%BA%A7%E5%88%AB/%E5%B8%B8%E8%A7%84%E5%AE%89%E5%85%A8%E7%BA%A7%E5%AE%89%E5%85%A8%E8%A6%81%E6%B1%82%E5%AF%B9%E5%BA%94%E8%A1%A8/%E5%86%85%E9%83%A8%E6%96%87%E4%BB%B66/">内部文件6.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E5%AE%89%E5%85%A8%E7%BA%A7%E5%88%AB/%E5%B8%B8%E8%A7%84%E5%AE%89%E5%85%A8%E7%BA%A7%E5%AE%89%E5%85%A8%E8%A6%81%E6%B1%82%E5%AF%B9%E5%BA%94%E8%A1%A8/%E9%9B%B6%E7%BA%A7%E6%9C%BA%E5%AF%86/">零级机密.md</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E5%AE%89%E5%85%A8%E7%BA%A7%E5%88%AB/%E5%AE%89%E5%85%A8%E7%BA%A7%E5%88%AB%E5%B0%81%E9%9D%A2%E6%A8%A1%E7%89%88/">安全级别封面模版.md</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            目前已有物资
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            微型机
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E7%9B%AE%E5%89%8D%E5%B7%B2%E6%9C%89%E7%89%A9%E8%B5%84/%E5%BE%AE%E5%9E%8B%E6%9C%BA/PioneerPascal/">PioneerPascal.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E7%9B%AE%E5%89%8D%E5%B7%B2%E6%9C%89%E7%89%A9%E8%B5%84/%E5%BE%AE%E5%9E%8B%E6%9C%BA/PioneerTuring/">PioneerTuring.md</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            摄像机
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E7%9B%AE%E5%89%8D%E5%B7%B2%E6%9C%89%E7%89%A9%E8%B5%84/%E6%91%84%E5%83%8F%E6%9C%BA/MER-131/">MER-131.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E7%9B%AE%E5%89%8D%E5%B7%B2%E6%9C%89%E7%89%A9%E8%B5%84/%E6%91%84%E5%83%8F%E6%9C%BA/MER-133/">MER-133.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E7%9B%AE%E5%89%8D%E5%B7%B2%E6%9C%89%E7%89%A9%E8%B5%84/%E6%91%84%E5%83%8F%E6%9C%BA/MER-139/">MER-139.md</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            镜头
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E7%9B%AE%E5%89%8D%E5%B7%B2%E6%9C%89%E7%89%A9%E8%B5%84/%E9%95%9C%E5%A4%B4/CHIOPT%203%205mm%20%E5%8F%98%E7%84%A6%E6%91%84%E5%83%8F%E5%A4%B4/">CHIOPT 3 5mm 变焦摄像头.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E7%9B%AE%E5%89%8D%E5%B7%B2%E6%9C%89%E7%89%A9%E8%B5%84/%E9%95%9C%E5%A4%B4/MIMACRO%204mm%20%E5%8F%98%E7%84%A6%E6%91%84%E5%83%8F%E5%A4%B4/">MIMACRO 4mm 变焦摄像头.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E7%9B%AE%E5%89%8D%E5%B7%B2%E6%9C%89%E7%89%A9%E8%B5%84/%E9%95%9C%E5%A4%B4/%E5%A4%A7%E6%81%92%206mm%20%E5%8F%98%E7%84%A6%E6%91%84%E5%83%8F%E5%A4%B4/">大恒 6mm 变焦摄像头.md</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E5%AE%89%E5%85%A8%E7%BA%A7%E5%88%AB/">安全级别.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B/">工作流程.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E7%9B%AE%E5%89%8D%E5%B7%B2%E6%9C%89%E7%89%A9%E8%B5%84/">目前已有物资.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E8%A7%86%E8%A7%89%E7%BB%84%E5%AE%9E%E4%B9%A0%E6%88%90%E5%91%98%E8%BD%AC%E6%AD%A3%E6%9D%A1%E4%BE%8B/">视觉组实习成员转正条例.md</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            微服务
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            RocketMQ
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%BE%AE%E6%9C%8D%E5%8A%A1/RocketMQ/%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/">安装配置.md</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%BE%AE%E6%9C%8D%E5%8A%A1/Restful%20API%20%E7%9A%84%E8%AE%BE%E8%AE%A1%E8%A7%84%E8%8C%83/">Restful API 的设计规范.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%BE%AE%E6%9C%8D%E5%8A%A1/RocketMQ/">RocketMQ.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%BE%AE%E6%9C%8D%E5%8A%A1/TCP%E5%92%8CUDP%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E4%BC%98%E7%BC%BA%E7%82%B9/">TCP和UDP的区别和优缺点.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%BE%AE%E6%9C%8D%E5%8A%A1/api-guidelines%20Guidelines%20md%20at%20vNext%20%C2%B7%20microsoft/">api-guidelines Guidelines md at vNext · microsoft.md</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            机器学习
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/Tensorflow%20kears%E6%A8%A1%E5%9E%8B%E8%BD%ACONNX%20%E6%A0%BC%E5%BC%8F/">Tensorflow kears模型转ONNX 格式.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/YOLO4%20cfg%20%E9%85%8D%E7%BD%AE%E8%AF%B4%E6%98%8E/">YOLO4 cfg 配置说明.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/YOLOv4%20%E9%85%8D%E7%BD%AE%E4%BD%BF%E7%94%A8%E9%81%87%E8%A7%81%E7%9A%84%E9%97%AE%E9%A2%98%E5%8F%8A%E8%A7%A3%E5%86%B3/">YOLOv4 配置使用遇见的问题及解决.md</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            机器视觉
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            OpenCV
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/OpenCV/C++%E4%B8%8AOpencv%20RotatedRect%E7%B1%BB%E4%B8%AD%E7%9A%84points%E3%80%81angle%E3%80%81width%E3%80%81height/">C++上Opencv RotatedRect类中的points、angle、width、height.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/OpenCV/OpenCV%204%20%E5%9B%BE%E5%83%8F%E4%B8%8E%E8%A7%86%E9%A2%91%E7%9A%84%E4%BF%9D%E5%AD%98/">OpenCV 4 图像与视频的保存.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/OpenCV/OpenCV%20getStructuringElement%E5%87%BD%E6%95%B0/">OpenCV getStructuringElement函数.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/OpenCV/OpenCV%E7%9A%84tips/">OpenCV的tips.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/OpenCV/Opencv%20RotatedRect%E7%B1%BB%E4%B8%AD%E7%9A%84points%E3%80%81angle%E3%80%81width%E3%80%81height%E7%AD%89%E8%AF%A6%E8%A7%A3/">Opencv RotatedRect类中的points、angle、width、height等详解.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/OpenCV/%E5%9B%BE%E5%83%8F%E8%AF%86%E5%88%AB%E5%9C%A8C++%E4%B8%8A%E7%9A%84%E5%AE%9E%E7%8E%B0/">图像识别在C++上的实现.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/OpenCV/%E9%AB%98%E7%BA%A7%E7%9A%84%E5%BD%A2%E6%80%81%E5%AD%A6%E5%8F%98%E6%8D%A2/">高级的形态学变换.md</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            图像学理论
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/%E5%9B%BE%E5%83%8F%E5%AD%A6%E7%90%86%E8%AE%BA/HSV%E9%A2%9C%E8%89%B2%E5%88%86%E9%87%8F%E8%8C%83%E5%9B%B4/">HSV颜色分量范围.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/%E5%9B%BE%E5%83%8F%E5%AD%A6%E7%90%86%E8%AE%BA/RGB%E9%85%8D%E8%89%B2%E8%A1%A8/">RGB配色表.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/%E5%9B%BE%E5%83%8F%E5%AD%A6%E7%90%86%E8%AE%BA/%E5%9B%BE%E5%83%8F%E5%8D%B7%E7%A7%AF%E4%B8%8E%E6%BB%A4%E6%B3%A2%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86%E7%82%B9/">图像卷积与滤波的一些知识点.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/%E5%9B%BE%E5%83%8F%E5%AD%A6%E7%90%86%E8%AE%BA/%E5%9B%BE%E5%83%8F%E5%B8%B8%E7%94%A8%E6%BB%A4%E6%B3%A2%E6%96%B9%E6%B3%95%EF%BC%88%E6%96%B9%E6%A1%86%E3%80%81%E5%9D%87%E5%80%BC%E3%80%81%E9%AB%98%E6%96%AF%E3%80%81%E4%B8%AD%E5%80%BC%E3%80%81%E5%8F%8C%E8%BE%B9%EF%BC%89/">图像常用滤波方法（方框、均值、高斯、中值、双边）.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/%E5%9B%BE%E5%83%8F%E5%AD%A6%E7%90%86%E8%AE%BA/%E7%9B%AE%E5%89%8D%E4%B8%BB%E6%B5%81%E8%A7%86%E8%A7%89%E8%AF%86%E5%88%AB%E7%AE%97%E6%B3%95/">目前主流视觉识别算法.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/%E5%9B%BE%E5%83%8F%E5%AD%A6%E7%90%86%E8%AE%BA/%E7%9B%B8%E6%9C%BA%E8%A7%86%E5%9C%BA%E8%A7%92%E5%92%8C%E7%84%A6%E8%B7%9D%E5%B9%B2%E8%B4%A7%20LIDAR%E3%80%81ToF%E7%9B%B8%E6%9C%BA%E3%80%81%E5%8F%8C%E7%9B%AE%E7%9B%B8%E6%9C%BA%E5%A6%82%E4%BD%95%E7%A7%91%E5%AD%A6%E9%80%89%E6%8B%A9/">相机视场角和焦距干货 LIDAR、ToF相机、双目相机如何科学选择.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/%E5%9B%BE%E5%83%8F%E5%AD%A6%E7%90%86%E8%AE%BA/%E8%A7%86%E8%A7%89%E5%B7%A5%E4%BD%9C%E9%9A%BE%E7%82%B9%E6%80%BB%E7%BB%93/">视觉工作难点总结.md</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            相机参数矩阵标定
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/%E7%9B%B8%E6%9C%BA%E5%8F%82%E6%95%B0%E7%9F%A9%E9%98%B5%E6%A0%87%E5%AE%9A/5/"></a></li>  </ul> 
+                    </li> 
+                     <li class="file active"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/Object%20Tracking%20using%20OpenCV%20(C++%20Python)%EF%BC%88%E4%BD%BF%E7%94%A8OpenCV%EF%BC%89/">Object Tracking using OpenCV (C++ Python)（使用OpenCV）.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/OpenCV/">OpenCV.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/%E5%9B%BE%E5%83%8F%E5%AD%A6%E7%90%86%E8%AE%BA/">图像学理论.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/%E7%9B%B8%E6%9C%BA%E5%8F%82%E6%95%B0%E7%9F%A9%E9%98%B5%E6%A0%87%E5%AE%9A/">相机参数矩阵标定.md</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            科普
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            变量名的命名法
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            属性部分
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/%E5%8F%98%E9%87%8F%E5%90%8D%E7%9A%84%E5%91%BD%E5%90%8D%E6%B3%95/%E5%B1%9E%E6%80%A7%E9%83%A8%E5%88%86/%E5%B8%B8%E9%87%8F%20d68b046e1dd84667a5d13b13e6533613/">常量 d68b046e1dd84667a5d13b13e6533613.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/%E5%8F%98%E9%87%8F%E5%90%8D%E7%9A%84%E5%91%BD%E5%90%8D%E6%B3%95/%E5%B1%9E%E6%80%A7%E9%83%A8%E5%88%86/%E7%B1%BB%E7%9A%84%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%20154de58ea10c4b9bbbfaa96e08f22567/">类的成员变量 154de58ea10c4b9bbbfaa96e08f22567.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/%E5%8F%98%E9%87%8F%E5%90%8D%E7%9A%84%E5%91%BD%E5%90%8D%E6%B3%95/%E5%B1%9E%E6%80%A7%E9%83%A8%E5%88%86/%E9%9D%99%E6%80%81%E5%8F%98%E9%87%8F%20e0960116d3df414aa554103775c3a55e/">静态变量 e0960116d3df414aa554103775c3a55e.md</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            描述部分
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/%E5%8F%98%E9%87%8F%E5%90%8D%E7%9A%84%E5%91%BD%E5%90%8D%E6%B3%95/%E6%8F%8F%E8%BF%B0%E9%83%A8%E5%88%86/%E5%88%9D%E5%A7%8B%E5%8C%96%20c4c32e2c373749c4b7f62492dd78a780/">初始化 c4c32e2c373749c4b7f62492dd78a780.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/%E5%8F%98%E9%87%8F%E5%90%8D%E7%9A%84%E5%91%BD%E5%90%8D%E6%B3%95/%E6%8F%8F%E8%BF%B0%E9%83%A8%E5%88%86/%E6%BA%90%E5%AF%B9%E8%B1%A1%20285f1ae85e234bc49609b7dc73813b86/">源对象 285f1ae85e234bc49609b7dc73813b86.md</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            类型部分
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/%E5%8F%98%E9%87%8F%E5%90%8D%E7%9A%84%E5%91%BD%E5%90%8D%E6%B3%95/%E7%B1%BB%E5%9E%8B%E9%83%A8%E5%88%86/%E5%87%BD%E6%95%B0/">函数.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/%E5%8F%98%E9%87%8F%E5%90%8D%E7%9A%84%E5%91%BD%E5%90%8D%E6%B3%95/%E7%B1%BB%E5%9E%8B%E9%83%A8%E5%88%86/%E5%8F%A5%E6%9F%84/">句柄.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/%E5%8F%98%E9%87%8F%E5%90%8D%E7%9A%84%E5%91%BD%E5%90%8D%E6%B3%95/%E7%B1%BB%E5%9E%8B%E9%83%A8%E5%88%86/%E5%AD%97%E8%8A%82/">字节.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/%E5%8F%98%E9%87%8F%E5%90%8D%E7%9A%84%E5%91%BD%E5%90%8D%E6%B3%95/%E7%B1%BB%E5%9E%8B%E9%83%A8%E5%88%86/%E6%8C%87%E9%92%88/">指针.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/%E5%8F%98%E9%87%8F%E5%90%8D%E7%9A%84%E5%91%BD%E5%90%8D%E6%B3%95/%E7%B1%BB%E5%9E%8B%E9%83%A8%E5%88%86/%E6%95%B4%E5%9E%8B/">整型.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/%E5%8F%98%E9%87%8F%E5%90%8D%E7%9A%84%E5%91%BD%E5%90%8D%E6%B3%95/%E7%B1%BB%E5%9E%8B%E9%83%A8%E5%88%86/%E6%97%A0%E6%95%88/">无效.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/%E5%8F%98%E9%87%8F%E5%90%8D%E7%9A%84%E5%91%BD%E5%90%8D%E6%B3%95/%E7%B1%BB%E5%9E%8B%E9%83%A8%E5%88%86/%E7%9F%AD%E6%95%B4%E5%9E%8B/">短整型.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/%E5%8F%98%E9%87%8F%E5%90%8D%E7%9A%84%E5%91%BD%E5%90%8D%E6%B3%95/%E7%B1%BB%E5%9E%8B%E9%83%A8%E5%88%86/%E8%AE%A1%E6%95%B0/">计数.md</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            如何提高代码设计能力
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/%E5%A6%82%E4%BD%95%E6%8F%90%E9%AB%98%E4%BB%A3%E7%A0%81%E8%AE%BE%E8%AE%A1%E8%83%BD%E5%8A%9B/%E4%BE%9D%E8%B5%96%EF%BC%88Dependency%EF%BC%89%E5%85%B3%E7%B3%BB%E6%98%AF%E4%B8%80%E7%A7%8D%E4%BD%BF%E7%94%A8%E5%85%B3%E7%B3%BB%EF%BC%8C%E5%AE%83%E6%98%AF%E5%AF%B9%E8%B1%A1%E4%B9%8B%E9%97%B4%E8%80%A6%E5%90%88%E5%BA%A6%E6%9C%80%E5%BC%B1%E7%9A%84%E4%B8%80%E7%A7%8D%E5%85%B3%E8%81%94%E6%96%B9%E5%BC%8F%EF%BC%8C%E6%98%AF%E4%B8%B4%E6%97%B6%E6%80%A7%E7%9A%84%E5%85%B3%E8%81%94/">依赖（Dependency）关系是一种使用关系，它是对象之间耦合度最弱的一种关联方式，是临时性的关联.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/%E5%A6%82%E4%BD%95%E6%8F%90%E9%AB%98%E4%BB%A3%E7%A0%81%E8%AE%BE%E8%AE%A1%E8%83%BD%E5%8A%9B/%E6%A0%B9%E6%8D%AE%E7%B1%BB%E4%B8%8E%E7%B1%BB%E4%B9%8B%E9%97%B4%E7%9A%84%E8%80%A6%E5%90%88%E5%BA%A6%E4%BB%8E%E5%BC%B1%E5%88%B0%E5%BC%BA%E6%8E%92%E5%88%97%EF%BC%8CUML%20%E4%B8%AD%E7%9A%84%E7%B1%BB%E5%9B%BE%E6%9C%89%E4%BB%A5%E4%B8%8B%E5%87%A0%E7%A7%8D%E5%85%B3%E7%B3%BB%EF%BC%9A%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB%E3%80%81%E5%85%B3%E8%81%94%E5%85%B3%E7%B3%BB%E3%80%81%E8%81%9A%E5%90%88%E5%85%B3%E7%B3%BB%E3%80%81%E7%BB%84/">根据类与类之间的耦合度从弱到强排列，UML 中的类图有以下几种关系：依赖关系、关联关系、聚合关系、组.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/%E5%A6%82%E4%BD%95%E6%8F%90%E9%AB%98%E4%BB%A3%E7%A0%81%E8%AE%BE%E8%AE%A1%E8%83%BD%E5%8A%9B/%E9%AB%98%E5%86%85%E8%81%9A%E4%BD%8E%E8%80%A6%E5%90%88%EF%BC%8C%E6%98%AF%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E4%B8%AD%E7%9A%84%E6%A6%82%E5%BF%B5%EF%BC%8C%E6%98%AF%E5%88%A4%E6%96%AD%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%A5%BD%E5%9D%8F%E7%9A%84%E6%A0%87%E5%87%86%EF%BC%8C%E4%B8%BB%E8%A6%81%E7%94%A8%E4%BA%8E%E7%A8%8B%E5%BA%8F%E7%9A%84%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%9A%84%E8%AE%BE%E8%AE%A1%EF%BC%8C%E4%B8%BB%E8%A6%81%E7%9C%8B%E7%B1%BB%E7%9A%84/">高内聚低耦合，是软件工程中的概念，是判断软件设计好坏的标准，主要用于程序的面向对象的设计，主要看类的.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/%E5%A6%82%E4%BD%95%E6%8F%90%E9%AB%98%E4%BB%A3%E7%A0%81%E8%AE%BE%E8%AE%A1%E8%83%BD%E5%8A%9B/%EF%BC%88%E6%8A%BD%E8%B1%A1%E7%B1%BB%E5%B0%B1%E6%98%AF%E4%B8%8D%E8%83%BD%E4%BD%BF%E7%94%A8new%E6%96%B9%E6%B3%95%E8%BF%9B%E8%A1%8C%E5%AE%9E%E4%BE%8B%E5%8C%96%E7%9A%84%E7%B1%BB%EF%BC%8C%E5%8D%B3%E6%B2%A1%E6%9C%89%E5%85%B7%E4%BD%93%E5%AE%9E%E4%BE%8B%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%B1%BB%E3%80%82%E6%8A%BD%E8%B1%A1%E7%B1%BB%E6%9C%89%E7%82%B9%E7%B1%BB%E4%BC%BC%E2%80%9C%E6%A8%A1%E6%9D%BFbai%E2%80%9D%E7%9A%84%20/">（抽象类就是不能使用new方法进行实例化的类，即没有具体实例对象的类。抽象类有点类似“模板bai”的 .md</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/5%E5%BC%A0%E5%8A%A8%E5%9B%BE%E5%B8%A6%E4%BD%A0%E7%9C%8B%E6%87%82%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AE%97%E6%B3%95/">5张动图带你看懂垃圾回收算法.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/Jetson%20tx2%E5%88%B7%E6%9C%BA%EF%BC%881%200%EF%BC%89/">Jetson tx2刷机（1 0）.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/Python%E4%B8%AD%E7%9A%84%E9%82%A3%E4%BA%9B%E4%B8%8D%E4%B8%BA%E4%BA%BA%E7%9F%A5%E7%9A%84%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7%20(2)/">Python中的那些不为人知的奇技淫巧 (2).md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/Python%E4%B8%AD%E7%9A%84%E9%82%A3%E4%BA%9B%E4%B8%8D%E4%B8%BA%E4%BA%BA%E7%9F%A5%E7%9A%84%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7%EF%BC%881%EF%BC%89/">Python中的那些不为人知的奇技淫巧（1）.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/%E5%8F%98%E9%87%8F%E5%90%8D%E7%9A%84%E5%91%BD%E5%90%8D%E6%B3%95/">变量名的命名法.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95%E2%80%94%E2%80%94%E6%90%9C%E7%B4%A2/">基础算法——搜索.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95%E2%80%94%E2%80%94%E8%B4%AA%E5%BF%83/">基础算法——贪心.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/%E5%A6%82%E4%BD%95%E6%8F%90%E9%AB%98%E4%BB%A3%E7%A0%81%E8%AE%BE%E8%AE%A1%E8%83%BD%E5%8A%9B/">如何提高代码设计能力.md</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            脚本集合
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88/%E6%89%B9%E5%A4%84%E7%90%86%E6%8C%87%E4%BB%A4/">批处理指令.md</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/C++/">C++.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/CMake/">CMake.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/Markdown/">Markdown.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/SLAM/">SLAM.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/STM32/">STM32.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/UE4/">UE4.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/">工作.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">微服务.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/">机器视觉.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/">科普.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88/">脚本集合.md</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Todo
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Todo/WebsitsBug/">WebsitsBug</a></li>  <li class="file"><a href="/wiki/Todo/%E5%BE%85%E5%AE%8C%E5%96%84%E6%94%B9%E8%BF%9B/">待完善改进</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            文档
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            yolo学习
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/yolo%E5%AD%A6%E4%B9%A0/yolov3/"></a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/yolo%E5%AD%A6%E4%B9%A0/anchor%20boxes/">anchor box（先验框）</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/yolo%E5%AD%A6%E4%B9%A0/yolo1%20%E5%85%B7%E4%BD%93%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84/">yolov1 具体网络结构</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/yolo%E5%AD%A6%E4%B9%A0/yolo1%20%E6%80%9D%E6%83%B3%E4%B8%8E%E8%BE%93%E5%87%BA%E7%9A%84%E5%BD%A2%E5%BC%8F/">yolo1 思想与输出的形式</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/yolo%E5%AD%A6%E4%B9%A0/yolov2%E5%81%9A%E5%87%BA%E7%9A%84%E6%94%B9%E8%BF%9B/">yolov2做出的改进</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/yolo%E5%AD%A6%E4%B9%A0/YOLOv3%20model/">YOLOv3 model.py代码的简单分析注解</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            参考模板
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/%E5%8F%82%E8%80%83%E6%A8%A1%E6%9D%BF/%E5%AE%9E%E9%AA%8C%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A%E6%A8%A1%E6%9D%BF/">实验测试报告模板</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/%E5%8F%82%E8%80%83%E6%A8%A1%E6%9D%BF/%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1%E6%A8%A1%E6%9D%BF/">方案设计模板</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/%E5%8F%82%E8%80%83%E6%A8%A1%E6%9D%BF/%E6%AD%A5%E5%85%B5/">步兵设计方案</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/%E5%8F%82%E8%80%83%E6%A8%A1%E6%9D%BF/%E8%8B%B1%E9%9B%84/">步兵设计方案</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/%E5%8F%82%E8%80%83%E6%A8%A1%E6%9D%BF/%E5%B7%A5%E7%A8%8B%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90/">工程需求分析</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/%E5%8F%82%E8%80%83%E6%A8%A1%E6%9D%BF/%E9%A3%9E%E9%95%96%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90/">飞镖需求分析</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            实验测试报告
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/%E5%AE%9E%E9%AA%8C%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A/%E6%8E%A7%E5%88%B6%E5%BB%B6%E8%BF%9F%E6%B5%8B%E9%87%8F%E6%8A%A5%E5%91%8A/">控制延迟测量报告</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/%E5%AE%9E%E9%AA%8C%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A/%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90%E6%8A%A5%E5%91%8A/">性能分析报告</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            模型部署
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2/%E7%BD%91%E7%BB%9C%E8%BD%BB%E9%87%8F%E5%8C%96%E5%A4%A7%E7%BA%B2/">网络轻量化大纲</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            目标跟踪
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/%E7%9B%AE%E6%A0%87%E8%B7%9F%E8%B8%AA/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95/">匈牙利算法</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/%E7%9B%AE%E6%A0%87%E8%B7%9F%E8%B8%AA/%E5%8D%A1%E5%B0%94%E6%9B%BC%E6%BB%A4%E6%B3%A2/">卡尔曼滤波</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/%E7%9B%AE%E6%A0%87%E8%B7%9F%E8%B8%AA/deepsort%E6%80%BB%E4%BD%93%E6%A1%86%E6%9E%B6/">目标追踪Deepsort</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/%E7%9B%AE%E6%A0%87%E8%B7%9F%E8%B8%AA/deepsort%E7%AE%97%E6%B3%95%E7%BB%86%E8%8A%82/">Deepsort算法解读</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/%E7%9B%AE%E6%A0%87%E8%B7%9F%E8%B8%AA/%E7%BA%A7%E8%81%94%E5%8C%B9%E9%85%8D/"></a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/wiki%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/">wiki使用和部署指南</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95/">学习方法</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/Git%E6%95%99%E7%A8%8B/">Git 教程</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/%E5%8F%AF%E8%A1%8C%E6%80%A7%E5%88%86%E6%9E%90/">可行性分析</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/Cuda%E5%BA%93%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/">CUDA库安装配置</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/OpenCV%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85/">OpenCV源码编译安装</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/%E8%A3%85%E6%9C%BA%E5%BF%85%E5%A4%87/">装机必备</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/Markdown%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87/">Markdown插入图片</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/NX%E5%88%B7%E6%9C%BA%EF%BC%88%E8%99%9A%E6%8B%9F%E6%9C%BA%20+%20SDKmanager%E6%96%B9%E6%B3%95%EF%BC%89/">NX刷机</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/Nvidia%E5%A4%9ACUDA%E9%85%8D%E7%BD%AE%E5%88%87%E6%8D%A2/">Nvidia多CUDA配置切换</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/python%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E4%BD%BF%E7%94%A8/">python虚拟环境使用</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/TX2%E5%88%B7%E6%9C%BA%E5%92%8C%E8%AE%BE%E5%A4%87%E7%AE%A1%E7%90%86/"></a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/%E6%97%A5%E5%B8%B8%E4%B9%A0%E6%83%AF%E5%85%BB%E6%88%90%E5%92%8C%E8%A1%8C%E4%B8%BA%E8%A7%84%E8%8C%83/">日常习惯养成和行为规范</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            日志记录
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            YoloX
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/YoloX/yolox-tiny%20%E5%90%84%E5%B1%82%E7%BA%A7%E4%BF%A1%E6%81%AF/">yolox-tiny 各层级信息</a></li>  <li class="file"><a href="/wiki/%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/YoloX/%E5%AE%89%E8%A3%85YOLOX%E7%AC%94%E8%AE%B0/">安装yolox笔记</a></li>  <li class="file"><a href="/wiki/%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/YoloX/YoloX%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97/">YoloX配置指南</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            硬件驱动开发
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/%E7%A1%AC%E4%BB%B6%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E6%B5%B7%E5%BA%B7%E7%9B%B8%E6%9C%BA%E9%A9%B1%E5%8A%A8/">海康相机开发日志</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/VOOC%E6%95%B0%E6%8D%AE%E9%9B%86%E8%BD%ACCOCO%E6%95%B0%E6%8D%AE%E9%9B%86/">VOC数据集转COCO数据集教程</a></li>  <li class="file"><a href="/wiki/%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/%E7%9B%B8%E6%9C%BA%E9%A9%B1%E5%8A%A8%E6%96%87%E6%A1%A3/">相机驱动文档</a></li>  <li class="file"><a href="/wiki/%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/%E7%AC%AC%E4%B8%80%E6%AC%A1Git%E5%90%88%E4%BD%9C%E8%AF%84%E8%AE%BA/">Git 合作项目评论</a></li>  <li class="file"><a href="/wiki/%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/%E5%83%8F%E7%B4%A0%E5%9D%90%E6%A0%87%E5%88%B0%E7%9B%B8%E6%9C%BA%E5%9D%90%E6%A0%87%E4%B9%8B%E9%97%B4%E7%9A%84%E8%BD%AC%E5%8C%96/">图像坐标到世界坐标</a></li>  <li class="file"><a href="/wiki/%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%AF%BC%E5%85%A5%E5%8F%8A%E7%BD%91%E6%A0%BC%E5%8C%96/">虚幻4模型导入</a></li>  <li class="file"><a href="/wiki/%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/%E6%A8%A1%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%8F%8A%E9%83%A8%E7%BD%B2/">模型部署和转换</a></li>  <li class="file"><a href="/wiki/%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1/">网络通信</a></li>  <li class="file"><a href="/wiki/%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/RPS%E8%A7%84%E5%88%99%E7%A0%94%E8%AE%A8/">RPS规则研讨</a></li>  <li class="file"><a href="/wiki/%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/%E6%9C%BA%E6%A2%B0%E8%87%82%E5%BC%80%E5%8F%91%E6%97%A5%E5%BF%97/">机械臂开发日志</a></li>  <li class="file"><a href="/wiki/%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/%E6%B5%81%E6%B0%B4%E7%BA%BF%E6%A3%80%E6%B5%8B%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3/">流水线检测说明文档</a></li>  <li class="file"><a href="/wiki/%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/%E8%A5%BF%E5%8C%97%E5%B7%A5%E4%B8%9A%E5%A4%A7%E5%AD%A6%E4%BB%A3%E7%A0%81/">西北工业大学代码</a></li>  <li class="file"><a href="/wiki/%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/%E5%B9%BF%E5%B7%9E%E5%AD%A6%E9%99%A2%E6%BA%90%E7%A0%81/">广州学院代码</a></li>  <li class="file"><a href="/wiki/%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/%E4%B8%B2%E5%8F%A3%E5%BC%80%E5%8F%91%E6%97%A5%E5%BF%97/">串口开发日志</a></li>  <li class="file"><a href="/wiki/%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/ubuntu%E5%8F%8C%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%AE%89%E8%A3%85/">ubuntu双系统的安装</a></li>  <li class="file"><a href="/wiki/%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/%E9%95%9C%E5%A4%B4%E9%80%89%E5%9E%8B/">镜头选型</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            电控硬件
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            STM32学习笔记
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/%E7%94%B5%E6%8E%A7%E7%A1%AC%E4%BB%B6/STM32%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87/">学习目标</a></li>  <li class="file"><a href="/wiki/%E7%94%B5%E6%8E%A7%E7%A1%AC%E4%BB%B6/STM32%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">基础环境配置</a></li>  <li class="file"><a href="/wiki/%E7%94%B5%E6%8E%A7%E7%A1%AC%E4%BB%B6/STM32%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E6%96%B0%E5%BB%BA%E5%B7%A5%E7%A8%8B%E9%A1%B9%E7%9B%AE%E9%85%8D%E7%BD%AE/">新建工程项目配置</a></li>  <li class="file"><a href="/wiki/%E7%94%B5%E6%8E%A7%E7%A1%AC%E4%BB%B6/STM32%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E7%A1%AC%E4%BB%B6%E7%9F%A5%E8%AF%86%E7%82%B9%E6%B1%87%E6%80%BB/">硬件知识点汇总</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            编程
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            优秀第三方库及框架
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/%E7%BC%96%E7%A8%8B/%E4%BC%98%E7%A7%80%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%8F%8A%E6%A1%86%E6%9E%B6/C++%E8%91%97%E5%90%8D%E5%BA%93%E5%92%8C%E5%B7%A5%E5%85%B7/">C++著名库和工具</a></li>  <li class="file"><a href="/wiki/%E7%BC%96%E7%A8%8B/%E4%BC%98%E7%A7%80%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%8F%8A%E6%A1%86%E6%9E%B6/Cli11%E5%8F%82%E6%95%B0%E9%85%8D%E7%BD%AE%E5%BA%93/">Cli11参数配置库</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            设计模式
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/%E7%BC%96%E7%A8%8B/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%89%8D%E6%91%84%E5%99%A8%E6%A8%A1%E5%BC%8F/">前摄器模式</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/%E7%BC%96%E7%A8%8B/CMake%E6%9E%84%E5%BB%BA%E9%A1%B9%E7%9B%AE%E7%BB%83%E4%B9%A0/">CMAKE构建项目练习</a></li>  <li class="file"><a href="/wiki/%E7%BC%96%E7%A8%8B/Cmakelist%E5%B8%B8%E7%94%A8%E5%BA%93%E6%A8%A1%E6%9D%BF/">Cmakelist常用库模板</a></li>  <li class="file"><a href="/wiki/%E7%BC%96%E7%A8%8B/%E4%B8%B2%E5%8F%A3%E5%BC%80%E5%8F%91/">串口开发</a></li>  <li class="file"><a href="/wiki/%E7%BC%96%E7%A8%8B/%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/">命名规范</a></li>  <li class="file"><a href="/wiki/%E7%BC%96%E7%A8%8B/protobuf/">Protobuf</a></li>  <li class="file"><a href="/wiki/%E7%BC%96%E7%A8%8B/cmakelist%E8%AF%AD%E6%B3%95%E6%80%BB%E7%BB%93/">cmakelist语法总结</a></li>  <li class="file"><a href="/wiki/%E7%BC%96%E7%A8%8B/Docker%E7%AE%80%E4%BB%8B/">Docker简介</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            设备资料
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/%E8%AE%BE%E5%A4%87%E8%B5%84%E6%96%99/TX2%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">TX2注意事项</a></li>  <li class="file"><a href="/wiki/%E8%AE%BE%E5%A4%87%E8%B5%84%E6%96%99/IP%E7%9B%B4%E8%BF%9E%E5%9C%B0%E5%9D%80/">IP直连地址</a></li>  <li class="file"><a href="/wiki/%E8%AE%BE%E5%A4%87%E8%B5%84%E6%96%99/%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF/">开机自启</a></li>  <li class="file"><a href="/wiki/%E8%AE%BE%E5%A4%87%E8%B5%84%E6%96%99/%E8%BF%90%E7%AE%97%E8%AE%BE%E5%A4%87%E5%8F%8A%E7%9B%B8%E5%85%B3%E8%B5%84%E6%96%99/">运算设备及相关资料</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/index/">RPS视觉组Wiki库</a></li>  </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-Notion/百科/机器视觉/Object Tracking using OpenCV (C++ Python)（使用OpenCV）" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/Notion/">Notion</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/Notion/%E7%99%BE%E7%A7%91/">百科</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/">机器视觉</a>
+    </div>
+
+                        
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/Object%20Tracking%20using%20OpenCV%20(C++%20Python)%EF%BC%88%E4%BD%BF%E7%94%A8OpenCV%EF%BC%89/">
+            <time datetime="2021-12-22T01:25:00.000Z" itemprop="datePublished">2021-12-22</time>
+        </a>
+    </div>
+
+
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/KVM-Explorer/KVM-Explorer.github.io/raw/source/source/_posts/Notion/百科/机器视觉/Object Tracking using OpenCV (C++ Python)（使用OpenCV）.md'> Source </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/KVM-Explorer/KVM-Explorer.github.io/edit/source/source/_posts/Notion/百科/机器视觉/Object Tracking using OpenCV (C++ Python)（使用OpenCV）.md'> Edit </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/KVM-Explorer/KVM-Explorer.github.io/commits/source/source/_posts/Notion/百科/机器视觉/Object Tracking using OpenCV (C++ Python)（使用OpenCV）.md'> History </a>
+                            </div>
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Object Tracking using OpenCV (C++ Python)（使用OpenCV）.md
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">Catalogue</strong>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Object-Tracking-using-OpenCV-C-Python-%EF%BC%88%E4%BD%BF%E7%94%A8OpenCV%E8%BF%9B%E8%A1%8C%E7%9B%AE%E6%A0%87%E8%B7%9F%E8%B8%AA"><span class="toc-number">1.</span> <span class="toc-text">Object Tracking using OpenCV (C++&#x2F;Python)（使用OpenCV进行目标跟踪)</span></a></li></ol>
+                </div>
+            
+        
+        
+            <h1 id="Object-Tracking-using-OpenCV-C-Python-（使用OpenCV进行目标跟踪"><a href="#Object-Tracking-using-OpenCV-C-Python-（使用OpenCV进行目标跟踪" class="headerlink" title="Object Tracking using OpenCV (C++/Python)（使用OpenCV进行目标跟踪)"></a>Object Tracking using OpenCV (C++/Python)（使用OpenCV进行目标跟踪)</h1><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/annie22wang/p/9366610.html">https://www.cnblogs.com/annie22wang/p/9366610.html</a></p>
+<p>本博客翻译搬运自<a target="_blank" rel="noopener" href="https://www.learnopencv.com/object-tracking-using-opencv-cpp-python%EF%BC%8C%E7%94%A8%E4%BA%8E%E5%88%9D%E5%85%A5%E7%9B%AE%E6%A0%87%E8%B7%9F%E8%B8%AA%E7%9A%84%E6%96%B0%E6%89%8B%E5%AD%A6%E4%B9%A0%EF%BC%8C%E8%BD%AC%E8%B4%B4%E8%AF%B7%E6%B3%A8%E6%98%8E%EF%BC%81">https://www.learnopencv.com/object-tracking-using-opencv-cpp-python，用于初入目标跟踪的新手学习，转贴请注明！</a></p>
+<p><strong>使用OpenCV进行目标跟踪（C++/Python）</strong></p>
+<p>在本教程里，我们将学习OpenCV3.0中引入的OpenCV跟踪API。我们将学习如何以及何时使用OpenCV3.4.1中提供的7中不同的跟踪器——BOOSTING,MIL,KCF,TLD,MEDIANFLOW,GOTURN和MOSSE。我们还将学习现代跟踪算法背后的一般理论。</p>
+<p>我的朋友Boris Babenko完美的解决了这个问题，正如下面的这个完美的实时人脸跟踪器所示！开玩笑的说，下面的这个GIF描述了我们想要的理想物体跟踪器——速度，准确性和面对遮挡的鲁棒性。</p>
+<p>![](Object Tracking using OpenCV (C++ Python)（使用OpenCV）/real-time-face-tracking.gif)</p>
+<p>OpenCV目标跟踪样例：</p>
+<p>如果你没有时间阅读整个教程，那就看看下面这个视频并了解一下用法。但是如果你想系统学习一下目标跟踪，那就完整读下去。</p>
+<p>视频地址（需翻墙）：<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?reload=9&amp;v=61QjSz-oLr8&amp;feature=youtu.be">https://www.youtube.com/watch?reload=9&amp;v=61QjSz-oLr8&amp;feature=youtu.be</a></p>
+<p><strong>什么是目标跟踪？</strong></p>
+<p>简单的说，在一个视频的连续帧中定位目标就称之为跟踪。</p>
+<p>这个定义听起来很直接但是在计算机视觉和机器学习领域，跟踪是一个非常广泛的术语，涵盖概念上相似但技术上不同的想法。举个例子，下面所有不同的但却相关的方法均是可用在目标跟踪的研究领域的。</p>
+<p>1.密集光流法：这类算法有助于估计视频帧中每个像素的运动矢量。</p>
+<p>2.稀疏光流法：这类算法，如Kanade-Lucas-Tomashi(KLT)特征跟踪器，跟踪图像中几个特征点的位置。</p>
+<p>3.卡尔曼滤波：这是一个非常流行的信号处理算法，用于根据先前的运动信息预测运动物体的位置。这种算法的早期应用之一是导弹制导！</p>
+<p>4.Meanshift和Camshift：这些是用于定位密度函数的最大值的算法。它们也用于跟踪领域。</p>
+<p>5.单目标跟踪器：在此类跟踪器中，第一帧使用矩形标记来指示我们要跟踪的对象的位置。然后使用跟踪算法在后续帧中跟踪对象。在大多数实际应用中，这些跟踪器与物体检测器结合使用。</p>
+<p>6.多目标跟踪器：在我们有快速物体探测器的情况下，检测每个帧中的多个物体然后运行轨迹查找算法来识别一帧中的哪个矩形对应于下一帧中的矩形是有意义的。</p>
+<p><strong>跟踪VS检测</strong></p>
+<p>如果你曾经使用OpenCV做过面部检测，你就明白它可以实时工作，你可以轻松地检测每一帧中的脸部。那么，你为什么需要首先进行跟踪？让我们探讨一下你可能想要跟踪视频中对象的不同原因，而不仅仅是重复检测。</p>
+<p>1.<strong>跟踪比检测快</strong>：通常跟踪算法比检测算法快。理由很简单。当你跟踪在前一帧中检测到的对象时，你对该目标的外观了解很多。你还知道前一帧的位置以及运动的方向和速度。因此在下一帧中，您可以使用所有这些信息来预测下一帧中目标的位置，并围绕目标的预期位置进行小搜索，以准确定位目标。 一个好的跟踪算法将使用它所拥有的关于该目标的所有信息，而检测算法总是从头开始。因此，在设计有效系统时，通常在每第n帧上运行目标检测，而在其间的n-1帧中采用跟踪算法。为什么我们不直接检测第一帧中的目标并随后跟踪？确实，跟踪可以从它拥有的额外信息中获益，但是当它们长时间在障碍物后面或者如果它们移动速度太快以至于跟踪算法无法赶上时，你也可能失去对目标的跟踪。跟踪算法累积错误也很常见，跟踪目标的边界框会慢慢偏离其正在跟踪的目标。为了通过跟踪算法解决这些问题，每隔一段时间运行一次检测算法。检测算法在目标的大量示例上进行训练。因此，他们对目标的一般类有更多的了解。另一方面，跟踪算法更多地了解他们正在跟踪的类的特定实例。</p>
+<p>2.<strong>检测失败时跟踪可以提供帮助</strong>：如果你在视频上运行人脸检测器并且人脸被物体遮挡，那么人脸检测大概率会失败。另一方面，优秀的跟踪算法可以解决某种程度的遮挡。在下面的视频中，你可以看到MIL跟踪器的作者Boris Bakenko博士演示MIL跟踪器如何在遮挡下工作</p>
+<p>3.<strong>跟踪保留身份</strong>：目标检测的输出是包含目标的矩形数组。但是，目标没有附加标识。例如，在下面的视频中，检测红点的检测器将输出对应于它在帧中检测到的所有点的矩形。在下一帧中，它将输出另一个矩形数组。在第一帧中，特定点可以由阵列中位置10处的举行表示，并且在第二帧中，它可以在位置17处。当在帧上使用检测时，我们不知道哪个矩形对应于哪个目标。另一方面，跟踪提供了一种字面连接点的方法。</p>
+<p>视频地址（需翻墙）：<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=SsiHH_wrwDg">https://www.youtube.com/watch?v=SsiHH_wrwDg</a></p>
+<p><strong>OpenCV 跟踪API</strong></p>
+<p>OpenCV3附带了新的跟踪API，其中包括许多单目标跟踪算法的实现。OpenCV 3.4.1中有7种不同的跟踪器——BOOSTING,MIL,KCF,TLD,MEDIANFLOW,GOTURN和MOSSE。</p>
+<p><strong>注意</strong>：OpenCV 3.2包括6种跟踪器——BOOSTING，MIL，TLD，MEDIANFLOW和MOSSE。OpenCV 3.1有5种跟踪器——BOOSTING,MIL,KCF,TLD,MEDIANFLOW。OpenCV 3.0包括4种跟踪器——BOOSTING,MIL,TLD,MEDIANFLOW。</p>
+<p><strong>更新</strong>:在OpenCV 3.3种，跟踪API已更改。请检查代码版本然后使用相应的API。</p>
+<p>在我们提供算法的简单描述之前，让我们看看设置和用法。在下面的注释代码中，我们首先通过选择跟踪器类型来设置跟踪器——BOOSTING，MIL，KCF，TLD，MEDIANFLOW，GOTURN或MOSSE。然后我们打开一个视频并读取一帧。我们定义一个包含第一帧目标的边界框，并用第一帧和边界框初始化跟踪器。最后，我们从视频中读取帧并仅在循环中更新跟踪器以获得当前帧的新边界框。随后显示结果。</p>
+<p><strong>C++</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;opencv2/opencv.hpp&gt;</span><br><span class="line">#include &lt;opencv2/tracking.hpp&gt;</span><br><span class="line">#include &lt;opencv2/core/ocl.hpp&gt;</span><br><span class="line"> </span><br><span class="line">using namespace cv;</span><br><span class="line">using namespace std;</span><br><span class="line"> </span><br><span class="line">// Convert to string</span><br><span class="line">#define SSTR( x ) static_cast&lt; std::ostringstream &amp; &gt;( \</span><br><span class="line">( std::ostringstream() &lt;&lt; std::dec &lt;&lt; x ) ).str()</span><br><span class="line"> </span><br><span class="line">int main(int argc, char **argv)</span><br><span class="line">&#123;</span><br><span class="line">    // List of tracker types in OpenCV 3.4.1</span><br><span class="line">    string trackerTypes[7] = &#123;&quot;BOOSTING&quot;, &quot;MIL&quot;, &quot;KCF&quot;, &quot;TLD&quot;,&quot;MEDIANFLOW&quot;, &quot;GOTURN&quot;, &quot;MOSSE&quot;&#125;;</span><br><span class="line">    // vector &lt;string&gt; trackerTypes(types, std::end(types));</span><br><span class="line"> </span><br><span class="line">    // Create a tracker</span><br><span class="line">    string trackerType = trackerTypes[2];</span><br><span class="line"> </span><br><span class="line">    Ptr&lt;Tracker&gt; tracker;</span><br><span class="line"> </span><br><span class="line">    #if (CV_MINOR_VERSION &lt; 3)</span><br><span class="line">    &#123;</span><br><span class="line">        tracker = Tracker::create(trackerType);</span><br><span class="line">    &#125;</span><br><span class="line">    #else</span><br><span class="line">    &#123;</span><br><span class="line">        if (trackerType == &quot;BOOSTING&quot;)</span><br><span class="line">            tracker = TrackerBoosting::create();</span><br><span class="line">        if (trackerType == &quot;MIL&quot;)</span><br><span class="line">            tracker = TrackerMIL::create();</span><br><span class="line">        if (trackerType == &quot;KCF&quot;)</span><br><span class="line">            tracker = TrackerKCF::create();</span><br><span class="line">        if (trackerType == &quot;TLD&quot;)</span><br><span class="line">            tracker = TrackerTLD::create();</span><br><span class="line">        if (trackerType == &quot;MEDIANFLOW&quot;)</span><br><span class="line">            tracker = TrackerMedianFlow::create();</span><br><span class="line">        if (trackerType == &quot;GOTURN&quot;)</span><br><span class="line">            tracker = TrackerGOTURN::create();</span><br><span class="line">        if (trackerType == &quot;MOSSE&quot;)</span><br><span class="line">            tracker = TrackerMOSSE::create();</span><br><span class="line">    &#125;</span><br><span class="line">    #endif</span><br><span class="line">    // Read video</span><br><span class="line">    VideoCapture video(&quot;videos/chaplin.mp4&quot;);</span><br><span class="line">     </span><br><span class="line">    // Exit if video is not opened</span><br><span class="line">    if(!video.isOpened())</span><br><span class="line">    &#123;</span><br><span class="line">        cout &lt;&lt; &quot;Could not read video file&quot; &lt;&lt; endl; return 1; &#125; // Read first frame Mat frame; bool ok = video.read(frame); // Define initial boundibg box Rect2d bbox(287, 23, 86, 320); // Uncomment the line below to select a different bounding box bbox = selectROI(frame, false); // Display bounding box. rectangle(frame, bbox, Scalar( 255, 0, 0 ), 2, 1 ); imshow(&quot;Tracking&quot;, frame); tracker-&gt;init(frame, bbox);</span><br><span class="line">     </span><br><span class="line">    while(video.read(frame))</span><br><span class="line">    &#123;     </span><br><span class="line">        // Start timer</span><br><span class="line">        double timer = (double)getTickCount();</span><br><span class="line">         </span><br><span class="line">        // Update the tracking result</span><br><span class="line">        bool ok = tracker-&gt;update(frame, bbox);</span><br><span class="line">         </span><br><span class="line">        // Calculate Frames per second (FPS)</span><br><span class="line">        float fps = getTickFrequency() / ((double)getTickCount() - timer);</span><br><span class="line">         </span><br><span class="line">        if (ok)</span><br><span class="line">        &#123;</span><br><span class="line">            // Tracking success : Draw the tracked object</span><br><span class="line">            rectangle(frame, bbox, Scalar( 255, 0, 0 ), 2, 1 );</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            // Tracking failure detected.</span><br><span class="line">            putText(frame, &quot;Tracking failure detected&quot;, Point(100,80), FONT_HERSHEY_SIMPLEX, 0.75, Scalar(0,0,255),2);</span><br><span class="line">        &#125;</span><br><span class="line">         </span><br><span class="line">        // Display tracker type on frame</span><br><span class="line">        putText(frame, trackerType + &quot; Tracker&quot;, Point(100,20), FONT_HERSHEY_SIMPLEX, 0.75, Scalar(50,170,50),2);</span><br><span class="line">         </span><br><span class="line">        // Display FPS on frame</span><br><span class="line">        putText(frame, &quot;FPS : &quot; + SSTR(int(fps)), Point(100,50), FONT_HERSHEY_SIMPLEX, 0.75, Scalar(50,170,50), 2);</span><br><span class="line"> </span><br><span class="line">        // Display frame.</span><br><span class="line">        imshow(&quot;Tracking&quot;, frame);</span><br><span class="line">         </span><br><span class="line">        // Exit if ESC pressed.</span><br><span class="line">        int k = waitKey(1);</span><br><span class="line">        if(k == 27)</span><br><span class="line">        &#123;</span><br><span class="line">            break;</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Python</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line">import cv2</span><br><span class="line">import sys</span><br><span class="line"> </span><br><span class="line">(major_ver, minor_ver, subminor_ver) = (cv2.__version__).split(&#x27;.&#x27;)￼</span><br><span class="line"> </span><br><span class="line">if __name__ == &#x27;__main__&#x27; :</span><br><span class="line"> </span><br><span class="line">    # Set up tracker.</span><br><span class="line">    # Instead of MIL, you can also use</span><br><span class="line"> </span><br><span class="line">    tracker_types = [&#x27;BOOSTING&#x27;, &#x27;MIL&#x27;,&#x27;KCF&#x27;, &#x27;TLD&#x27;, &#x27;MEDIANFLOW&#x27;, &#x27;GOTURN&#x27;, &#x27;MOSSE&#x27;]</span><br><span class="line">    tracker_type = tracker_types[2]</span><br><span class="line"> </span><br><span class="line">    if int(minor_ver) &lt; 3:</span><br><span class="line">        tracker = cv2.Tracker_create(tracker_type)</span><br><span class="line">    else:</span><br><span class="line">        if tracker_type == &#x27;BOOSTING&#x27;:</span><br><span class="line">            tracker = cv2.TrackerBoosting_create()</span><br><span class="line">        if tracker_type == &#x27;MIL&#x27;:</span><br><span class="line">            tracker = cv2.TrackerMIL_create()</span><br><span class="line">        if tracker_type == &#x27;KCF&#x27;:</span><br><span class="line">            tracker = cv2.TrackerKCF_create()</span><br><span class="line">        if tracker_type == &#x27;TLD&#x27;:</span><br><span class="line">            tracker = cv2.TrackerTLD_create()</span><br><span class="line">        if tracker_type == &#x27;MEDIANFLOW&#x27;:</span><br><span class="line">            tracker = cv2.TrackerMedianFlow_create()</span><br><span class="line">        if tracker_type == &#x27;GOTURN&#x27;:</span><br><span class="line">            tracker = cv2.TrackerGOTURN_create()</span><br><span class="line">        if tracker_type == &#x27;MOSSE&#x27;:</span><br><span class="line">            tracker = cv2.TrackerMOSSE_create()</span><br><span class="line"> </span><br><span class="line">    # Read video</span><br><span class="line">    video = cv2.VideoCapture(&quot;videos/chaplin.mp4&quot;)</span><br><span class="line"> </span><br><span class="line">    # Exit if video not opened.</span><br><span class="line">    if not video.isOpened():</span><br><span class="line">        print &quot;Could not open video&quot;</span><br><span class="line">        sys.exit()</span><br><span class="line"> </span><br><span class="line">    # Read first frame.</span><br><span class="line">    ok, frame = video.read()</span><br><span class="line">    if not ok:</span><br><span class="line">        print &#x27;Cannot read video file&#x27;</span><br><span class="line">        sys.exit()</span><br><span class="line">     </span><br><span class="line">    # Define an initial bounding box</span><br><span class="line">    bbox = (287, 23, 86, 320)</span><br><span class="line"> </span><br><span class="line">    # Uncomment the line below to select a different bounding box</span><br><span class="line">    bbox = cv2.selectROI(frame, False)</span><br><span class="line"> </span><br><span class="line">    # Initialize tracker with first frame and bounding box</span><br><span class="line">    ok = tracker.init(frame, bbox)</span><br><span class="line"> </span><br><span class="line">    while True:</span><br><span class="line">        # Read a new frame</span><br><span class="line">        ok, frame = video.read()</span><br><span class="line">        if not ok:</span><br><span class="line">            break</span><br><span class="line">         </span><br><span class="line">        # Start timer</span><br><span class="line">        timer = cv2.getTickCount()</span><br><span class="line"> </span><br><span class="line">        # Update tracker</span><br><span class="line">        ok, bbox = tracker.update(frame)</span><br><span class="line"> </span><br><span class="line">        # Calculate Frames per second (FPS)</span><br><span class="line">        fps = cv2.getTickFrequency() / (cv2.getTickCount() - timer);</span><br><span class="line"> </span><br><span class="line">        # Draw bounding box</span><br><span class="line">        if ok:</span><br><span class="line">            # Tracking success</span><br><span class="line">            p1 = (int(bbox[0]), int(bbox[1]))</span><br><span class="line">            p2 = (int(bbox[0] + bbox[2]), int(bbox[1] + bbox[3]))</span><br><span class="line">            cv2.rectangle(frame, p1, p2, (255,0,0), 2, 1)</span><br><span class="line">        else :</span><br><span class="line">            # Tracking failure</span><br><span class="line">            cv2.putText(frame, &quot;Tracking failure detected&quot;, (100,80), cv2.FONT_HERSHEY_SIMPLEX, 0.75,(0,0,255),2)</span><br><span class="line"> </span><br><span class="line">        # Display tracker type on frame</span><br><span class="line">        cv2.putText(frame, tracker_type + &quot; Tracker&quot;, (100,20), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (50,170,50),2);</span><br><span class="line">     </span><br><span class="line">        # Display FPS on frame</span><br><span class="line">        cv2.putText(frame, &quot;FPS : &quot; + str(int(fps)), (100,50), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (50,170,50), 2);</span><br><span class="line"> </span><br><span class="line">        # Display result</span><br><span class="line">        cv2.imshow(&quot;Tracking&quot;, frame)</span><br><span class="line"> </span><br><span class="line">        # Exit if ESC pressed</span><br><span class="line">        k = cv2.waitKey(1) &amp; 0xff</span><br><span class="line">        if k == 27 : break</span><br></pre></td></tr></table></figure>
+
+<p><strong>目标跟踪算法</strong></p>
+<p>在本节中，我们将深入研究不同的跟踪算法。目标并不是要对每个跟踪器都有深入的理论理解，而是从实际的角度理解它们。</p>
+<p>首先让我解释一下跟踪背后的一些一般原则。 在跟踪中，我们的目标是在当前帧中找到一个对象，因为我们已经在所有（或几乎所有）前一帧中成功跟踪了对象。</p>
+<p>由于我们已经跟踪了当前帧的目标，因此我们知道它是如何移动的。 换句话说，我们知道运动模型的参数。 运动模型只是一种奇特的方式，表示你知道前一帧中物体的位置和速度（速度+运动方向）。如果你对该目标一无所知，则可以根据当前运动模型预测新位置，并且你将非常接近目标的新位置。</p>
+<p>我们有更多的信息，但是它们仅仅是关于目标的运动的。我们知道目标在每个先前帧中的外观。换句话说，我们可以构建一个外观模型来编码目标的外观。该外观模型可用于在运动模型预测的位置的小领域中搜索，以更准确地预测目标的位置。</p>
+<p>运动模型预测目标的大致位置，外观模型精细调整该估计以基于外观提供更准确的估计。</p>
+<p>如果目标非常简单并且没有更改它的外观，我们可以使用一个简单的模板作为外观模型并查找该模板。然而，显示并非那么简单。目标的外观可能会发生巨大的变化，为了解决这个问题，在许多现代跟踪器中，外观模型是以在线方式训练的分类器。别怕，让我用简单的术语解释一下。分类器的工作是将图像的矩形区域分类为目标或背景。分类器将图像作为输入，并返回0和1之间的分数，以指示图像块包含目标的概率。当绝对确定图像块是背景时得分为0，当绝对确定图像块是目标时得分为1。在机器学习中，我们使用“在线”一词来指代在运行时即时训练的算法。 离线分类器可能需要数千个示例来训练分类器，但是在线分类器通常在运行时使用极少数示例进行训练。通过将其分为正（目标）和负（目标）示例来训练分类器。 如果你想建立一个用于检测猫的分类器，你可以使用包含猫的数千个图像和数千个不包含猫的图像来训练它。 通过这种方式，分类器学会区分什么是猫而什么不是。 你可以在此处详细了解图像分类。 在构建在线分类器的过程中，我们没有数千个正面和负面类的例子。</p>
+<p>让我们看看不同的跟踪算法如何解决在线训练的这个问题。</p>
+<p><strong>BOOSTING跟踪器</strong></p>
+<p>这个跟踪器基于AdaBoost的在线版本——基于HAAR面部检测器在内部使用的算法。需要在运行时使用目标的正面和负面示例训练此分类器。由用户（或另一个目标检测算法）提供的初始边界框被视为对象的正例，并且边界框外的许多图像块被视为背景。 给定新帧，分类器在先前位置的邻域中的每个像素上运行，并且记录分类器的分数。 目标的新位置是得分最大的位置。 所以现在我们又有了一个分类器的正面例子。 随着更多帧进入，分类器将使用此附加数据进行更新</p>
+<p>优点：没有。 这个算法已有十年历史了，虽然工作正常，但我找不到使用它的好理由，特别是当其他基于类似原理的高级跟踪器（MIL，KCF）可用时。</p>
+<p>缺点：跟踪性能平庸。且它无法可靠地知道跟踪失败的时间。</p>
+<p><strong>MIL跟踪器</strong></p>
+<p>该跟踪器在概念上类似于上述的BOOSTING跟踪器。 最大的区别在于，不是仅考虑目标的当前位置作为正例，而是在当前位置周围的小邻域中查找以产生若干潜在的正例。 你可能认为这是一个坏主意，因为在大多数这些“积极”的例子中，目标不是居中的。这正是MIL拯救的地方。在MIL中，你没有指定正面和负面的例子，而是正面和负面的“包”。 正面“包”中的图像集合并非都是正面的例子。 相反，只有正面包中的一个图像需要是一个正面的例子！ 在我们的示例中，正面包包含以目标当前位置为中心的补丁，以及在其周围的小邻域中的补丁。 即使被跟踪目标的当前位置不准确，当来自当前位置附近的样本被放入正面包中时，该包很可能包含至少一个图像，其中目标很好地居中。 MIL项目主页为喜欢深入了解MIL跟踪器内部工作原理的人提供了更多信息。</p>
+<p>MIL项目主页：<a target="_blank" rel="noopener" href="http://vision.ucsd.edu/~bbabenko/new/project_miltrack.shtml">http://vision.ucsd.edu/~bbabenko/new/project_miltrack.shtml</a></p>
+<p>优点：表现非常好，它不会像BOOSTING跟踪器那样漂移，并且在部分遮挡下可以完成合理的工作，如果你使用的是OpenCV3.0，这可能是你可以使用的最佳跟踪器。但是如果你是用的是更高版本，请考虑使用KCF。</p>
+<p>缺点：不能可靠的报告跟踪失败，以及无法从完全遮挡中恢复。</p>
+<p><strong>KCF跟踪器</strong></p>
+<p>KCF表示核相关滤波器，该跟踪器基于前两个跟踪器中提出的想法，利用MIL跟踪器中使用的多个正样本具有大的重叠区域的事实，这种重叠的数据导致一些很好的数学属性，这个跟踪器利用这些属性可以使跟踪更快更准确。</p>
+<p>优点：精度和速度都优于MIL，它报告跟踪失败比BOOSTING和MIL更好。 如果你使用的是OpenCV 3.1及更高版本，我建议你在大多数应用程序中使用它。</p>
+<p>缺点：无法从完全遮挡中恢复。 未在OpenCV 3.0中实现。</p>
+<p>BUG警告：OpenCV 3.1（仅限Python）中存在一个错误，因为返回了错误的边界框。 查看错误报告。 感谢Andrei Cheremskoy指出这一点。</p>
+<p>错误报告：<a target="_blank" rel="noopener" href="https://github.com/opencv/opencv_contrib/issues/640">https://github.com/opencv/opencv_contrib/issues/640</a></p>
+<p><strong>TLD跟踪器</strong></p>
+<p>TLD代表tracking，learning和detection。顾名思义，该跟踪器将长期跟踪任务分解为三个部分——（短期）跟踪，学习和检测。作者的论文中指出，“跟踪器在帧与帧之间跟踪对象。检测器定位到目前为止观察到的所有外观，并在必要时纠正跟踪器。 学习估计检测器的错误并更新它以避免将来出现这些错误。“这个跟踪器的输出往往会跳跃一下。 例如，如果你正在跟踪行人并且场景中还有其他行人，则此跟踪器有时可以临时跟踪与你要跟踪的行人不同的行人。 从积极的方面来看，这个跟踪器似乎可以在更大的大小，运动和遮挡上跟踪物体。 如果你有一个视频序列，其中目标隐藏在另一个目标后面，则此跟踪器可能是一个不错的选择。</p>
+<p>优点：在多个帧的遮挡下工作效果最佳。 此外，在目标大小变化时跟踪效果最佳。</p>
+<p>缺点：很多误报使它几乎无法使用。</p>
+<p><strong>MEDIANFLOW跟踪器</strong></p>
+<p>在内部，该跟踪器及时向前和向后跟踪目标，并测量这两个轨迹之间的差异。 最小化此前向后向错误使他们能够可靠地检测跟踪失败并选择视频序列中的可靠轨迹。</p>
+<p>在我的测试中，我发现当动作可预测且很小时，这个跟踪器效果最好。 与其他即使在跟踪明显失败时继续运行的跟踪器不同，此跟踪器也知道跟踪失败的时间。</p>
+<p>优点：出色的跟踪失败报告。当运动可预测且没有遮挡时，效果很好。</p>
+<p>缺点：目标动作大时跟踪失败。</p>
+<p><strong>GOTURN跟踪器</strong></p>
+<p>在跟踪器类的所有跟踪算法中，这是唯一基于卷积神经网络（CNN）的跟踪算法。 从OpenCV文档中，我们知道它“对视点变化，光照变化和变形具有鲁棒性”。 但它不能很好地处理遮挡。</p>
+<p><strong>注意</strong>：GOTURN是基于CNN的跟踪器，使用caffe模型进行跟踪。 Caffe模型和原始文本文件必须存在于代码所在的目录中。 这些文件也可以从opencv_extra存储库下载，在使用前连接并解压缩。</p>
+<p><strong>MOSSE跟踪器</strong></p>
+<p>误差最小平方和滤波器（MOSSE）使用自适应相关进行目标跟踪，当使用单个帧初始化时产生稳定的相关滤波器。 MOSSE跟踪器对照明，比例，姿势和非刚性变形的变化非常稳健。 它还根据峰值与旁瓣比率检测遮挡，这使得跟踪器能够暂停并在对象重新出现时从中断处继续。 MOSSE跟踪器也以更高的fps（450 fps甚至更高）运行。 为了增加积极性，它也很容易实现，与其他复杂的跟踪器一样准确，速度更快。 但是，在性能方面，它落后于基于深度学习的跟踪器。</p>
+<p><strong>订阅&amp;下载代码</strong></p>
+<p>如果你喜欢这篇文章并想下载此文章中使用的代码（C++和Python）和示例图片，请订阅我的栏目。你还将收到免费的计算机视觉资源指南。在我们的栏目里，我们还分享了用C++/Python编写的OpenCV教程和示例，以及计算机视觉和机器学习的算法和新闻。</p>
+<p>订阅栏目：<a target="_blank" rel="noopener" href="https://bigvisionllc.leadpages.net/leadbox/143948b73f72a2%3A173c9390c346dc/5649050225344512/">https://bigvisionllc.leadpages.net/leadbox/143948b73f72a2%3A173c9390c346dc/5649050225344512/</a></p>
+
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+        <a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/YOLOv4%20%E9%85%8D%E7%BD%AE%E4%BD%BF%E7%94%A8%E9%81%87%E8%A7%81%E7%9A%84%E9%97%AE%E9%A2%98%E5%8F%8A%E8%A7%A3%E5%86%B3/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    YOLOv4 配置使用遇见的问题及解决.md
+                
+            </div>
+        </a>
+    
+    
+        <a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/OpenCV/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">OpenCV.md</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+    
+    
+        <section id="comments"> 
+    <div id="waline"></div>
+ </section>
+    
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            RPS &copy; 2022 
+            <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme - <a target="_blank" rel="noopener" href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+            
+                <br>
+                <span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i> <span id="busuanzi_value_site_pv"></span></span>
+                &nbsp;|&nbsp;
+                <span id="busuanzi_container_site_pv"><i class="fa fa-user"></i> <span id="busuanzi_value_site_uv"></span></span>
+            
+        </div>
+    </div>
+</footer>
+
+        
+        
+    <script>
+        Waline({
+          el: '#waline',
+          serverURL: 'https://waline-lac-nu.vercel.app',
+        });
+      </script>
+
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+        <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true,
+            TeX: {
+                equationNumbers: {
+                  autoNumber: 'AMS'
+                }
+            }
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>
+</body>
+</html>

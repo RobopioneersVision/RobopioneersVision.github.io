@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta charset="utf-8">
+    <script src="//cdn.jsdelivr.net/npm/@waline/client"></script>
+    
+    <title>C++20 新增特性.md | RobopioneersVision</title>
+    
+    
+        <meta name="keywords" content="wiki,百科,深度学习,Ubuntu,视觉,编程" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="C++20 新增特性https:&#x2F;&#x2F;zhuanlan.zhihu.com&#x2F;p&#x2F;137646370 ![](C++20 新增特性&#x2F;1.jpg) 原文链接:  常量表达式(constexpr) 的更新 用 using 引用 enum 类型 格式化库(std::format)    新增关键字(keywords) concept requires constinit consteval co_await">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++20 新增特性.md">
+<meta property="og:url" content="https://rps-wiki.vercel.app/wiki/Notion/%E7%99%BE%E7%A7%91/C++/%E6%A0%87%E5%87%86/C++20%20%E6%96%B0%E5%A2%9E%E7%89%B9%E6%80%A7/index.html">
+<meta property="og:site_name" content="RobopioneersVision">
+<meta property="og:description" content="C++20 新增特性https:&#x2F;&#x2F;zhuanlan.zhihu.com&#x2F;p&#x2F;137646370 ![](C++20 新增特性&#x2F;1.jpg) 原文链接:  常量表达式(constexpr) 的更新 用 using 引用 enum 类型 格式化库(std::format)    新增关键字(keywords) concept requires constinit consteval co_await">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-12-22T01:25:00.000Z">
+<meta property="article:modified_time" content="2022-09-20T14:18:09.033Z">
+<meta property="article:author" content="RPS">
+<meta property="article:tag" content="wiki,百科,深度学习,Ubuntu,视觉,编程">
+<meta name="twitter:card" content="summary">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="RobopioneersVision" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/favicon.ico" />
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+<script src="/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">RobopioneersVision</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/">首页</a>
+                
+                    <a class="main-nav-link" href="/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/about">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id='categories'>
+        <h3 class="widget-title">
+            <span>categories</span>
+            &nbsp;
+            <a id='allExpand' href="#">
+                <i class="fa fa-angle-double-down fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree" > 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Notion
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            百科
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            C++
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Boost
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/C++/Boost/asio%20udp%E7%9B%B8%E5%85%B3%E6%95%B4%E7%90%86/">asio udp相关整理</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/C++/Boost/boost%20asio%E4%B9%8B%E4%B8%80%20UDP%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">Boost::Asio之UDP网络编程.md</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            CUDA
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/C++/CUDA/CUDA%E7%A8%8B%E5%BA%8F%E8%B0%83%E4%BC%98%E6%8C%87%E5%8D%97%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9A%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98%20-%20%E7%9F%A5%E4%B9%8E/">CUDA程序调优指南（二）：性能调优 - 知乎.md</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Linux 特化
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Linux下进程通过共享内存通信
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/C++/Linux%20%E7%89%B9%E5%8C%96/Linux%E4%B8%8B%E8%BF%9B%E7%A8%8B%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98%E9%80%9A%E4%BF%A1/%E5%A4%A7%E6%81%92%E7%9B%B8%E6%9C%BASDK%E4%B8%8B%E8%BD%BD%E5%9C%B0%E5%9D%80/">大恒相机SDK下载地址.md</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/C++/Linux%20%E7%89%B9%E5%8C%96/Linux%20%E5%A4%9A%E8%BF%9B%E7%A8%8B%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98%E6%95%B0%E6%8D%AE/">Linux 多进程共享内存数据.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/C++/Linux%20%E7%89%B9%E5%8C%96/Linux%E4%B8%8B%E8%BF%9B%E7%A8%8B%E9%80%9A%E8%BF%87%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98%E9%80%9A%E4%BF%A1/">Linux下进程通过共享内存通信.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/C++/Linux%20%E7%89%B9%E5%8C%96/Linux%E9%A9%B1%E5%8A%A8%E4%B9%8B%E4%B8%B2%E5%8F%A3%EF%BC%88UART%EF%BC%89/">Linux驱动之串口（UART）.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/C++/Linux%20%E7%89%B9%E5%8C%96/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE%E7%9B%B8%E5%85%B3/">通信协议相关.md</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            标准
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            C++ Standards Support in GCC - GNU Project
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Untitled Database1
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/C++/%E6%A0%87%E5%87%86/C++%20Standards%20Support%20in%20GCC%20-%20GNU%20Project/Untitled%20Database1/Clarifying%20memory%20allocation/">Clarifying memory allocation.md</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Untitled Database2
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/C++/%E6%A0%87%E5%87%86/C++%20Standards%20Support%20in%20GCC%20-%20GNU%20Project/Untitled%20Database2/Minimal%20support%20for%20garbage%20collection%20and%20reachab/">Minimal support for garbage collection and reachab.md</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/C++/%E6%A0%87%E5%87%86/C++%20Standards%20Support%20in%20GCC%20-%20GNU%20Project/">C++ Standards Support in GCC - GNU Project.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/C++/%E6%A0%87%E5%87%86/C++%20%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%92%8C%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E5%88%9D%E5%A7%8B%E5%8C%96%E9%A1%BA%E5%BA%8F/">C++ 构造函数和成员变量初始化顺序.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/C++/%E6%A0%87%E5%87%86/C++17%E6%96%B0%E7%89%B9%E6%80%A7/">C++17新特性.md</a></li>  <li class="file active"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/C++/%E6%A0%87%E5%87%86/C++20%20%E6%96%B0%E5%A2%9E%E7%89%B9%E6%80%A7/">C++20 新增特性.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/C++/%E6%A0%87%E5%87%86/C++%E5%AF%B9%E8%B1%A1%E6%9E%84%E9%80%A0%E7%9A%84%E9%A1%BA%E5%BA%8F/">C++对象构造的顺序.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/C++/%E6%A0%87%E5%87%86/Clang%20-%20C++20,%20C++17,%20C++14,%20C++11%20and%20C++98%20Statu/">Clang - C++20, C++17, C++14, C++11 and C++98 Statu.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/C++/%E6%A0%87%E5%87%86/c++%20fstream%20%E8%AF%BB%E5%86%99%E6%96%87%E4%BB%B6%E6%80%BB%E7%BB%93/">c++ fstream 读写文件总结.md</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/C++/Boost/">Boost.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/C++/CUDA/">CUDA.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/C++/Linux%20%E7%89%B9%E5%8C%96/">Linux 特化.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/C++/%E6%A0%87%E5%87%86/">标准.md</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            CMake
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/CMake/cmake%20find_package%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3/">cmake find_package命令详解.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/CMake/Makefile%E6%95%99%E7%A8%8B%EF%BC%88%E7%BB%9D%E5%AF%B9%E7%BB%8F%E5%85%B8%EF%BC%8C%E6%89%80%E6%9C%89%E9%97%AE%E9%A2%98%E7%9C%8B%E8%BF%99%E4%B8%80%E7%AF%87%E8%B6%B3%E5%A4%9F%E4%BA%86%EF%BC%89_GUYUEZHICHENG%E7%9A%84%E5%8D%9A%E5%AE%A2-CSDN/">Makefile教程（绝对经典，所有问题看这一篇足够了）_GUYUEZHICHENG的博客-CSDN.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/CMake/cmake%20%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/">cmake 动态链接库.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/CMake/cmake%20%E8%AF%A6%E8%A7%A3find_package/">cmake 详解find_package.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/CMake/cmake%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%8C%EF%BC%89%20%E5%88%9B%E5%BB%BA%E5%BA%93%E5%B9%B6%E4%BD%BF%E7%94%A8find_package%E6%9F%A5%E6%89%BE%E5%8C%85/">cmake学习（二） 创建库并使用find_package查找包.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/CMake/cmake%E7%9A%84%E5%88%9D%E6%AD%A5%E4%BD%BF%E7%94%A8/">cmake的初步使用.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/CMake/%E5%B8%B8%E8%A7%81%E5%BA%93cmakelist%E9%85%8D%E7%BD%AE%E8%8C%83%E4%BE%8B/">常见库cmakelist配置范例.md</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Markdown
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Markdown mermaid
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Untitled Database
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/Markdown/Markdown%20mermaid/Untitled%20Database/o%E2%80%93/">o–.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/Markdown/Markdown%20mermaid/Untitled%20Database/%E2%80%93/">–.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/Markdown/Markdown%20mermaid/Untitled%20Database/%E2%80%931/">–1.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/Markdown/Markdown%20mermaid/Untitled%20Database/%E2%80%932/">–2.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/Markdown/Markdown%20mermaid/Untitled%20Database/%E2%80%A61/">…1.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/Markdown/Markdown%20mermaid/Untitled%20Database/%E2%80%A62/">…2.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/Markdown/Markdown%20mermaid/Untitled%20Database/%E2%80%A63/">…3.md</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/Markdown/Markdown%20mermaid/">Markdown mermaid.md</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            SLAM
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/SLAM/DWA%E5%B1%80%E9%83%A8%E9%81%BF%E9%9A%9C%E7%AE%97%E6%B3%95/">DWA局部避障算法.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/SLAM/Grid%20Map%20%E6%A0%85%E6%A0%BC%E5%9C%B0%E5%9B%BE/">Grid Map 栅格地图.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/SLAM/%E5%9C%B0%E5%9B%BE%E7%9A%84%E5%AD%98%E5%82%A8%E6%9E%84%E5%BB%BA%E6%96%B9%E5%BC%8F%E6%AF%94%E8%BE%83/">地图的存储构建方式比较.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/SLAM/%E5%9D%90%E6%A0%87%E5%8F%98%E6%8D%A2%E5%8F%8A%E5%85%B6%E6%95%B0%E5%AD%A6%E6%8E%A8%E7%90%86/">坐标变换及其数学推理.md</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            STM32
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/STM32/STM32%20Clion%20Ubuntu%20%E9%85%8D%E7%BD%AE/">STM32 Clion Ubuntu 配置.md</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            UE4
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/UE4/UE4%E5%A4%9A%E4%BA%BA%E5%8D%8F%E4%BD%9C%E6%95%99%E7%A8%8B%20-%20%E7%9F%A5%E4%B9%8E/">UE4多人协作教程 - 知乎.md</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            工作
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            安全级别
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            常规安全级与组别对应表
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E5%AE%89%E5%85%A8%E7%BA%A7%E5%88%AB/%E5%B8%B8%E8%A7%84%E5%AE%89%E5%85%A8%E7%BA%A7%E4%B8%8E%E7%BB%84%E5%88%AB%E5%AF%B9%E5%BA%94%E8%A1%A8/%E5%90%88%E4%BD%9C%E4%BC%99%E4%BC%B4%E5%85%B3%E7%B3%BB/">合作伙伴关系.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E5%AE%89%E5%85%A8%E7%BA%A7%E5%88%AB/%E5%B8%B8%E8%A7%84%E5%AE%89%E5%85%A8%E7%BA%A7%E4%B8%8E%E7%BB%84%E5%88%AB%E5%AF%B9%E5%BA%94%E8%A1%A8/%E5%AE%9E%E4%B9%A0%E5%85%B3%E7%B3%BB/">实习关系.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E5%AE%89%E5%85%A8%E7%BA%A7%E5%88%AB/%E5%B8%B8%E8%A7%84%E5%AE%89%E5%85%A8%E7%BA%A7%E4%B8%8E%E7%BB%84%E5%88%AB%E5%AF%B9%E5%BA%94%E8%A1%A8/%E6%88%90%E5%91%98%E5%85%B3%E7%B3%BB/">成员关系.md</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            常规安全级安全要求对应表
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E5%AE%89%E5%85%A8%E7%BA%A7%E5%88%AB/%E5%B8%B8%E8%A7%84%E5%AE%89%E5%85%A8%E7%BA%A7%E5%AE%89%E5%85%A8%E8%A6%81%E6%B1%82%E5%AF%B9%E5%BA%94%E8%A1%A8/%E4%B8%80%E7%BA%A7%E6%9C%BA%E5%AF%86/">一级机密.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E5%AE%89%E5%85%A8%E7%BA%A7%E5%88%AB/%E5%B8%B8%E8%A7%84%E5%AE%89%E5%85%A8%E7%BA%A7%E5%AE%89%E5%85%A8%E8%A6%81%E6%B1%82%E5%AF%B9%E5%BA%94%E8%A1%A8/%E4%B8%89%E7%BA%A7%E6%9C%BA%E5%AF%86/">三级机密.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E5%AE%89%E5%85%A8%E7%BA%A7%E5%88%AB/%E5%B8%B8%E8%A7%84%E5%AE%89%E5%85%A8%E7%BA%A7%E5%AE%89%E5%85%A8%E8%A6%81%E6%B1%82%E5%AF%B9%E5%BA%94%E8%A1%A8/%E4%BA%8C%E7%BA%A7%E6%9C%BA%E5%AF%86/">二级机密.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E5%AE%89%E5%85%A8%E7%BA%A7%E5%88%AB/%E5%B8%B8%E8%A7%84%E5%AE%89%E5%85%A8%E7%BA%A7%E5%AE%89%E5%85%A8%E8%A6%81%E6%B1%82%E5%AF%B9%E5%BA%94%E8%A1%A8/%E5%85%AC%E5%BC%80%E6%96%87%E4%BB%B60/">公开文件0.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E5%AE%89%E5%85%A8%E7%BA%A7%E5%88%AB/%E5%B8%B8%E8%A7%84%E5%AE%89%E5%85%A8%E7%BA%A7%E5%AE%89%E5%85%A8%E8%A6%81%E6%B1%82%E5%AF%B9%E5%BA%94%E8%A1%A8/%E5%85%AC%E5%BC%80%E6%96%87%E4%BB%B61/">公开文件1.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E5%AE%89%E5%85%A8%E7%BA%A7%E5%88%AB/%E5%B8%B8%E8%A7%84%E5%AE%89%E5%85%A8%E7%BA%A7%E5%AE%89%E5%85%A8%E8%A6%81%E6%B1%82%E5%AF%B9%E5%BA%94%E8%A1%A8/%E5%85%AC%E5%BC%80%E6%96%87%E4%BB%B62/">公开文件2.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E5%AE%89%E5%85%A8%E7%BA%A7%E5%88%AB/%E5%B8%B8%E8%A7%84%E5%AE%89%E5%85%A8%E7%BA%A7%E5%AE%89%E5%85%A8%E8%A6%81%E6%B1%82%E5%AF%B9%E5%BA%94%E8%A1%A8/%E5%86%85%E9%83%A8%E6%96%87%E4%BB%B63/">内部文件3.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E5%AE%89%E5%85%A8%E7%BA%A7%E5%88%AB/%E5%B8%B8%E8%A7%84%E5%AE%89%E5%85%A8%E7%BA%A7%E5%AE%89%E5%85%A8%E8%A6%81%E6%B1%82%E5%AF%B9%E5%BA%94%E8%A1%A8/%E5%86%85%E9%83%A8%E6%96%87%E4%BB%B64/">内部文件4.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E5%AE%89%E5%85%A8%E7%BA%A7%E5%88%AB/%E5%B8%B8%E8%A7%84%E5%AE%89%E5%85%A8%E7%BA%A7%E5%AE%89%E5%85%A8%E8%A6%81%E6%B1%82%E5%AF%B9%E5%BA%94%E8%A1%A8/%E5%86%85%E9%83%A8%E6%96%87%E4%BB%B65/">内部文件5.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E5%AE%89%E5%85%A8%E7%BA%A7%E5%88%AB/%E5%B8%B8%E8%A7%84%E5%AE%89%E5%85%A8%E7%BA%A7%E5%AE%89%E5%85%A8%E8%A6%81%E6%B1%82%E5%AF%B9%E5%BA%94%E8%A1%A8/%E5%86%85%E9%83%A8%E6%96%87%E4%BB%B66/">内部文件6.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E5%AE%89%E5%85%A8%E7%BA%A7%E5%88%AB/%E5%B8%B8%E8%A7%84%E5%AE%89%E5%85%A8%E7%BA%A7%E5%AE%89%E5%85%A8%E8%A6%81%E6%B1%82%E5%AF%B9%E5%BA%94%E8%A1%A8/%E9%9B%B6%E7%BA%A7%E6%9C%BA%E5%AF%86/">零级机密.md</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E5%AE%89%E5%85%A8%E7%BA%A7%E5%88%AB/%E5%AE%89%E5%85%A8%E7%BA%A7%E5%88%AB%E5%B0%81%E9%9D%A2%E6%A8%A1%E7%89%88/">安全级别封面模版.md</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            目前已有物资
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            微型机
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E7%9B%AE%E5%89%8D%E5%B7%B2%E6%9C%89%E7%89%A9%E8%B5%84/%E5%BE%AE%E5%9E%8B%E6%9C%BA/PioneerPascal/">PioneerPascal.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E7%9B%AE%E5%89%8D%E5%B7%B2%E6%9C%89%E7%89%A9%E8%B5%84/%E5%BE%AE%E5%9E%8B%E6%9C%BA/PioneerTuring/">PioneerTuring.md</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            摄像机
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E7%9B%AE%E5%89%8D%E5%B7%B2%E6%9C%89%E7%89%A9%E8%B5%84/%E6%91%84%E5%83%8F%E6%9C%BA/MER-131/">MER-131.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E7%9B%AE%E5%89%8D%E5%B7%B2%E6%9C%89%E7%89%A9%E8%B5%84/%E6%91%84%E5%83%8F%E6%9C%BA/MER-133/">MER-133.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E7%9B%AE%E5%89%8D%E5%B7%B2%E6%9C%89%E7%89%A9%E8%B5%84/%E6%91%84%E5%83%8F%E6%9C%BA/MER-139/">MER-139.md</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            镜头
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E7%9B%AE%E5%89%8D%E5%B7%B2%E6%9C%89%E7%89%A9%E8%B5%84/%E9%95%9C%E5%A4%B4/CHIOPT%203%205mm%20%E5%8F%98%E7%84%A6%E6%91%84%E5%83%8F%E5%A4%B4/">CHIOPT 3 5mm 变焦摄像头.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E7%9B%AE%E5%89%8D%E5%B7%B2%E6%9C%89%E7%89%A9%E8%B5%84/%E9%95%9C%E5%A4%B4/MIMACRO%204mm%20%E5%8F%98%E7%84%A6%E6%91%84%E5%83%8F%E5%A4%B4/">MIMACRO 4mm 变焦摄像头.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E7%9B%AE%E5%89%8D%E5%B7%B2%E6%9C%89%E7%89%A9%E8%B5%84/%E9%95%9C%E5%A4%B4/%E5%A4%A7%E6%81%92%206mm%20%E5%8F%98%E7%84%A6%E6%91%84%E5%83%8F%E5%A4%B4/">大恒 6mm 变焦摄像头.md</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E5%AE%89%E5%85%A8%E7%BA%A7%E5%88%AB/">安全级别.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B/">工作流程.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E7%9B%AE%E5%89%8D%E5%B7%B2%E6%9C%89%E7%89%A9%E8%B5%84/">目前已有物资.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/%E8%A7%86%E8%A7%89%E7%BB%84%E5%AE%9E%E4%B9%A0%E6%88%90%E5%91%98%E8%BD%AC%E6%AD%A3%E6%9D%A1%E4%BE%8B/">视觉组实习成员转正条例.md</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            微服务
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            RocketMQ
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%BE%AE%E6%9C%8D%E5%8A%A1/RocketMQ/%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/">安装配置.md</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%BE%AE%E6%9C%8D%E5%8A%A1/Restful%20API%20%E7%9A%84%E8%AE%BE%E8%AE%A1%E8%A7%84%E8%8C%83/">Restful API 的设计规范.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%BE%AE%E6%9C%8D%E5%8A%A1/RocketMQ/">RocketMQ.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%BE%AE%E6%9C%8D%E5%8A%A1/TCP%E5%92%8CUDP%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E4%BC%98%E7%BC%BA%E7%82%B9/">TCP和UDP的区别和优缺点.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%BE%AE%E6%9C%8D%E5%8A%A1/api-guidelines%20Guidelines%20md%20at%20vNext%20%C2%B7%20microsoft/">api-guidelines Guidelines md at vNext · microsoft.md</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            机器学习
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/Tensorflow%20kears%E6%A8%A1%E5%9E%8B%E8%BD%ACONNX%20%E6%A0%BC%E5%BC%8F/">Tensorflow kears模型转ONNX 格式.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/YOLO4%20cfg%20%E9%85%8D%E7%BD%AE%E8%AF%B4%E6%98%8E/">YOLO4 cfg 配置说明.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/YOLOv4%20%E9%85%8D%E7%BD%AE%E4%BD%BF%E7%94%A8%E9%81%87%E8%A7%81%E7%9A%84%E9%97%AE%E9%A2%98%E5%8F%8A%E8%A7%A3%E5%86%B3/">YOLOv4 配置使用遇见的问题及解决.md</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            机器视觉
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            OpenCV
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/OpenCV/C++%E4%B8%8AOpencv%20RotatedRect%E7%B1%BB%E4%B8%AD%E7%9A%84points%E3%80%81angle%E3%80%81width%E3%80%81height/">C++上Opencv RotatedRect类中的points、angle、width、height.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/OpenCV/OpenCV%204%20%E5%9B%BE%E5%83%8F%E4%B8%8E%E8%A7%86%E9%A2%91%E7%9A%84%E4%BF%9D%E5%AD%98/">OpenCV 4 图像与视频的保存.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/OpenCV/OpenCV%20getStructuringElement%E5%87%BD%E6%95%B0/">OpenCV getStructuringElement函数.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/OpenCV/OpenCV%E7%9A%84tips/">OpenCV的tips.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/OpenCV/Opencv%20RotatedRect%E7%B1%BB%E4%B8%AD%E7%9A%84points%E3%80%81angle%E3%80%81width%E3%80%81height%E7%AD%89%E8%AF%A6%E8%A7%A3/">Opencv RotatedRect类中的points、angle、width、height等详解.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/OpenCV/%E5%9B%BE%E5%83%8F%E8%AF%86%E5%88%AB%E5%9C%A8C++%E4%B8%8A%E7%9A%84%E5%AE%9E%E7%8E%B0/">图像识别在C++上的实现.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/OpenCV/%E9%AB%98%E7%BA%A7%E7%9A%84%E5%BD%A2%E6%80%81%E5%AD%A6%E5%8F%98%E6%8D%A2/">高级的形态学变换.md</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            图像学理论
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/%E5%9B%BE%E5%83%8F%E5%AD%A6%E7%90%86%E8%AE%BA/HSV%E9%A2%9C%E8%89%B2%E5%88%86%E9%87%8F%E8%8C%83%E5%9B%B4/">HSV颜色分量范围.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/%E5%9B%BE%E5%83%8F%E5%AD%A6%E7%90%86%E8%AE%BA/RGB%E9%85%8D%E8%89%B2%E8%A1%A8/">RGB配色表.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/%E5%9B%BE%E5%83%8F%E5%AD%A6%E7%90%86%E8%AE%BA/%E5%9B%BE%E5%83%8F%E5%8D%B7%E7%A7%AF%E4%B8%8E%E6%BB%A4%E6%B3%A2%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86%E7%82%B9/">图像卷积与滤波的一些知识点.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/%E5%9B%BE%E5%83%8F%E5%AD%A6%E7%90%86%E8%AE%BA/%E5%9B%BE%E5%83%8F%E5%B8%B8%E7%94%A8%E6%BB%A4%E6%B3%A2%E6%96%B9%E6%B3%95%EF%BC%88%E6%96%B9%E6%A1%86%E3%80%81%E5%9D%87%E5%80%BC%E3%80%81%E9%AB%98%E6%96%AF%E3%80%81%E4%B8%AD%E5%80%BC%E3%80%81%E5%8F%8C%E8%BE%B9%EF%BC%89/">图像常用滤波方法（方框、均值、高斯、中值、双边）.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/%E5%9B%BE%E5%83%8F%E5%AD%A6%E7%90%86%E8%AE%BA/%E7%9B%AE%E5%89%8D%E4%B8%BB%E6%B5%81%E8%A7%86%E8%A7%89%E8%AF%86%E5%88%AB%E7%AE%97%E6%B3%95/">目前主流视觉识别算法.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/%E5%9B%BE%E5%83%8F%E5%AD%A6%E7%90%86%E8%AE%BA/%E7%9B%B8%E6%9C%BA%E8%A7%86%E5%9C%BA%E8%A7%92%E5%92%8C%E7%84%A6%E8%B7%9D%E5%B9%B2%E8%B4%A7%20LIDAR%E3%80%81ToF%E7%9B%B8%E6%9C%BA%E3%80%81%E5%8F%8C%E7%9B%AE%E7%9B%B8%E6%9C%BA%E5%A6%82%E4%BD%95%E7%A7%91%E5%AD%A6%E9%80%89%E6%8B%A9/">相机视场角和焦距干货 LIDAR、ToF相机、双目相机如何科学选择.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/%E5%9B%BE%E5%83%8F%E5%AD%A6%E7%90%86%E8%AE%BA/%E8%A7%86%E8%A7%89%E5%B7%A5%E4%BD%9C%E9%9A%BE%E7%82%B9%E6%80%BB%E7%BB%93/">视觉工作难点总结.md</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            相机参数矩阵标定
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/%E7%9B%B8%E6%9C%BA%E5%8F%82%E6%95%B0%E7%9F%A9%E9%98%B5%E6%A0%87%E5%AE%9A/5/"></a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/Object%20Tracking%20using%20OpenCV%20(C++%20Python)%EF%BC%88%E4%BD%BF%E7%94%A8OpenCV%EF%BC%89/">Object Tracking using OpenCV (C++ Python)（使用OpenCV）.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/OpenCV/">OpenCV.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/%E5%9B%BE%E5%83%8F%E5%AD%A6%E7%90%86%E8%AE%BA/">图像学理论.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/%E7%9B%B8%E6%9C%BA%E5%8F%82%E6%95%B0%E7%9F%A9%E9%98%B5%E6%A0%87%E5%AE%9A/">相机参数矩阵标定.md</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            科普
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            变量名的命名法
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            属性部分
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/%E5%8F%98%E9%87%8F%E5%90%8D%E7%9A%84%E5%91%BD%E5%90%8D%E6%B3%95/%E5%B1%9E%E6%80%A7%E9%83%A8%E5%88%86/%E5%B8%B8%E9%87%8F%20d68b046e1dd84667a5d13b13e6533613/">常量 d68b046e1dd84667a5d13b13e6533613.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/%E5%8F%98%E9%87%8F%E5%90%8D%E7%9A%84%E5%91%BD%E5%90%8D%E6%B3%95/%E5%B1%9E%E6%80%A7%E9%83%A8%E5%88%86/%E7%B1%BB%E7%9A%84%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%20154de58ea10c4b9bbbfaa96e08f22567/">类的成员变量 154de58ea10c4b9bbbfaa96e08f22567.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/%E5%8F%98%E9%87%8F%E5%90%8D%E7%9A%84%E5%91%BD%E5%90%8D%E6%B3%95/%E5%B1%9E%E6%80%A7%E9%83%A8%E5%88%86/%E9%9D%99%E6%80%81%E5%8F%98%E9%87%8F%20e0960116d3df414aa554103775c3a55e/">静态变量 e0960116d3df414aa554103775c3a55e.md</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            描述部分
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/%E5%8F%98%E9%87%8F%E5%90%8D%E7%9A%84%E5%91%BD%E5%90%8D%E6%B3%95/%E6%8F%8F%E8%BF%B0%E9%83%A8%E5%88%86/%E5%88%9D%E5%A7%8B%E5%8C%96%20c4c32e2c373749c4b7f62492dd78a780/">初始化 c4c32e2c373749c4b7f62492dd78a780.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/%E5%8F%98%E9%87%8F%E5%90%8D%E7%9A%84%E5%91%BD%E5%90%8D%E6%B3%95/%E6%8F%8F%E8%BF%B0%E9%83%A8%E5%88%86/%E6%BA%90%E5%AF%B9%E8%B1%A1%20285f1ae85e234bc49609b7dc73813b86/">源对象 285f1ae85e234bc49609b7dc73813b86.md</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            类型部分
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/%E5%8F%98%E9%87%8F%E5%90%8D%E7%9A%84%E5%91%BD%E5%90%8D%E6%B3%95/%E7%B1%BB%E5%9E%8B%E9%83%A8%E5%88%86/%E5%87%BD%E6%95%B0/">函数.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/%E5%8F%98%E9%87%8F%E5%90%8D%E7%9A%84%E5%91%BD%E5%90%8D%E6%B3%95/%E7%B1%BB%E5%9E%8B%E9%83%A8%E5%88%86/%E5%8F%A5%E6%9F%84/">句柄.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/%E5%8F%98%E9%87%8F%E5%90%8D%E7%9A%84%E5%91%BD%E5%90%8D%E6%B3%95/%E7%B1%BB%E5%9E%8B%E9%83%A8%E5%88%86/%E5%AD%97%E8%8A%82/">字节.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/%E5%8F%98%E9%87%8F%E5%90%8D%E7%9A%84%E5%91%BD%E5%90%8D%E6%B3%95/%E7%B1%BB%E5%9E%8B%E9%83%A8%E5%88%86/%E6%8C%87%E9%92%88/">指针.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/%E5%8F%98%E9%87%8F%E5%90%8D%E7%9A%84%E5%91%BD%E5%90%8D%E6%B3%95/%E7%B1%BB%E5%9E%8B%E9%83%A8%E5%88%86/%E6%95%B4%E5%9E%8B/">整型.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/%E5%8F%98%E9%87%8F%E5%90%8D%E7%9A%84%E5%91%BD%E5%90%8D%E6%B3%95/%E7%B1%BB%E5%9E%8B%E9%83%A8%E5%88%86/%E6%97%A0%E6%95%88/">无效.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/%E5%8F%98%E9%87%8F%E5%90%8D%E7%9A%84%E5%91%BD%E5%90%8D%E6%B3%95/%E7%B1%BB%E5%9E%8B%E9%83%A8%E5%88%86/%E7%9F%AD%E6%95%B4%E5%9E%8B/">短整型.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/%E5%8F%98%E9%87%8F%E5%90%8D%E7%9A%84%E5%91%BD%E5%90%8D%E6%B3%95/%E7%B1%BB%E5%9E%8B%E9%83%A8%E5%88%86/%E8%AE%A1%E6%95%B0/">计数.md</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            如何提高代码设计能力
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/%E5%A6%82%E4%BD%95%E6%8F%90%E9%AB%98%E4%BB%A3%E7%A0%81%E8%AE%BE%E8%AE%A1%E8%83%BD%E5%8A%9B/%E4%BE%9D%E8%B5%96%EF%BC%88Dependency%EF%BC%89%E5%85%B3%E7%B3%BB%E6%98%AF%E4%B8%80%E7%A7%8D%E4%BD%BF%E7%94%A8%E5%85%B3%E7%B3%BB%EF%BC%8C%E5%AE%83%E6%98%AF%E5%AF%B9%E8%B1%A1%E4%B9%8B%E9%97%B4%E8%80%A6%E5%90%88%E5%BA%A6%E6%9C%80%E5%BC%B1%E7%9A%84%E4%B8%80%E7%A7%8D%E5%85%B3%E8%81%94%E6%96%B9%E5%BC%8F%EF%BC%8C%E6%98%AF%E4%B8%B4%E6%97%B6%E6%80%A7%E7%9A%84%E5%85%B3%E8%81%94/">依赖（Dependency）关系是一种使用关系，它是对象之间耦合度最弱的一种关联方式，是临时性的关联.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/%E5%A6%82%E4%BD%95%E6%8F%90%E9%AB%98%E4%BB%A3%E7%A0%81%E8%AE%BE%E8%AE%A1%E8%83%BD%E5%8A%9B/%E6%A0%B9%E6%8D%AE%E7%B1%BB%E4%B8%8E%E7%B1%BB%E4%B9%8B%E9%97%B4%E7%9A%84%E8%80%A6%E5%90%88%E5%BA%A6%E4%BB%8E%E5%BC%B1%E5%88%B0%E5%BC%BA%E6%8E%92%E5%88%97%EF%BC%8CUML%20%E4%B8%AD%E7%9A%84%E7%B1%BB%E5%9B%BE%E6%9C%89%E4%BB%A5%E4%B8%8B%E5%87%A0%E7%A7%8D%E5%85%B3%E7%B3%BB%EF%BC%9A%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB%E3%80%81%E5%85%B3%E8%81%94%E5%85%B3%E7%B3%BB%E3%80%81%E8%81%9A%E5%90%88%E5%85%B3%E7%B3%BB%E3%80%81%E7%BB%84/">根据类与类之间的耦合度从弱到强排列，UML 中的类图有以下几种关系：依赖关系、关联关系、聚合关系、组.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/%E5%A6%82%E4%BD%95%E6%8F%90%E9%AB%98%E4%BB%A3%E7%A0%81%E8%AE%BE%E8%AE%A1%E8%83%BD%E5%8A%9B/%E9%AB%98%E5%86%85%E8%81%9A%E4%BD%8E%E8%80%A6%E5%90%88%EF%BC%8C%E6%98%AF%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E4%B8%AD%E7%9A%84%E6%A6%82%E5%BF%B5%EF%BC%8C%E6%98%AF%E5%88%A4%E6%96%AD%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%A5%BD%E5%9D%8F%E7%9A%84%E6%A0%87%E5%87%86%EF%BC%8C%E4%B8%BB%E8%A6%81%E7%94%A8%E4%BA%8E%E7%A8%8B%E5%BA%8F%E7%9A%84%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%9A%84%E8%AE%BE%E8%AE%A1%EF%BC%8C%E4%B8%BB%E8%A6%81%E7%9C%8B%E7%B1%BB%E7%9A%84/">高内聚低耦合，是软件工程中的概念，是判断软件设计好坏的标准，主要用于程序的面向对象的设计，主要看类的.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/%E5%A6%82%E4%BD%95%E6%8F%90%E9%AB%98%E4%BB%A3%E7%A0%81%E8%AE%BE%E8%AE%A1%E8%83%BD%E5%8A%9B/%EF%BC%88%E6%8A%BD%E8%B1%A1%E7%B1%BB%E5%B0%B1%E6%98%AF%E4%B8%8D%E8%83%BD%E4%BD%BF%E7%94%A8new%E6%96%B9%E6%B3%95%E8%BF%9B%E8%A1%8C%E5%AE%9E%E4%BE%8B%E5%8C%96%E7%9A%84%E7%B1%BB%EF%BC%8C%E5%8D%B3%E6%B2%A1%E6%9C%89%E5%85%B7%E4%BD%93%E5%AE%9E%E4%BE%8B%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%B1%BB%E3%80%82%E6%8A%BD%E8%B1%A1%E7%B1%BB%E6%9C%89%E7%82%B9%E7%B1%BB%E4%BC%BC%E2%80%9C%E6%A8%A1%E6%9D%BFbai%E2%80%9D%E7%9A%84%20/">（抽象类就是不能使用new方法进行实例化的类，即没有具体实例对象的类。抽象类有点类似“模板bai”的 .md</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/5%E5%BC%A0%E5%8A%A8%E5%9B%BE%E5%B8%A6%E4%BD%A0%E7%9C%8B%E6%87%82%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AE%97%E6%B3%95/">5张动图带你看懂垃圾回收算法.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/Jetson%20tx2%E5%88%B7%E6%9C%BA%EF%BC%881%200%EF%BC%89/">Jetson tx2刷机（1 0）.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/Python%E4%B8%AD%E7%9A%84%E9%82%A3%E4%BA%9B%E4%B8%8D%E4%B8%BA%E4%BA%BA%E7%9F%A5%E7%9A%84%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7%20(2)/">Python中的那些不为人知的奇技淫巧 (2).md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/Python%E4%B8%AD%E7%9A%84%E9%82%A3%E4%BA%9B%E4%B8%8D%E4%B8%BA%E4%BA%BA%E7%9F%A5%E7%9A%84%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7%EF%BC%881%EF%BC%89/">Python中的那些不为人知的奇技淫巧（1）.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/%E5%8F%98%E9%87%8F%E5%90%8D%E7%9A%84%E5%91%BD%E5%90%8D%E6%B3%95/">变量名的命名法.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95%E2%80%94%E2%80%94%E6%90%9C%E7%B4%A2/">基础算法——搜索.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95%E2%80%94%E2%80%94%E8%B4%AA%E5%BF%83/">基础算法——贪心.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/%E5%A6%82%E4%BD%95%E6%8F%90%E9%AB%98%E4%BB%A3%E7%A0%81%E8%AE%BE%E8%AE%A1%E8%83%BD%E5%8A%9B/">如何提高代码设计能力.md</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            脚本集合
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88/%E6%89%B9%E5%A4%84%E7%90%86%E6%8C%87%E4%BB%A4/">批处理指令.md</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/C++/">C++.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/CMake/">CMake.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/Markdown/">Markdown.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/SLAM/">SLAM.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/STM32/">STM32.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/UE4/">UE4.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%B7%A5%E4%BD%9C/">工作.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">微服务.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/">机器视觉.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E7%A7%91%E6%99%AE/">科普.md</a></li>  <li class="file"><a href="/wiki/Notion/%E7%99%BE%E7%A7%91/%E8%84%9A%E6%9C%AC%E9%9B%86%E5%90%88/">脚本集合.md</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Todo
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Todo/WebsitsBug/">WebsitsBug</a></li>  <li class="file"><a href="/wiki/Todo/%E5%BE%85%E5%AE%8C%E5%96%84%E6%94%B9%E8%BF%9B/">待完善改进</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            文档
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            yolo学习
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/yolo%E5%AD%A6%E4%B9%A0/yolov3/"></a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/yolo%E5%AD%A6%E4%B9%A0/anchor%20boxes/">anchor box（先验框）</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/yolo%E5%AD%A6%E4%B9%A0/yolo1%20%E5%85%B7%E4%BD%93%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84/">yolov1 具体网络结构</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/yolo%E5%AD%A6%E4%B9%A0/yolo1%20%E6%80%9D%E6%83%B3%E4%B8%8E%E8%BE%93%E5%87%BA%E7%9A%84%E5%BD%A2%E5%BC%8F/">yolo1 思想与输出的形式</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/yolo%E5%AD%A6%E4%B9%A0/yolov2%E5%81%9A%E5%87%BA%E7%9A%84%E6%94%B9%E8%BF%9B/">yolov2做出的改进</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/yolo%E5%AD%A6%E4%B9%A0/YOLOv3%20model/">YOLOv3 model.py代码的简单分析注解</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            参考模板
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/%E5%8F%82%E8%80%83%E6%A8%A1%E6%9D%BF/%E5%AE%9E%E9%AA%8C%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A%E6%A8%A1%E6%9D%BF/">实验测试报告模板</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/%E5%8F%82%E8%80%83%E6%A8%A1%E6%9D%BF/%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1%E6%A8%A1%E6%9D%BF/">方案设计模板</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/%E5%8F%82%E8%80%83%E6%A8%A1%E6%9D%BF/%E6%AD%A5%E5%85%B5/">步兵设计方案</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/%E5%8F%82%E8%80%83%E6%A8%A1%E6%9D%BF/%E8%8B%B1%E9%9B%84/">步兵设计方案</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/%E5%8F%82%E8%80%83%E6%A8%A1%E6%9D%BF/%E5%B7%A5%E7%A8%8B%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90/">工程需求分析</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/%E5%8F%82%E8%80%83%E6%A8%A1%E6%9D%BF/%E9%A3%9E%E9%95%96%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90/">飞镖需求分析</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            实验测试报告
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/%E5%AE%9E%E9%AA%8C%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A/%E6%8E%A7%E5%88%B6%E5%BB%B6%E8%BF%9F%E6%B5%8B%E9%87%8F%E6%8A%A5%E5%91%8A/">控制延迟测量报告</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/%E5%AE%9E%E9%AA%8C%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A/%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90%E6%8A%A5%E5%91%8A/">性能分析报告</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            模型部署
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2/%E7%BD%91%E7%BB%9C%E8%BD%BB%E9%87%8F%E5%8C%96%E5%A4%A7%E7%BA%B2/">网络轻量化大纲</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            目标跟踪
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/%E7%9B%AE%E6%A0%87%E8%B7%9F%E8%B8%AA/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95/">匈牙利算法</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/%E7%9B%AE%E6%A0%87%E8%B7%9F%E8%B8%AA/%E5%8D%A1%E5%B0%94%E6%9B%BC%E6%BB%A4%E6%B3%A2/">卡尔曼滤波</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/%E7%9B%AE%E6%A0%87%E8%B7%9F%E8%B8%AA/deepsort%E6%80%BB%E4%BD%93%E6%A1%86%E6%9E%B6/">目标追踪Deepsort</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/%E7%9B%AE%E6%A0%87%E8%B7%9F%E8%B8%AA/deepsort%E7%AE%97%E6%B3%95%E7%BB%86%E8%8A%82/">Deepsort算法解读</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/%E7%9B%AE%E6%A0%87%E8%B7%9F%E8%B8%AA/%E7%BA%A7%E8%81%94%E5%8C%B9%E9%85%8D/"></a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/wiki%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/">wiki使用和部署指南</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95/">学习方法</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/Git%E6%95%99%E7%A8%8B/">Git 教程</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/%E5%8F%AF%E8%A1%8C%E6%80%A7%E5%88%86%E6%9E%90/">可行性分析</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/Cuda%E5%BA%93%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/">CUDA库安装配置</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/OpenCV%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85/">OpenCV源码编译安装</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/%E8%A3%85%E6%9C%BA%E5%BF%85%E5%A4%87/">装机必备</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/Markdown%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87/">Markdown插入图片</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/NX%E5%88%B7%E6%9C%BA%EF%BC%88%E8%99%9A%E6%8B%9F%E6%9C%BA%20+%20SDKmanager%E6%96%B9%E6%B3%95%EF%BC%89/">NX刷机</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/Nvidia%E5%A4%9ACUDA%E9%85%8D%E7%BD%AE%E5%88%87%E6%8D%A2/">Nvidia多CUDA配置切换</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/python%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E4%BD%BF%E7%94%A8/">python虚拟环境使用</a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/TX2%E5%88%B7%E6%9C%BA%E5%92%8C%E8%AE%BE%E5%A4%87%E7%AE%A1%E7%90%86/"></a></li>  <li class="file"><a href="/wiki/%E6%96%87%E6%A1%A3/%E6%97%A5%E5%B8%B8%E4%B9%A0%E6%83%AF%E5%85%BB%E6%88%90%E5%92%8C%E8%A1%8C%E4%B8%BA%E8%A7%84%E8%8C%83/">日常习惯养成和行为规范</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            日志记录
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            YoloX
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/YoloX/yolox-tiny%20%E5%90%84%E5%B1%82%E7%BA%A7%E4%BF%A1%E6%81%AF/">yolox-tiny 各层级信息</a></li>  <li class="file"><a href="/wiki/%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/YoloX/%E5%AE%89%E8%A3%85YOLOX%E7%AC%94%E8%AE%B0/">安装yolox笔记</a></li>  <li class="file"><a href="/wiki/%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/YoloX/YoloX%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97/">YoloX配置指南</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            硬件驱动开发
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/%E7%A1%AC%E4%BB%B6%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E6%B5%B7%E5%BA%B7%E7%9B%B8%E6%9C%BA%E9%A9%B1%E5%8A%A8/">海康相机开发日志</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/VOOC%E6%95%B0%E6%8D%AE%E9%9B%86%E8%BD%ACCOCO%E6%95%B0%E6%8D%AE%E9%9B%86/">VOC数据集转COCO数据集教程</a></li>  <li class="file"><a href="/wiki/%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/%E7%9B%B8%E6%9C%BA%E9%A9%B1%E5%8A%A8%E6%96%87%E6%A1%A3/">相机驱动文档</a></li>  <li class="file"><a href="/wiki/%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/%E7%AC%AC%E4%B8%80%E6%AC%A1Git%E5%90%88%E4%BD%9C%E8%AF%84%E8%AE%BA/">Git 合作项目评论</a></li>  <li class="file"><a href="/wiki/%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/%E5%83%8F%E7%B4%A0%E5%9D%90%E6%A0%87%E5%88%B0%E7%9B%B8%E6%9C%BA%E5%9D%90%E6%A0%87%E4%B9%8B%E9%97%B4%E7%9A%84%E8%BD%AC%E5%8C%96/">图像坐标到世界坐标</a></li>  <li class="file"><a href="/wiki/%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%AF%BC%E5%85%A5%E5%8F%8A%E7%BD%91%E6%A0%BC%E5%8C%96/">虚幻4模型导入</a></li>  <li class="file"><a href="/wiki/%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/%E6%A8%A1%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%8F%8A%E9%83%A8%E7%BD%B2/">模型部署和转换</a></li>  <li class="file"><a href="/wiki/%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1/">网络通信</a></li>  <li class="file"><a href="/wiki/%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/RPS%E8%A7%84%E5%88%99%E7%A0%94%E8%AE%A8/">RPS规则研讨</a></li>  <li class="file"><a href="/wiki/%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/%E6%9C%BA%E6%A2%B0%E8%87%82%E5%BC%80%E5%8F%91%E6%97%A5%E5%BF%97/">机械臂开发日志</a></li>  <li class="file"><a href="/wiki/%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/%E6%B5%81%E6%B0%B4%E7%BA%BF%E6%A3%80%E6%B5%8B%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3/">流水线检测说明文档</a></li>  <li class="file"><a href="/wiki/%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/%E8%A5%BF%E5%8C%97%E5%B7%A5%E4%B8%9A%E5%A4%A7%E5%AD%A6%E4%BB%A3%E7%A0%81/">西北工业大学代码</a></li>  <li class="file"><a href="/wiki/%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/%E5%B9%BF%E5%B7%9E%E5%AD%A6%E9%99%A2%E6%BA%90%E7%A0%81/">广州学院代码</a></li>  <li class="file"><a href="/wiki/%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/%E4%B8%B2%E5%8F%A3%E5%BC%80%E5%8F%91%E6%97%A5%E5%BF%97/">串口开发日志</a></li>  <li class="file"><a href="/wiki/%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/ubuntu%E5%8F%8C%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%AE%89%E8%A3%85/">ubuntu双系统的安装</a></li>  <li class="file"><a href="/wiki/%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95/%E9%95%9C%E5%A4%B4%E9%80%89%E5%9E%8B/">镜头选型</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            电控硬件
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            STM32学习笔记
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/%E7%94%B5%E6%8E%A7%E7%A1%AC%E4%BB%B6/STM32%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87/">学习目标</a></li>  <li class="file"><a href="/wiki/%E7%94%B5%E6%8E%A7%E7%A1%AC%E4%BB%B6/STM32%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">基础环境配置</a></li>  <li class="file"><a href="/wiki/%E7%94%B5%E6%8E%A7%E7%A1%AC%E4%BB%B6/STM32%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E6%96%B0%E5%BB%BA%E5%B7%A5%E7%A8%8B%E9%A1%B9%E7%9B%AE%E9%85%8D%E7%BD%AE/">新建工程项目配置</a></li>  <li class="file"><a href="/wiki/%E7%94%B5%E6%8E%A7%E7%A1%AC%E4%BB%B6/STM32%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E7%A1%AC%E4%BB%B6%E7%9F%A5%E8%AF%86%E7%82%B9%E6%B1%87%E6%80%BB/">硬件知识点汇总</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            编程
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            优秀第三方库及框架
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/%E7%BC%96%E7%A8%8B/%E4%BC%98%E7%A7%80%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%8F%8A%E6%A1%86%E6%9E%B6/C++%E8%91%97%E5%90%8D%E5%BA%93%E5%92%8C%E5%B7%A5%E5%85%B7/">C++著名库和工具</a></li>  <li class="file"><a href="/wiki/%E7%BC%96%E7%A8%8B/%E4%BC%98%E7%A7%80%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%8F%8A%E6%A1%86%E6%9E%B6/Cli11%E5%8F%82%E6%95%B0%E9%85%8D%E7%BD%AE%E5%BA%93/">Cli11参数配置库</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            设计模式
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/%E7%BC%96%E7%A8%8B/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%89%8D%E6%91%84%E5%99%A8%E6%A8%A1%E5%BC%8F/">前摄器模式</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/%E7%BC%96%E7%A8%8B/CMake%E6%9E%84%E5%BB%BA%E9%A1%B9%E7%9B%AE%E7%BB%83%E4%B9%A0/">CMAKE构建项目练习</a></li>  <li class="file"><a href="/wiki/%E7%BC%96%E7%A8%8B/Cmakelist%E5%B8%B8%E7%94%A8%E5%BA%93%E6%A8%A1%E6%9D%BF/">Cmakelist常用库模板</a></li>  <li class="file"><a href="/wiki/%E7%BC%96%E7%A8%8B/%E4%B8%B2%E5%8F%A3%E5%BC%80%E5%8F%91/">串口开发</a></li>  <li class="file"><a href="/wiki/%E7%BC%96%E7%A8%8B/%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/">命名规范</a></li>  <li class="file"><a href="/wiki/%E7%BC%96%E7%A8%8B/protobuf/">Protobuf</a></li>  <li class="file"><a href="/wiki/%E7%BC%96%E7%A8%8B/cmakelist%E8%AF%AD%E6%B3%95%E6%80%BB%E7%BB%93/">cmakelist语法总结</a></li>  <li class="file"><a href="/wiki/%E7%BC%96%E7%A8%8B/Docker%E7%AE%80%E4%BB%8B/">Docker简介</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            设备资料
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/%E8%AE%BE%E5%A4%87%E8%B5%84%E6%96%99/TX2%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">TX2注意事项</a></li>  <li class="file"><a href="/wiki/%E8%AE%BE%E5%A4%87%E8%B5%84%E6%96%99/IP%E7%9B%B4%E8%BF%9E%E5%9C%B0%E5%9D%80/">IP直连地址</a></li>  <li class="file"><a href="/wiki/%E8%AE%BE%E5%A4%87%E8%B5%84%E6%96%99/%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF/">开机自启</a></li>  <li class="file"><a href="/wiki/%E8%AE%BE%E5%A4%87%E8%B5%84%E6%96%99/%E8%BF%90%E7%AE%97%E8%AE%BE%E5%A4%87%E5%8F%8A%E7%9B%B8%E5%85%B3%E8%B5%84%E6%96%99/">运算设备及相关资料</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/index/">RPS视觉组Wiki库</a></li>  </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-Notion/百科/C++/标准/C++20 新增特性" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/Notion/">Notion</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/Notion/%E7%99%BE%E7%A7%91/">百科</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/Notion/%E7%99%BE%E7%A7%91/C/">C++</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/Notion/%E7%99%BE%E7%A7%91/C/%E6%A0%87%E5%87%86/">标准</a>
+    </div>
+
+                        
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki/Notion/%E7%99%BE%E7%A7%91/C++/%E6%A0%87%E5%87%86/C++20%20%E6%96%B0%E5%A2%9E%E7%89%B9%E6%80%A7/">
+            <time datetime="2021-12-22T01:25:00.000Z" itemprop="datePublished">2021-12-22</time>
+        </a>
+    </div>
+
+
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/KVM-Explorer/KVM-Explorer.github.io/raw/source/source/_posts/Notion/百科/C++/标准/C++20 新增特性.md'> Source </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/KVM-Explorer/KVM-Explorer.github.io/edit/source/source/_posts/Notion/百科/C++/标准/C++20 新增特性.md'> Edit </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/KVM-Explorer/KVM-Explorer.github.io/commits/source/source/_posts/Notion/百科/C++/标准/C++20 新增特性.md'> History </a>
+                            </div>
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            C++20 新增特性.md
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">Catalogue</strong>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#C-20-%E6%96%B0%E5%A2%9E%E7%89%B9%E6%80%A7"><span class="toc-number">1.</span> <span class="toc-text">C++20 新增特性</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B0%E5%A2%9E%E5%85%B3%E9%94%AE%E5%AD%97-keywords"><span class="toc-number">1.1.</span> <span class="toc-text">新增关键字(keywords)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B0%E5%A2%9E%E6%A0%87%E8%AF%86%E7%AC%A6-Identifies"><span class="toc-number">1.2.</span> <span class="toc-text">新增标识符(Identifies)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97-Modules"><span class="toc-number">1.3.</span> <span class="toc-text">模块(Modules)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E7%82%B9"><span class="toc-number">1.3.1.</span> <span class="toc-text">优点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%A8%A1%E5%9D%97"><span class="toc-number">1.3.2.</span> <span class="toc-text">创建模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E6%A8%A1%E5%9D%97"><span class="toc-number">1.3.3.</span> <span class="toc-text">引用模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#import-%E5%A4%B4%E6%96%87%E4%BB%B6"><span class="toc-number">1.3.4.</span> <span class="toc-text">import 头文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Ranges"><span class="toc-number">1.4.</span> <span class="toc-text">Ranges</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BE%8B%E5%AD%90"><span class="toc-number">1.4.1.</span> <span class="toc-text">例子</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%8F%E7%A8%8B-Coroutines"><span class="toc-number">1.5.</span> <span class="toc-text">协程(Coroutines)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%8D%8F%E7%A8%8B"><span class="toc-number">1.5.1.</span> <span class="toc-text">什么是协程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BE%8B%E5%AD%90-VC"><span class="toc-number">1.5.2.</span> <span class="toc-text">例子(VC++)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Concepts"><span class="toc-number">1.6.</span> <span class="toc-text">Concepts</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%AE%9A%E4%B9%89"><span class="toc-number">1.6.1.</span> <span class="toc-text">如何定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-number">1.6.2.</span> <span class="toc-text">使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BE%8B%E5%AD%90-1"><span class="toc-number">1.6.3.</span> <span class="toc-text">例子</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lambda-%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%9A%84%E6%9B%B4%E6%96%B0"><span class="toc-number">1.7.</span> <span class="toc-text">Lambda 表达式的更新</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#this-%E9%9C%80%E8%A6%81%E6%98%BE%E5%BC%8F%E6%8D%95%E8%8E%B7this%E5%8F%98%E9%87%8F"><span class="toc-number">1.7.1.</span> <span class="toc-text">[&#x3D;, this] 需要显式捕获this变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E6%9D%BF%E5%BD%A2%E5%BC%8F%E7%9A%84-Lambda-%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-number">1.7.2.</span> <span class="toc-text">模板形式的 Lambda 表达式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Lambda-%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%8D%95%E8%8E%B7%E6%94%AF%E6%8C%81%E6%89%93%E5%8C%85%E5%B1%95%E5%BC%80-Pack-Expansion"><span class="toc-number">1.7.3.</span> <span class="toc-text">Lambda 表达式捕获支持打包展开(Pack Expansion)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E9%87%8F%E8%A1%A8%E8%BE%BE%E5%BC%8F-constexpr-%E7%9A%84%E6%9B%B4%E6%96%B0"><span class="toc-number">1.8.</span> <span class="toc-text">常量表达式(constexpr) 的更新</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#constexpr-string-amp-vector"><span class="toc-number">1.8.1.</span> <span class="toc-text">constexpr string &amp; vector</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E5%AD%90-Atomic-%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88"><span class="toc-number">1.9.</span> <span class="toc-text">原子(Atomic)智能指针</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BE%8B%E5%AD%90-2"><span class="toc-number">1.9.1.</span> <span class="toc-text">例子</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E5%90%88%E6%B5%81-Joining-%E5%8F%AF%E4%B8%AD%E6%96%AD-Cancellable-%E7%9A%84%E7%BA%BF%E7%A8%8B"><span class="toc-number">1.10.</span> <span class="toc-text">自动合流(Joining), 可中断(Cancellable) 的线程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BE%8B%E5%AD%90-3"><span class="toc-number">1.10.1.</span> <span class="toc-text">例子</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C-20-%E5%90%8C%E6%AD%A5-Synchronization-%E5%BA%93"><span class="toc-number">1.11.</span> <span class="toc-text">C++20 同步(Synchronization)库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#std-atomic-ref"><span class="toc-number">1.11.1.</span> <span class="toc-text">std::atomic_ref</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E6%9B%B4%E6%96%B0"><span class="toc-number">1.12.</span> <span class="toc-text">其他更新</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E5%AE%9A%E5%88%9D%E5%A7%8B%E5%8C%96-Designated-Initializers"><span class="toc-number">1.12.1.</span> <span class="toc-text">指定初始化(Designated Initializers)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%88%AA%E5%A4%A9%E9%A3%9E%E6%9C%BA%E6%93%8D%E4%BD%9C%E7%AC%A6-lt-gt"><span class="toc-number">1.12.2.</span> <span class="toc-text">航天飞机操作符 &lt;&#x3D;&gt;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8C%83%E5%9B%B4-for-%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5%E6%94%AF%E6%8C%81%E5%88%9D%E5%A7%8B%E5%8C%96%E8%AF%AD%E5%8F%A5"><span class="toc-number">1.12.3.</span> <span class="toc-text">范围 for 循环语句支持初始化语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%9E%E7%B1%BB%E5%9E%8B%E6%A8%A1%E6%9D%BF%E5%BD%A2%E5%8F%82%E6%94%AF%E6%8C%81%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-number">1.12.4.</span> <span class="toc-text">非类型模板形参支持字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#likely-unlikely"><span class="toc-number">1.12.5.</span> <span class="toc-text">[[likely]], [[unlikely]]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A5%E5%8E%86-Calendar-%E5%92%8C%E6%97%B6%E5%8C%BA-Timezone-%E5%8A%9F%E8%83%BD"><span class="toc-number">1.12.6.</span> <span class="toc-text">日历(Calendar)和时区(Timezone)功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#std-span"><span class="toc-number">1.12.7.</span> <span class="toc-text">std::span</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E6%80%A7%E6%B5%8B%E8%AF%95%E5%AE%8F"><span class="toc-number">1.12.8.</span> <span class="toc-text">特性测试宏</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.12.9.</span> <span class="toc-text"></span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#consteval-%E5%87%BD%E6%95%B0"><span class="toc-number">1.12.10.</span> <span class="toc-text">consteval 函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#constinit"><span class="toc-number">1.12.11.</span> <span class="toc-text">constinit</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8-using-%E5%BC%95%E7%94%A8-enum-%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.12.12.</span> <span class="toc-text">用 using 引用 enum 类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%BA%93-std-format"><span class="toc-number">1.12.13.</span> <span class="toc-text">格式化库(std::format)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A2%9E%E5%8A%A0%E6%95%B0%E5%AD%A6%E5%B8%B8%E9%87%8F"><span class="toc-number">1.12.14.</span> <span class="toc-text">增加数学常量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#std-source-location"><span class="toc-number">1.12.15.</span> <span class="toc-text">std::source_location</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nodiscard-reason"><span class="toc-number">1.12.16.</span> <span class="toc-text">[[nodiscard(reason)]]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%8D%E8%BF%90%E7%AE%97"><span class="toc-number">1.12.17.</span> <span class="toc-text">位运算</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E4%BA%9B%E5%B0%8F%E6%9B%B4%E6%96%B0"><span class="toc-number">1.12.18.</span> <span class="toc-text">一些小更新</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">1.13.</span> <span class="toc-text">参考资料</span></a></li></ol></li></ol>
+                </div>
+            
+        
+        
+            <h1 id="C-20-新增特性"><a href="#C-20-新增特性" class="headerlink" title="C++20 新增特性"></a>C++20 新增特性</h1><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/137646370">https://zhuanlan.zhihu.com/p/137646370</a></p>
+<p>![](C++20 新增特性/1.jpg)</p>
+<p>原文链接:</p>
+<ul>
+<li>常量表达式(constexpr) 的更新<ul>
+<li>用 using 引用 enum 类型</li>
+<li>格式化库(std::format)</li>
+</ul>
+</li>
+</ul>
+<h2 id="新增关键字-keywords"><a href="#新增关键字-keywords" class="headerlink" title="新增关键字(keywords)"></a>新增关键字(keywords)</h2><ul>
+<li>concept</li>
+<li>requires</li>
+<li>constinit</li>
+<li>consteval</li>
+<li>co_await</li>
+<li>co_return</li>
+<li>co_yield</li>
+<li>char8_t</li>
+</ul>
+<h2 id="新增标识符-Identifies"><a href="#新增标识符-Identifies" class="headerlink" title="新增标识符(Identifies)"></a>新增标识符(Identifies)</h2><ul>
+<li>import</li>
+<li>module</li>
+</ul>
+<h2 id="模块-Modules"><a href="#模块-Modules" class="headerlink" title="模块(Modules)"></a>模块(Modules)</h2><h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><ul>
+<li>没有头文件</li>
+<li>声明实现仍然可分离, 但非必要</li>
+<li>可以<strong>显式</strong>指定那些导出(类, 函数等)</li>
+<li>不需要头文件重复引入宏 (include guards)</li>
+<li>模块之间名称可以相同不会冲突</li>
+<li>模块只处理一次, 编译更快 ()  头文件每次引入都需要处理</li>
+<li>预处理宏只在模块内有效</li>
+<li>模块引入顺序无关紧要</li>
+</ul>
+<h3 id="创建模块"><a href="#创建模块" class="headerlink" title="创建模块"></a>创建模块</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// cppcon.cpp </span><br><span class="line">export module cppcon; </span><br><span class="line">namespace CppCon &#123; </span><br><span class="line">    auto GetWelcomeHelper() &#123;  return &quot;Welcome to CppCon 2019!&quot;;  &#125; </span><br><span class="line">    export auto GetWelcome() &#123; return GetWelcomeHelper();&#125; </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="引用模块"><a href="#引用模块" class="headerlink" title="引用模块"></a>引用模块</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// main.cpp </span><br><span class="line">import cppcon; </span><br><span class="line">int main()&#123; </span><br><span class="line">    std::cout &lt;&lt; CppCon::GetWelcome(); </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="import-头文件"><a href="#import-头文件" class="headerlink" title="import 头文件"></a>import 头文件</h3><ul>
+<li>import <iostream></iostream></li>
+<li>隐式地将 <code>iostream</code> 转换为模块</li>
+<li>加速构建, 因为 iostream 只会处理一次</li>
+<li>和预编译头 (PCH) 具有相似的效果</li>
+</ul>
+<h2 id="Ranges"><a href="#Ranges" class="headerlink" title="Ranges"></a>Ranges</h2><p><strong>Ranges</strong> 是什么 ?</p>
+<ul>
+<li><code>Range</code> 代表一串元素, 或者一串元素中的一段</li>
+<li>类似 begin/end 对</li>
+</ul>
+<p><strong>好处</strong>:</p>
+<ul>
+<li>简化语法和方便使用</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vector&lt;int&gt; data&#123;11, 22, 33&#125;; </span><br><span class="line">sort(begin(data), end(data)); </span><br><span class="line">sort(data); // 使用 Ranges</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>防止 begin/end 不配对</li>
+<li>使变换/过滤等串联操作成为可能</li>
+</ul>
+<p><strong>相关功能</strong></p>
+<ul>
+<li><strong>视图</strong>(View): 延迟计算, 不持有, 不改写</li>
+<li><strong>Actions</strong>: 即时处理(eagerly evaluated), 改写</li>
+<li><strong>Algorithms</strong>: 所有接受 begin/end 对的算法都可用</li>
+<li>Views 和 actions 使用管道符<code>|</code>串联</li>
+</ul>
+<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><ul>
+<li>串联视图</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">vector&lt;int&gt; data &#123;1, 2, 3, 4, 5, 6, 7, 8, 9, 10&#125;; </span><br><span class="line">auto result = data | </span><br><span class="line">              views::remove_if([](int i) &#123; return i % 2 == 1;&#125;) | </span><br><span class="line">              views::transform([](int i) &#123; return to_string(i);&#125;); </span><br><span class="line">// result = &#123;&quot;2&quot;, &quot;4&quot;, &quot;6&quot;, &quot;8&quot;, &quot;10&quot; &#125;;</span><br><span class="line">// 注意 以上操作被延迟, 当你遍历result的时候才触发</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>串联actions</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vector&lt;int&gt; data&#123;4, 3, 4, 1, 8, 0, 8&#125;; </span><br><span class="line">vector&lt;int&gt; result = data | actions::sort | actions::unique;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>排序然后去重</li>
+<li>操作会原地对<code>data</code>进行更改, 然后返回</li>
+<li>过滤和变换</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">int total = accumulate (</span><br><span class="line">                        view::ints(1) | </span><br><span class="line">                        view::transform([](int i) &#123;return i * i;&#125;) | </span><br><span class="line">                        view::take(10), </span><br><span class="line">                        0);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>view::ints(1)</code> 产生一个无限的整型数列</li>
+<li>平方</li>
+<li>取前10个元素, 然后累加(accumulate)<strong>所有的计算延迟到<code>accumulate</code>累加遍历的时候发生</strong></li>
+</ul>
+<h2 id="协程-Coroutines"><a href="#协程-Coroutines" class="headerlink" title="协程(Coroutines)"></a>协程(Coroutines)</h2><h3 id="什么是协程"><a href="#什么是协程" class="headerlink" title="什么是协程"></a>什么是协程</h3><ul>
+<li>它是一个函数</li>
+<li>具备如下关键字之一:<ul>
+<li><code>co_wait</code>: 挂起协程, 等待其它计算完成</li>
+<li><code>co_return</code>: 从协程返回 (协程 <code>return</code> 禁止使用)</li>
+<li><code>co_yield</code>: 同 python yield, 弹出一个值, 挂起协程, 下一次调用继续协程的运行</li>
+<li><code>for co_await</code> 循环体</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">for co_await (for-range-declaration: expression) statement</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>用处</strong></p>
+<ul>
+<li>简化如下问题的实现:<ul>
+<li>generator</li>
+<li>异步I/O</li>
+<li>延迟计算</li>
+<li>事件驱动的程序</li>
+</ul>
+</li>
+</ul>
+<h3 id="例子-VC"><a href="#例子-VC" class="headerlink" title="例子(VC++)"></a>例子(VC++)</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">experimental::generator&lt;int&gt; GetSequenceGenerator( </span><br><span class="line">    int startValue, </span><br><span class="line">    size_t numberOfValues) &#123; </span><br><span class="line">    for (int i = 0 startValue; i &lt; startValue + numberOfValues; ++i)&#123; </span><br><span class="line">        time_t t = system_clock::to_time_t(system_clock::now()); </span><br><span class="line">        cout &lt;&lt; std:: ctime(&amp;t); co_yield i; </span><br><span class="line">    &#125; </span><br><span class="line">&#125; </span><br><span class="line">int main() &#123;</span><br><span class="line">    auto gen = GetSequenceGenerator(10, 5); </span><br><span class="line">    for (const auto&amp; value : gen) &#123; </span><br><span class="line">        cout &lt;&lt; value &lt;&lt; &quot;(Press enter for next value)&quot; &lt;&lt; endl; </span><br><span class="line">        cin.ignore(); </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="Concepts"><a href="#Concepts" class="headerlink" title="Concepts"></a>Concepts</h2><ul>
+<li>对模板类和函数的模板形参的约束</li>
+<li>编译期断言</li>
+<li>可声明多个</li>
+</ul>
+<h3 id="如何定义"><a href="#如何定义" class="headerlink" title="如何定义"></a>如何定义</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">template&lt;typename T&gt; concept Incrementable = requires(T x) &#123;x++; ++x;&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">template&lt;Incrementable T&gt; </span><br><span class="line">void Foo(T t); </span><br><span class="line"></span><br><span class="line">template&lt;typename T&gt; requires Incrementable&lt;T&gt; </span><br><span class="line">void Foo(T t); </span><br><span class="line"></span><br><span class="line">template&lt;typename T&gt; </span><br><span class="line">void Foo(T t) requires Incrementable&lt;T&gt;; </span><br><span class="line"></span><br><span class="line">void Foo(Incrementable auto t);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="例子-1"><a href="#例子-1" class="headerlink" title="例子"></a>例子</h3><ul>
+<li>具备<code>size()</code> 方法, 且返回<code>size_t</code></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">template &lt;typename T&gt; concept HasSize = requires (T x)&#123; </span><br><span class="line">    &#123;x.size()&#125; -&gt; std::convertible_to&lt;std::size_t&gt;; </span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>组合concept</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">template&lt;typename T&gt; </span><br><span class="line">requires Incrementable&lt;T&gt; &amp;&amp; Decrementable&lt;T&gt; </span><br><span class="line">void Foo(T t); </span><br><span class="line">// or </span><br><span class="line">template&lt;typename T&gt; </span><br><span class="line">concept Incr_Decrementable = Incrementable&lt;T&gt; &amp;&amp; Decrementable&lt;T&gt;; </span><br><span class="line"></span><br><span class="line">template&lt;Incr_Decrementable T&gt; </span><br><span class="line">void Foo(T t);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="Lambda-表达式的更新"><a href="#Lambda-表达式的更新" class="headerlink" title="Lambda 表达式的更新"></a>Lambda 表达式的更新</h2><h3 id="this-需要显式捕获this变量"><a href="#this-需要显式捕获this变量" class="headerlink" title="[=, this] 需要显式捕获this变量"></a>[=, this] 需要显式捕获<code>this</code>变量</h3><ul>
+<li>C++20 之前 <code>[=]</code> 隐式捕获<code>this</code></li>
+<li>C++20 开始 需要显式捕获this: <code>[=, this]</code></li>
+</ul>
+<h3 id="模板形式的-Lambda-表达式"><a href="#模板形式的-Lambda-表达式" class="headerlink" title="模板形式的 Lambda 表达式"></a>模板形式的 Lambda 表达式</h3><p>可以在<code>lambda</code>表达式中使用模板语法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[]template&lt;T&gt;(T x) &#123;/* ... */&#125;; </span><br><span class="line">[]template&lt;T&gt;(T* p) &#123;/* ... */&#125;; </span><br><span class="line">[]template&lt;T, int N&gt;(T (&amp;a)[N]) &#123;/* ... */&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>原因1</strong></p>
+<ul>
+<li>C++20之前: 获取 vector 元素类型, 你需要这么写</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">auto func = [](auto vec)&#123; </span><br><span class="line">    using T = typename decltype(vec)::value_type; </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>C++20 你可以:</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">auto func = []&lt;typename T&gt;(vector&lt;T&gt; vec)&#123; </span><br><span class="line">    // ... </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>原因2</strong>: 方便获取通用lambda形参类型, 访问静态函数</p>
+<ul>
+<li>c++20 以前</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">auto func = [](auto const&amp; x)&#123; </span><br><span class="line">    using T = std::decay_t&lt;decltype(x)&gt;; </span><br><span class="line">    T copy = x; T::static_function(); </span><br><span class="line">    using Iterator = typename T::iterator; </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>C++20 开始</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">auto func = []&lt;typename T&gt;(const T&amp; x)&#123; </span><br><span class="line">    T copy = x; T::static_function(); </span><br><span class="line">    using Iterator = typename T::iterator; </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>原因3</strong>: 完美转发</p>
+<ul>
+<li>pre C++20:</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">auto func = [](auto&amp;&amp; ...args) &#123; </span><br><span class="line">    return foo(std::forward&lt;decltype(args)&gt;(args)...); </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>since C++20</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">auto func = []&lt;typename …T&gt;(T&amp;&amp; …args)&#123; </span><br><span class="line">    return foo(std::forward(args)...); </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="Lambda-表达式捕获支持打包展开-Pack-Expansion"><a href="#Lambda-表达式捕获支持打包展开-Pack-Expansion" class="headerlink" title="Lambda 表达式捕获支持打包展开(Pack Expansion)"></a>Lambda 表达式捕获支持打包展开(Pack Expansion)</h3><ul>
+<li>Pre C++20</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">template&lt;class F, class... Args&gt; </span><br><span class="line">auto delay_invoke(F f, Args... args)&#123; </span><br><span class="line">    return [f, args...]&#123; </span><br><span class="line">        return std::invoke(f, args...); </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Since C++20</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">template&lt;class F, class... Args&gt; </span><br><span class="line">auto delay_invoke(F f, Args... args)&#123; </span><br><span class="line">    // Pack Expansion:  args = std::move(args)...  </span><br><span class="line">    return [f = std::move(f), args = std::move(args)...]()&#123; </span><br><span class="line">        return std::invoke(f, args...); </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="常量表达式-constexpr-的更新"><a href="#常量表达式-constexpr-的更新" class="headerlink" title="常量表达式(constexpr) 的更新"></a>常量表达式(<code>constexpr</code>) 的更新</h2><ul>
+<li><code>constexpr</code> 虚函数<ul>
+<li><code>constexpr</code> 的虚函数可以重写非 <code>constexpr</code> 的虚函数</li>
+<li>非 <code>constexpr</code> 虚函数可以重写 <code>constexpr</code> 的虚函数</li>
+</ul>
+</li>
+<li><code>constexpr</code> 函数可以:<ul>
+<li>使用 <code>dynamic_cast()</code> 和 <code>typeid</code></li>
+<li>动态内存分配</li>
+<li>更改<code>union</code>成员的值</li>
+<li>包含 <code>try/catch</code><ul>
+<li>但是<strong>不允许</strong> <strong><code>throw</code></strong> <strong>语句</strong></li>
+<li>在触发常量求值的时候 try/catch 不发生作用</li>
+<li>需要开启 <code>constexpr std::vector</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="constexpr-string-amp-vector"><a href="#constexpr-string-amp-vector" class="headerlink" title="constexpr string &amp; vector"></a><code>constexpr</code> string &amp; vector</h3><ul>
+<li><code>std::string</code> 和 <code>std::vector</code> 类型现在可以作为 <code>constexpr</code></li>
+<li>未来需要支持 <code>constexpr</code> 反射</li>
+</ul>
+<h2 id="原子-Atomic-智能指针"><a href="#原子-Atomic-智能指针" class="headerlink" title="原子(Atomic)智能指针"></a>原子(Atomic)智能指针</h2><ul>
+<li>智能指针(shared_ptr)线程安全吗?<ul>
+<li><strong>是</strong>: 引用计数控制单元线程安全, 保证对象只被释放一次</li>
+<li><strong>否</strong>: 对于数据的读写没有线程安全</li>
+</ul>
+</li>
+<li>如何将智能指针变成线程安全?<ul>
+<li>使用 <code>mutex</code> 控制智能指针的访问</li>
+<li>使用全局非成员原子操作函数访问, 诸如: std::atomic_load(), atomic_store(), …<ul>
+<li><strong>缺点</strong>: 容易出错, 忘记使用这些操作</li>
+</ul>
+</li>
+<li>C++20: <code>atomic&lt;shared_ptr&lt;T&gt;&gt;</code>, <code>atomic&lt;weak_ptr&lt;T&gt;&gt;</code><ul>
+<li>内部原理可能使用了<code>mutex</code></li>
+<li>全局非成员原子操作函数标记为不推荐使用(deprecated)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="例子-2"><a href="#例子-2" class="headerlink" title="例子"></a>例子</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">template&lt;typename T&gt; </span><br><span class="line">class concurrent_stack &#123; </span><br><span class="line">    struct Node &#123; </span><br><span class="line">        T t; </span><br><span class="line">        shared_ptr&lt;Node&gt; next; </span><br><span class="line">    &#125;; </span><br><span class="line">    atomic_shared_ptr&lt;Node&gt; head; </span><br><span class="line">    // C++11: 去掉 &quot;atomic_&quot; 并且在访问时, 需要用 </span><br><span class="line">    // 特殊的函数控制线程安全, 例如用std::tomic_load </span><br><span class="line">public: </span><br><span class="line">    class reference &#123; </span><br><span class="line">        shared_ptr&lt;Node&gt; p; </span><br><span class="line">        &lt;snip&gt; </span><br><span class="line">    &#125;; </span><br><span class="line">    auto find(T t) const &#123; </span><br><span class="line">        auto p = head.load(); // C++11: atomic_load(&amp;head) </span><br><span class="line">        while (p &amp;&amp; p-&gt;t != t) </span><br><span class="line">            p = p-&gt;next; </span><br><span class="line">        return reference(move(p)); </span><br><span class="line">    &#125; </span><br><span class="line">    auto front() const &#123; </span><br><span class="line">        return reference(head); </span><br><span class="line">    &#125; </span><br><span class="line">    void push_front(T t) &#123; </span><br><span class="line">        auto p = make_shared&lt;Node&gt;(); </span><br><span class="line">        p-&gt;t = t; p-&gt;next = head; </span><br><span class="line">        while (!head.compare_exchange_weak(p-&gt;next, p))&#123; </span><br><span class="line">    &#125; // C++11: atomic_compare_exchange_weak(&amp;head, &amp;p-&gt;next, p); &#125;     </span><br><span class="line">    void pop_front() &#123; </span><br><span class="line">        auto p = head.load(); </span><br><span class="line">        while (p &amp;&amp; !head.compare_exchange_weak(p, p-&gt;next)) &#123;</span><br><span class="line">        &#125; // C++11: atomic_compare_exchange_weak(&amp;head, &amp;p, p-&gt;next); </span><br><span class="line">    &#125; </span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>例子来自 Herb Sutter 的 N4162 论文</p>
+<h2 id="自动合流-Joining-可中断-Cancellable-的线程"><a href="#自动合流-Joining-可中断-Cancellable-的线程" class="headerlink" title="自动合流(Joining), 可中断(Cancellable) 的线程"></a>自动合流(Joining), 可中断(Cancellable) 的线程</h2><ul>
+<li>std::jthread<ul>
+<li>头文件 <thread></thread></li>
+<li>支持中断</li>
+<li>析构函数中自动 Join<ul>
+<li>析构函数调用 <code>stop_source.request_stop()</code> 然后 <code>join()</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>中断线程执行<ul>
+<li>头文件 <stop_token></stop_token></li>
+<li><code>std::stop_token</code><ul>
+<li>用来查询线程是否中断</li>
+<li>可以和<code>condition_variable_any</code>配合使用</li>
+</ul>
+</li>
+<li><code>std::stop_source</code><ul>
+<li>用来请求线程停止运行</li>
+<li>stop_resources 和 stop_tokens 都可以查询到停止请求</li>
+</ul>
+</li>
+<li><code>std::stop_callback</code><ul>
+<li>如果对应的<code>stop_token</code> 被要求终止, 将会触发回调函数</li>
+<li>用法: std::stop_callback myCallback(myStopToken, []{ /* … */ });</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="例子-3"><a href="#例子-3" class="headerlink" title="例子"></a>例子</h3><ul>
+<li>自动合流 Join</li>
+</ul>
+<blockquote>
+<p>std::thread 在析构函数中如果线程 joinable() 会直接调用 std::terminate() 直接导致程序退出</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">void DoWorkPreCpp20() &#123; </span><br><span class="line">    std::thread job([] &#123; /* ... */ &#125;); </span><br><span class="line">    try &#123; </span><br><span class="line">        // ... Do something else ... </span><br><span class="line">    &#125; catch (...) &#123; </span><br><span class="line">        job.join(); </span><br><span class="line">        throw; // rethrow </span><br><span class="line">    &#125; </span><br><span class="line">    job.join(); </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">void DoWork() &#123; </span><br><span class="line">    std::jthread job([] &#123; /* ... */ &#125;); </span><br><span class="line">    // ... Do something else ... </span><br><span class="line">&#125; // jthread destructor automatically calls join()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>中断</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">std::jthread job([](std::stop_token token) &#123;</span><br><span class="line">    while (!token.stop_requested()) &#123; </span><br><span class="line">        //... </span><br><span class="line">    &#125; </span><br><span class="line">&#125;); </span><br><span class="line">//... job.request_stop(); </span><br><span class="line">// auto source = job.get_stop_source() </span><br><span class="line">// auto token = job.get_stop_token()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="C-20-同步-Synchronization-库"><a href="#C-20-同步-Synchronization-库" class="headerlink" title="C++20 同步(Synchronization)库"></a>C++20 同步(Synchronization)库</h2><ul>
+<li>信号量(Semaphore), 维基百科请走<a href="https://link.zhihu.com/?target=https://zh.wikipedia.org/wiki/%25E4%25BF%25A1%25E5%258F%25B7%25E9%2587%258F">这里</a><ul>
+<li>轻量级的同步原语</li>
+<li>可用来实现任何其他同步概念, 如: mutex, latches, barriers, …</li>
+<li>两种类型:<ul>
+<li>多元信号量(counting semaphore): 建模非负值资源计数</li>
+<li>二元信号量(binary semaphore): 只有一个插孔, 两种状态, 最适合实现<code>mutex</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>std::atomic</code> 等待和通知接口<ul>
+<li>等待/阻塞在原子对象直到其值发生改变, 通过通知函数发送通知</li>
+<li>比轮训(polling)来的更高效</li>
+<li>方法<ul>
+<li><code>notify_one()</code></li>
+<li><code>notify_all()</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>锁存器(Latch)和屏障(Barrier)<ul>
+<li>辅助线程条件同步</li>
+</ul>
+</li>
+<li>锁存器(Latches)<ul>
+<li>头文件<latch></latch></li>
+<li>线程的同步点<ul>
+<li>线程将阻塞在这个位置, 直到到达的线程个数达标才放行, 放行之后不再关闭</li>
+</ul>
+</li>
+<li>锁存器只会作用一次</li>
+</ul>
+</li>
+<li>屏障(Barriers)<ul>
+<li><barrier></barrier></li>
+<li>多个阶段</li>
+<li>每个阶段中<ul>
+<li>一个参与者运行至屏障点时被阻塞，需要等待其他参与者都到达屏障点, 当到达线程数达标之后</li>
+<li>阶段完成的回调将被执行</li>
+<li>线程计数器被重置</li>
+<li>开启下一阶段</li>
+<li>线程得以继续执行</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="std-atomic-ref"><a href="#std-atomic-ref" class="headerlink" title="std::atomic_ref"></a>std::atomic_ref</h3><ul>
+<li>头文件<atomic></atomic></li>
+<li>Atomic 引用</li>
+<li>通过引用访问变为原子操作, 被引用对象可以为非原子类型</li>
+</ul>
+<h2 id="其他更新"><a href="#其他更新" class="headerlink" title="其他更新"></a>其他更新</h2><h3 id="指定初始化-Designated-Initializers"><a href="#指定初始化-Designated-Initializers" class="headerlink" title="指定初始化(Designated Initializers)"></a>指定初始化(Designated Initializers)</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">struct Data &#123; </span><br><span class="line">    int anInt = 0; </span><br><span class="line">    std::string aString; </span><br><span class="line">&#125;; </span><br><span class="line">Data d&#123; .aString = &quot;Hello&quot; &#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="航天飞机操作符-lt-gt"><a href="#航天飞机操作符-lt-gt" class="headerlink" title="航天飞机操作符 &lt;=&gt;"></a>航天飞机操作符 &lt;=&gt;</h3><ul>
+<li>正规名称: <strong>三路比较运算符</strong></li>
+<li>三路比较结果如下<ul>
+<li>(a &lt;=&gt; b) &lt; 0 // 如果 a &lt; b 则为 true</li>
+<li>(a &lt;=&gt; b) &gt; 0 // 如果 a &gt; b 则为 true</li>
+<li>(a &lt;=&gt; b) == 0 // 如果 a 与 b 相等或者等价 则为 true</li>
+</ul>
+</li>
+<li>类似于C的strcmp 函数返回-1, 0, 1</li>
+<li><strong>一般情况</strong>: 自动生成所有的比较操作符, 如果对象是结构体则逐个比较, 可以用下面代码代替所有的比较运算符<ul>
+<li><code>auto X::operator&lt;=&gt;(const Y&amp;) = default;</code></li>
+</ul>
+</li>
+<li><strong>高级情况</strong>: 指定返回类型(支持6种所有的比较运算符)</li>
+</ul>
+<p><strong>示例</strong>:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">class Point &#123; </span><br><span class="line">    int x; int y; </span><br><span class="line">public: </span><br><span class="line">    friend bool operator==(const Point&amp; a, const Point&amp; b)&#123; </span><br><span class="line">        return a.x==b.x &amp;&amp; a.y==b.y; </span><br><span class="line">    &#125; </span><br><span class="line">    friend bool operator&lt; (const Point&amp; a, const Point&amp; b)&#123; </span><br><span class="line">        return a.x &lt; b.x || (a.x == b.x &amp;&amp; a.y &lt; b.y);  </span><br><span class="line">    &#125; </span><br><span class="line">    friend bool operator!=(const Point&amp; a, const Point&amp; b) &#123; </span><br><span class="line">        return !(a==b); </span><br><span class="line">    &#125; </span><br><span class="line">    friend bool operator&lt;=(const Point&amp; a, const Point&amp; b) &#123; </span><br><span class="line">        return !(b&lt;a); </span><br><span class="line">    &#125; </span><br><span class="line">    friend bool operator&gt; (const Point&amp; a, const Point&amp; b) &#123; </span><br><span class="line">        return b&lt;a; </span><br><span class="line">    &#125; </span><br><span class="line">    friend bool operator&gt;=(const Point&amp; a, const Point&amp; b) &#123; </span><br><span class="line">        return !(a&lt;b); </span><br><span class="line">    &#125; </span><br><span class="line">    // ... 其他非比较函数 ... </span><br><span class="line">&#125;; </span><br><span class="line">#include &lt;compare&gt; class Point &#123; </span><br><span class="line">    int x; int y; </span><br><span class="line">public: </span><br><span class="line">    auto operator&lt;=&gt;(const Point&amp;)  const = default; // 比较操作符自动生成</span><br><span class="line">    // ... 其他非比较函数 ... </span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>标准库类型支持 &lt;=&gt;<ul>
+<li>vector, string, map, set, sub_match, …</li>
+</ul>
+</li>
+<li>例如:</li>
+</ul>
+<h3 id="范围-for-循环语句支持初始化语句"><a href="#范围-for-循环语句支持初始化语句" class="headerlink" title="范围 for 循环语句支持初始化语句"></a>范围 for 循环语句支持初始化语句</h3><ul>
+<li>switch 语句初始化 (C++17):</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">struct Foo &#123; </span><br><span class="line">    int value; int result; </span><br><span class="line">&#125;; </span><br><span class="line">Foo GetData() &#123; </span><br><span class="line">    return Foo(); </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">int main() &#123; </span><br><span class="line">    switch (auto data = GetData(); data.value) &#123; </span><br><span class="line">    case 1: </span><br><span class="line">        return data.result; </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>if 语句初始化 (C++17):</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">struct Foo &#123; </span><br><span class="line">    int value; int result; </span><br><span class="line">&#125;; </span><br><span class="line">Foo* GetData() &#123;</span><br><span class="line">  return new Foo(); </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">int main() &#123; </span><br><span class="line">    if (auto data = GetData(); data) &#123; </span><br><span class="line">        // Use &#x27;data’ </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>现在范围 for 循环同样支持初始化 (C++20):</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">struct Foo &#123; </span><br><span class="line">    std::vector&lt;int&gt; values; </span><br><span class="line">&#125;; </span><br><span class="line">Foo GetData() &#123; </span><br><span class="line">    return Foo(); </span><br><span class="line">&#125; </span><br><span class="line">int main() &#123; </span><br><span class="line">    for (auto data = GetData(); </span><br><span class="line">    auto&amp; value : data.values) &#123; </span><br><span class="line">        // Use &#x27;data’ </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="非类型模板形参支持字符串"><a href="#非类型模板形参支持字符串" class="headerlink" title="非类型模板形参支持字符串"></a>非类型模板形参支持字符串</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">template&lt;auto&amp; s&gt; void DoSomething() &#123; </span><br><span class="line">    std::cout &lt;&lt; s &lt;&lt; std::endl; </span><br><span class="line">&#125; </span><br><span class="line">int main() &#123; </span><br><span class="line">    DoSomething&lt;&quot;CppCon&quot;&gt;(); </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="likely-unlikely"><a href="#likely-unlikely" class="headerlink" title="[[likely]], [[unlikely]]"></a>[[likely]], [[unlikely]]</h3><p>先验概率指导编译器优化</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">switch (value) &#123; </span><br><span class="line">    case 1: break; </span><br><span class="line">    [[likely]] case 2: break; </span><br><span class="line">    [[unlikely]] case 3: break; </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="日历-Calendar-和时区-Timezone-功能"><a href="#日历-Calendar-和时区-Timezone-功能" class="headerlink" title="日历(Calendar)和时区(Timezone)功能"></a>日历(Calendar)和时区(Timezone)功能</h3><ul>
+<li><choron> 增加日历和时区的支持</choron></li>
+<li>只支持公历(Gregorian calendar)<ul>
+<li>其他日历也可通过扩展加入, 并能和 <chrono> 进行交互</chrono></li>
+</ul>
+</li>
+<li>初始化 年, 月 日的方法</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// creating a year </span><br><span class="line">auto y1 = year&#123; 2019 &#125;; </span><br><span class="line">auto y2 = 2019y; </span><br><span class="line">// creating a mouth</span><br><span class="line">auto m1 = month&#123; 9 &#125;; </span><br><span class="line">auto m2 = September; </span><br><span class="line">// creating a day </span><br><span class="line">auto d1 = day&#123; 18 &#125;; </span><br><span class="line">auto d2 = 18d;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>创建完整的日期</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">year_mouth_day fulldate1&#123;2019y, September, 18d&#125;; </span><br><span class="line">auto fulldate2 = 2019y / September / 18d; </span><br><span class="line">year_mouth_day fulldate3&#123;Monday[3]/September/2019&#125;; // Monday[3] 表示第三个星期一</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>新的事件间隔单位, 类似于秒, 分钟, …</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">using days = duration&lt;signed interger type of at least 25bits, </span><br><span class="line">                      ratio_multiply&lt;ratio&lt;24&gt;, hours::period&gt;&gt;; </span><br><span class="line">using weeks = ...; using mouths = ...; </span><br><span class="line">using years = ...;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>例子</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">weeks w&#123;1&#125;; // 1 周 </span><br><span class="line">days d&#123;w&#125;; // 将 1 周 转换成天数</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>新的时钟类型, (之前有 <code>system_clock</code>, <code>steady_clock</code>, <code>high_resolution_clock</code>):<ul>
+<li><code>utc_clock</code>: represents Coordinated Universal Time (UTC), measures time since 00:00:00 UTC, Thursday, 1 January 1970, including leap seconds</li>
+<li><code>tai_clock</code>: represents International Atomic Time (TAI), measures time since 00:00:00, 1 January 1958, and was offseted 10 seconds ahead of UTC at that date, it does not include leap seconds</li>
+<li><code>gps_clock</code>: represents Global Positioning System (GPS) time, measures time since 00:00:00, 6 January 1980 UTC, it does not include leap seconds</li>
+<li><code>file_clock</code>: alias for the clock used for <code>std::filesystem::file_time_type</code>, epoch is unspecified</li>
+</ul>
+</li>
+<li>新增<code>system_clock</code>相关的别名</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">template&lt;class Duration&gt; </span><br><span class="line">using sys_time = std::chrono::time_point&lt;std::chrono::system_clock, Duration&gt;; </span><br><span class="line">using sys_seconds = sys_time&lt;std::chrono::seconds&gt;; </span><br><span class="line">using sys_days = sys_time&lt;std::chrono::days&gt;; </span><br><span class="line">// 用例: </span><br><span class="line">system_clock::time_point t =  sys_days&#123; 2019y / September / 18d &#125;; // date -&gt; time_point </span><br><span class="line">auto yearmonthday =  year_month_day&#123; floor&lt;days&gt;(t) &#125;; // time_point -&gt; date</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>日期 + 事件</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">auto t = sys_days&#123;2019y/September/18d&#125; + 9h + 35min + 10s; // 2019-09-18 09:35:10 UTC</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>时区转换</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// Convert UTC to Denver </span><br><span class="line">time: zoned_time denver = &#123; &quot;America/Denver&quot;, t &#125;; </span><br><span class="line">// Construct a local time in Denver: </span><br><span class="line">auto t = zoned_time&#123; </span><br><span class="line">    &quot;America/Denver&quot;,  local_days&#123;Wednesday[3] / September / 2019&#125; + 9h </span><br><span class="line">&#125;; </span><br><span class="line">// Get current local time: </span><br><span class="line">auto t = zoned_time&#123; current_zone(), system_clock::now() &#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="std-span"><a href="#std-span" class="headerlink" title="std::span"></a>std::span</h3><ul>
+<li>头文件<span></span></li>
+<li>某段连续数据的”视图”</li>
+<li>不持有数据, 不分配和销毁数据</li>
+<li>拷贝非常快, 推荐复制的方式传参(类似 <code>string_view</code>)</li>
+<li>不支持数据跨步(stride)</li>
+<li>可通过运行期确定长度也可编译器确定长度</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">int data[42]; span&lt;int, 42&gt; a &#123;data&#125;; // fixed-size: 42 ints </span><br><span class="line">span&lt;int&gt; b &#123;data&#125;; // dynamic-size: 42 ints </span><br><span class="line">span&lt;int, 50&gt; c &#123;data&#125;; // compilation error </span><br><span class="line">span&lt;int&gt; d&#123; ptr, len &#125;; // dynamic-size: len ints</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="特性测试宏"><a href="#特性测试宏" class="headerlink" title="特性测试宏"></a>特性测试宏</h3><p>通过它可以判断编译器是否支持某个功能, 例如</p>
+<ul>
+<li>语言特性<ul>
+<li><code>__has_cpp_attribute(fallthrough)</code></li>
+<li><code>__cpp_binary_literals</code></li>
+<li><code>__cpp_char8_t</code></li>
+<li><code>__cpp_coroutines</code></li>
+</ul>
+</li>
+</ul>
+<h3 id><a href="#" class="headerlink" title></a><version></version></h3><p>包含 C++ 标准库版本, 发布日期, 版权证书, 特性宏等</p>
+<h3 id="consteval-函数"><a href="#consteval-函数" class="headerlink" title="consteval 函数"></a><code>consteval</code> 函数</h3><p><code>constexpr</code> 函数可能编译期执行, 也可以在运行期执行, <code>consteval</code> 只能在编译器执行, 如果不满足要求编译不通过</p>
+<h3 id="constinit"><a href="#constinit" class="headerlink" title="constinit"></a><code>constinit</code></h3><p>强制指定以常量方式初始化</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">const char* GetStringDyn() &#123; </span><br><span class="line">    return &quot;dynamic init&quot;; </span><br><span class="line">&#125; </span><br><span class="line">constexpr const char* GetString(bool constInit) &#123; </span><br><span class="line">    return constInit ? </span><br><span class="line">        &quot;constant init&quot; : </span><br><span class="line">        GetStringDyn(); </span><br><span class="line">&#125; </span><br><span class="line">constinit const char* a = GetString(true); // ✔ </span><br><span class="line">constinit const char* b = GetString(false); // ❌</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="用-using-引用-enum-类型"><a href="#用-using-引用-enum-类型" class="headerlink" title="用 using 引用 enum 类型"></a>用 <code>using</code> 引用 <code>enum</code> 类型</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">enum class CardTypeSuit &#123; </span><br><span class="line">    Clubs, </span><br><span class="line">    Diamonds, </span><br><span class="line">    Hearts, </span><br><span class="line">    Spades </span><br><span class="line">&#125;; </span><br><span class="line">std::string_view GetString(const CardTypeSuit cardTypeSuit) &#123; </span><br><span class="line">    switch (cardTypeSuit) &#123; </span><br><span class="line">    case CardTypeSuit::Clubs: </span><br><span class="line">        return &quot;Clubs&quot;; </span><br><span class="line">    case CardTypeSuit::Diamonds: </span><br><span class="line">        return &quot;Diamonds&quot;; </span><br><span class="line">    case CardTypeSuit::Hearts: </span><br><span class="line">         return &quot;Hearts&quot;; </span><br><span class="line">    case CardTypeSuit::Spades: </span><br><span class="line">         return &quot;Spades&quot;; </span><br><span class="line">    &#125; </span><br><span class="line">&#125; </span><br><span class="line">std::string_view GetString(const CardTypeSuit cardTypeSuit) &#123; </span><br><span class="line">    switch (cardTypeSuit) &#123; </span><br><span class="line">        using enum CardTypeSuit; // 这里 </span><br><span class="line">        case Clubs: return &quot;Clubs&quot;; </span><br><span class="line">        case Diamonds: return &quot;Diamonds&quot;; </span><br><span class="line">        case Hearts: return &quot;Hearts&quot;; </span><br><span class="line">        case Spades: return &quot;Spades&quot;; </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="格式化库-std-format"><a href="#格式化库-std-format" class="headerlink" title="格式化库(std::format)"></a>格式化库(<code>std::format</code>)</h3><p>不展开, 类似<code>Python</code> 的格式化,</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">std::string s = std::format(&quot;Hello CppCon &#123;&#125;!&quot;, 2019);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="增加数学常量"><a href="#增加数学常量" class="headerlink" title="增加数学常量"></a>增加数学常量</h3><p>再也不用为 M_PI 发愁啦</p>
+<ul>
+<li>头文件 <numbers></numbers></li>
+<li>包含 e, log2e, log10e pi, inv_pi, inv_sqrt pi ln2, ln10 sqrt2, sqrt3, inv_sqrt3 egamma</li>
+</ul>
+<h3 id="std-source-location"><a href="#std-source-location" class="headerlink" title="std::source_location"></a>std::source_location</h3><p>用于获取代码位置, 对于日志和错误信息尤其有用</p>
+<h3 id="nodiscard-reason"><a href="#nodiscard-reason" class="headerlink" title="[[nodiscard(reason)]]"></a>[[nodiscard(reason)]]</h3><p>表明返回值不可抛弃, 加入理由的支持</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[[nodiscard(&quot;Ignoring the return value will result in memory leaks.&quot;)]] </span><br><span class="line">void* GetData() &#123; /* ... */ &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="位运算"><a href="#位运算" class="headerlink" title="位运算"></a>位运算</h3><p>加入循环移位, 计数0和1位等功能</p>
+<h3 id="一些小更新"><a href="#一些小更新" class="headerlink" title="一些小更新"></a>一些小更新</h3><ul>
+<li>字符串支持 starts_with, ends_with</li>
+<li>map 支持 contains 查询是否存在某个键</li>
+<li>list 和 forward list 的 remove, remove_if 和 unique 操作返回 size_type 表明删除个数</li>
+<li><algorithm> 增加 shift_left, shift_right</algorithm></li>
+<li><code>midpoint</code> 计算中位数, 可避免溢出</li>
+<li><code>lerp</code> 线性插值 <code>lerp( float a, float b, float t )</code> 返回</li>
+<li>新的向量化策略 <code>unsequenced_policy(execution::unseq)</code></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">std::string str = &quot;Hello world!&quot;; </span><br><span class="line">bool b = str.starts_with(&quot;Hello&quot;); // starts_with, ends_with </span><br><span class="line">std::map myMap&#123; std::pair&#123;1, &quot;one&quot;s&#125;, &#123;2, &quot;two&quot;s&#125;, &#123;3, &quot;three&quot;s&#125; &#125;; </span><br><span class="line">bool result = myMap.contains(2); // contains, 再也不用  .find() == .end() 了</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2>
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+        <a href="/wiki/Notion/%E7%99%BE%E7%A7%91/C++/%E6%A0%87%E5%87%86/C++17%E6%96%B0%E7%89%B9%E6%80%A7/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    C++17新特性.md
+                
+            </div>
+        </a>
+    
+    
+        <a href="/wiki/Notion/%E7%99%BE%E7%A7%91/C++/%E6%A0%87%E5%87%86/C++%E5%AF%B9%E8%B1%A1%E6%9E%84%E9%80%A0%E7%9A%84%E9%A1%BA%E5%BA%8F/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">C++对象构造的顺序.md</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+    
+    
+        <section id="comments"> 
+    <div id="waline"></div>
+ </section>
+    
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            RPS &copy; 2022 
+            <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme - <a target="_blank" rel="noopener" href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+            
+                <br>
+                <span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i> <span id="busuanzi_value_site_pv"></span></span>
+                &nbsp;|&nbsp;
+                <span id="busuanzi_container_site_pv"><i class="fa fa-user"></i> <span id="busuanzi_value_site_uv"></span></span>
+            
+        </div>
+    </div>
+</footer>
+
+        
+        
+    <script>
+        Waline({
+          el: '#waline',
+          serverURL: 'https://waline-lac-nu.vercel.app',
+        });
+      </script>
+
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+        <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true,
+            TeX: {
+                equationNumbers: {
+                  autoNumber: 'AMS'
+                }
+            }
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>
+</body>
+</html>
